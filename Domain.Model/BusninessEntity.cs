@@ -9,17 +9,16 @@ namespace Domain.Model
 {
     public abstract class BusninessEntity
     {
-        private static int _nextId = 1;
         public int Id { get; set; }
 
-        protected BusninessEntity()
+        protected BusninessEntity(int id)
         {
-            SetId();
+            SetId(id);
         }
 
-        public void SetId()
+        public void SetId(int id)
         {
-            Id = _nextId++;
+            Id = id;
         }
     }
 }

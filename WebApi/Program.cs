@@ -1,19 +1,22 @@
 using Domain.Service;
 using Domain.Model;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddHttpLogging(options => { });
+builder.Services.AddHttpLogging(o => { });
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    //Falta configurar de manera correcta        
     app.UseHttpLogging();
 }
 
@@ -25,30 +28,37 @@ app.MapGet("/materias/{id}", (int id) =>
     Materia materia = materiaService.Get(id);
     if (materia != null)
     {
-        return Results.Ok(materia);
+        var dto = new DTOs.Materia
+        {
+            Id = materia.Id,
+            Descripcion = materia.Descripcion,
+            HSSemanales = materia.HSSemanales,
+            HSTotales = materia.HSTotales,
+            IdPlan = materia.IDPlan
+        };
+        return Results.Ok(dto);
     }
     else
     {
         return Results.NotFound();
     }
 })
-.WithName("GetMateriaById")
+.WithName("GetMateria")
 .Produces<DTOs.Materia>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound)
 .WithOpenApi();
 
-app.MapGet("/materia", () =>
+app.MapGet("/materias", () =>
 {
     MateriasService materiaService = new MateriasService();
-
     var materias = materiaService.GetAll();
-
     var dtos = materias.Select(m => new DTOs.Materia
     {
         Id = m.Id,
         Descripcion = m.Descripcion,
         HSSemanales = m.HSSemanales,
         HSTotales = m.HSTotales,
-        IdPlan = m.IDPlan 
+        IdPlan = m.IDPlan
     }).ToList();
 
     return Results.Ok(dtos);
@@ -57,14 +67,12 @@ app.MapGet("/materia", () =>
 .Produces<List<DTOs.Materia>>(StatusCodes.Status200OK)
 .WithOpenApi();
 
-app.MapPost("/materia", (DTOs.Materia dto) =>
+app.MapPost("/materias", (DTOs.Materia dto) =>
 {
     try
     {
         MateriasService materiaService = new MateriasService();
-
-        Materia materia = new Materia(dto.Descripcion, dto.HSSemanales, dto.HSTotales, dto.IdPlan); // Cambiado: usar IdPlan
-
+        Materia materia = new Materia(dto.Id,dto.Descripcion, dto.HSSemanales, dto.HSTotales, dto.IdPlan);
         materiaService.Add(materia);
 
         var dtoResultado = new DTOs.Materia
@@ -73,10 +81,10 @@ app.MapPost("/materia", (DTOs.Materia dto) =>
             Descripcion = materia.Descripcion,
             HSSemanales = materia.HSSemanales,
             HSTotales = materia.HSTotales,
-            IdPlan = materia.IDPlan // Cambiado: usar IdPlan del DTO
+            IdPlan = materia.IDPlan
         };
 
-        return Results.Created($"/materia/{dtoResultado.Id}", dtoResultado);
+        return Results.Created($"/materias/{dtoResultado.Id}", dtoResultado);
     }
     catch (ArgumentException ex)
     {
@@ -93,12 +101,9 @@ app.MapPut("/materia/{id}", (int id, DTOs.Materia dto) =>
     try
     {
         MateriasService materiaService = new MateriasService();
-
-        Materia materia = new Materia(dto.Descripcion, dto.HSSemanales, dto.HSTotales, dto.IdPlan); // Cambiado: usar IdPlan
-        materia.Id = id;
+        Materia materia = new Materia(dto.Id,dto.Descripcion, dto.HSSemanales, dto.HSTotales, dto.IdPlan);
 
         var found = materiaService.Update(materia);
-
         if (!found)
         {
             return Results.NotFound();
@@ -112,7 +117,6 @@ app.MapPut("/materia/{id}", (int id, DTOs.Materia dto) =>
     }
 })
 .WithName("UpdateMateria")
-.Produces(StatusCodes.Status204NoContent)
 .Produces(StatusCodes.Status404NotFound)
 .Produces(StatusCodes.Status400BadRequest)
 .WithOpenApi();
@@ -120,7 +124,6 @@ app.MapPut("/materia/{id}", (int id, DTOs.Materia dto) =>
 app.MapDelete("/materia/{id}", (int id) =>
 {
     MateriasService materiaService = new MateriasService();
-
     var deleted = materiaService.Delete(id);
 
     if (!deleted)
@@ -134,7 +137,5 @@ app.MapDelete("/materia/{id}", (int id) =>
 .Produces(StatusCodes.Status204NoContent)
 .Produces(StatusCodes.Status404NotFound)
 .WithOpenApi();
-
-
 
 app.Run();
