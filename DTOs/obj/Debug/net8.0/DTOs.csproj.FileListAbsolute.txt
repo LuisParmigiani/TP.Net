@@ -1,0 +1,4 @@
+C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\Net_TP\DTOs\obj\Debug\net8.0\DTOs.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\Net_TP\DTOs\obj\Debug\net8.0\DTOs.AssemblyInfoInputs.cache
+C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\Net_TP\DTOs\obj\Debug\net8.0\DTOs.AssemblyInfo.cs
+C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\Net_TP\DTOs\obj\Debug\net8.0\DTOs.csproj.CoreCompileInputs.cache

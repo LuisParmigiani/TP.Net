@@ -1,0 +1,6 @@
+C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\Net_TP\WebApi\obj\Debug\net8.0\WebApi.csproj.AssemblyReference.cache
+C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\Net_TP\WebApi\obj\Debug\net8.0\WebApi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\Net_TP\WebApi\obj\Debug\net8.0\WebApi.AssemblyInfoInputs.cache
+C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\Net_TP\WebApi\obj\Debug\net8.0\WebApi.AssemblyInfo.cs
+C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\Net_TP\WebApi\obj\Debug\net8.0\WebApi.csproj.CoreCompileInputs.cache
+C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\Net_TP\WebApi\obj\Debug\net8.0\WebApi.MvcApplicationPartsAssemblyInfo.cache
