@@ -33,3 +33,21 @@ C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\TP.Net\Domain.Service\obj\D
 C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\TP.Net\Domain.Service\obj\Debug\net8.0\refint\Domain.Service.dll
 C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\TP.Net\Domain.Service\obj\Debug\net8.0\Domain.Service.pdb
 C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\TP.Net\Domain.Service\obj\Debug\net8.0\ref\Domain.Service.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\bin\Debug\net8.0\Domain.Service.deps.json
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\bin\Debug\net8.0\Domain.Service.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\bin\Debug\net8.0\Domain.Service.pdb
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\bin\Debug\net8.0\Data.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\bin\Debug\net8.0\Domain.Model.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\bin\Debug\net8.0\Data.pdb
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\bin\Debug\net8.0\Domain.Model.pdb
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\obj\Debug\net8.0\Domain.Service.csproj.AssemblyReference.cache
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\obj\Debug\net8.0\Domain.Service.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\obj\Debug\net8.0\Domain.Service.AssemblyInfoInputs.cache
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\obj\Debug\net8.0\Domain.Service.AssemblyInfo.cs
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\obj\Debug\net8.0\Domain.Service.csproj.CoreCompileInputs.cache
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\obj\Debug\net8.0\Domain.Service.sourcelink.json
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\obj\Debug\net8.0\Domain.S.CF6009C8.Up2Date
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\obj\Debug\net8.0\Domain.Service.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\obj\Debug\net8.0\refint\Domain.Service.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\obj\Debug\net8.0\Domain.Service.pdb
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Domain.Service\obj\Debug\net8.0\ref\Domain.Service.dll

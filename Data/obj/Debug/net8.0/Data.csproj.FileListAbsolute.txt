@@ -29,3 +29,19 @@ C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\TP.Net\Data\obj\Debug\net8.
 C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\TP.Net\Data\obj\Debug\net8.0\refint\Data.dll
 C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\TP.Net\Data\obj\Debug\net8.0\Data.pdb
 C:\Users\parmi\OneDrive\nc q son vino asi\Escritorio\TP.Net\Data\obj\Debug\net8.0\ref\Data.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\bin\Debug\net8.0\Data.deps.json
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\bin\Debug\net8.0\Data.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\bin\Debug\net8.0\Data.pdb
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\bin\Debug\net8.0\Domain.Model.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\bin\Debug\net8.0\Domain.Model.pdb
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.csproj.AssemblyReference.cache
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.AssemblyInfoInputs.cache
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.AssemblyInfo.cs
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.csproj.CoreCompileInputs.cache
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.sourcelink.json
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.csproj.Up2Date
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\refint\Data.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.pdb
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\ref\Data.dll
