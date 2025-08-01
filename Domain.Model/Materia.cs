@@ -1,6 +1,6 @@
 ﻿namespace Domain.Model
 {
-    public class Materia : BusninessEntity
+    public class Materia : BusinessEntity
     {
         public string Descripcion { get; private set; }
         public int HSSemanales { get; private set; }

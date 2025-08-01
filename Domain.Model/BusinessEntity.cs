@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
-    public abstract class BusninessEntity
+    public abstract class BusinessEntity
     {
         public int Id { get; set; }
 
-        protected BusninessEntity(int id)
+        protected BusinessEntity(int id)
         {
             SetId(id);
+        }
+
+        protected BusinessEntity()
+        {
+            
         }
 
         public void SetId(int id)
