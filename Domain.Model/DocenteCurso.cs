@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
-    public class DocenteCurso : BusninessEntity
+    public class DocenteCurso : BusinessEntity
     {
         public string Cargo { get; private set; }
         public int IDCurso { get; private set; }

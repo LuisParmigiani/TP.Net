@@ -373,5 +373,235 @@ app.MapDelete("/comisiones/{id}", (int id) =>
 .Produces(StatusCodes.Status404NotFound)
 .WithOpenApi();
 
+//Cursos 
+app.MapGet("/cursos/{id}", (int id) =>
+{
+    CursoService cursoService = new CursoService();
+    Curso cur = cursoService.Get(id);
+    if (cur != null)
+    {
+        var dto = new DTOs.Curso()
+        {
+             AnioCalendario=cur.AnioCalendario, 
+             Cupo=cur.Cupo,
+             Descripcion = cur.Descripcion,
+             IdComision = cur.IdComision,
+             IdMateria = cur.IdMateria
+        };
+        return Results.Ok(dto);
+    }
+    else
+    {
+        return Results.NotFound();
+    }
+})
+.WithName("GetCursos")
+.Produces<DTOs.Curso>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
 
+app.MapGet("/cursos", () =>
+{
+    CursoService cursoService = new CursoService();
+    var cursos = cursoService.GetAll();
+    var dtos = cursos.Select(c => new DTOs.Curso
+    {
+        Id = c.Id,
+        AnioCalendario = c.AnioCalendario,
+        Cupo = c.Cupo, 
+        Descripcion = c.Descripcion,
+        IdComision = c.IdComision,
+        IdMateria = c.IdMateria
+    }).ToList();
+
+    return Results.Ok(dtos);
+})
+.WithName("GetAllCursos")
+.Produces<List<DTOs.Curso>>(StatusCodes.Status200OK)
+.WithOpenApi();
+
+app.MapPost("/cursos", (DTOs.Curso dto) =>
+{
+    try
+    {
+        CursoService cursoService = new CursoService();
+        Curso curso = new Curso(dto.AnioCalendario, dto.Cupo, dto.Descripcion, dto.IdComision, dto.IdMateria,dto.Id);
+        cursoService.Add(curso);
+
+        var dtoResultado = new DTOs.Curso
+        {
+            Id = dto.Id,
+            AnioCalendario = curso.AnioCalendario,
+            Cupo = curso.Cupo,
+            Descripcion = curso.Descripcion,
+            IdComision = curso.IdComision,
+            IdMateria = curso.IdMateria
+        };
+
+        return Results.Created($"/cursos/{dtoResultado.IdMateria}", dtoResultado);
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("AddCurso")
+.Produces<DTOs.Curso>(StatusCodes.Status201Created)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapPut("/cursos/{id}", (int id, DTOs.Curso dto) =>
+{
+    try
+    {
+        CursoService cursoService = new CursoService();
+        Curso curso = new Curso(dto.AnioCalendario, dto.Cupo, dto.Descripcion, dto.IdComision, dto.IdMateria,id);
+
+        var found = cursoService.Update(curso);
+        if (!found)
+        {
+            return Results.NotFound();
+        }
+
+        return Results.NoContent();
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("UpdateCurso") 
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapDelete("/cursos/{id}", (int id) =>
+{
+    CursoService cursoService = new CursoService();
+    var deleted = cursoService.Delete(id);
+
+    if (!deleted)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.NoContent();
+})
+    .WithName("DeleteCurso")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+
+//Plan 
+app.MapGet("/planes/{id}", (int id) =>
+{
+    PlanService planService = new PlanService();
+    Plan plan = planService.Get(id);
+    if (plan != null)
+    {
+        var dto = new DTOs.Plan()
+        {
+            Id = plan.Id,
+            Descripcion = plan.Descripcion,
+            IdEspecialidad = plan.IdEspecialidad
+        };
+        return Results.Ok(dto);
+    }
+    else
+    {
+        return Results.NotFound();
+    }
+})
+.WithName("GetPlan")
+.Produces<DTOs.Plan>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+
+app.MapGet("/planes", () =>
+{
+    PlanService planService = new PlanService();
+    var planes = planService.GetAll();
+    var dtos = planes.Select(p => new DTOs.Plan
+    {
+        Id = p.Id,
+        Descripcion = p.Descripcion,
+        IdEspecialidad = p.IdEspecialidad
+    }).ToList();
+
+    return Results.Ok(dtos);
+})
+.WithName("GetAllPlanes")
+.Produces<List<DTOs.Plan>>(StatusCodes.Status200OK)
+.WithOpenApi();
+
+app.MapPost("/planes", (DTOs.Plan dto) =>
+{
+    try
+    {
+        PlanService planService = new PlanService();
+        Plan plan = new Plan(dto.Descripcion, dto.IdEspecialidad, dto.Id);
+        planService.Add(plan);
+
+        var dtoResultado = new DTOs.Plan
+        {
+            Id = plan.Id,
+            Descripcion = plan.Descripcion,
+            IdEspecialidad = plan.IdEspecialidad
+        };
+
+        return Results.Created($"/planes/{dtoResultado.Id}", dtoResultado);
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("AddPlan")
+.Produces<DTOs.Plan>(StatusCodes.Status201Created)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapPut("/planes/{id}", (int id, DTOs.Plan dto) =>
+{
+    try
+    {
+        PlanService planService = new PlanService();
+        Plan plan = new Plan(dto.Descripcion, dto.IdEspecialidad, id);
+
+        var found = planService.Update(plan);
+        if (!found)
+        {
+            return Results.NotFound();
+        }
+
+        return Results.NoContent();
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("UpdatePlan") 
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapDelete("/planes/{id}", (int id) =>
+{
+    PlanService planService = new PlanService();
+    var deleted = planService.Delete(id);
+
+    if (!deleted)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.NoContent();
+})
+.WithName("DeletePlan")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
 app.Run();

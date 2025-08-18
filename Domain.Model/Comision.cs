@@ -1,6 +1,6 @@
 ﻿namespace Domain.Model
 {
-    public class Comision : BusninessEntity
+    public class Comision : BusinessEntity
     {
         public int AnioEspecialidad { get; private set; }
         public string Descripcion { get; private set; }
