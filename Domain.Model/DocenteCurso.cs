@@ -13,7 +13,7 @@ namespace Domain.Model
         public int IDDocente { get; private set; }
     
 
-    public DocenteCurso(int id, string cargo, int idCurso, int idDocente) : base(id)
+    public DocenteCurso(int id, string cargo, int idCurso, int idDocente)
     {
         SetId(id);
         SetCargo(cargo);
