@@ -9,4 +9,18 @@ public class Curso
     public int IdComision { get;  set; }
     public int IdMateria { get; set; }
 
+    public Curso()
+    {
+        
+    }
+
+    public Curso(int id, int anio, int cupo, string desc, int idC, int idM)
+    {
+        Id = id;
+        AnioCalendario = anio;
+        Cupo = cupo;
+        Descripcion = desc;
+        IdComision = idC;
+        IdMateria = idM;
+    }
 }
