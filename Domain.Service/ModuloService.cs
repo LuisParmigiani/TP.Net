@@ -1,55 +1,60 @@
 
 using Domain.Model;
 using Data;
+using DTOs;
+using ModuloUsuario = Domain.Model.ModuloUsuario;
+
 namespace Domain.Service;
 
 public class ModuloService
 {
-    public void Add(Modulo modulo)
+    
+    public ModuloDTO Add(ModuloDTO modulo)
     {
-        ModuloInMemory.Modulos.Add(modulo);
+        var moduloRepository = new ModuloRepository();
+        Modulo mod = new Modulo(0,modulo.Descripcion,modulo.Ejecuta);
+        moduloRepository.Add(mod);
+
+        modulo.Id = mod.Id;
+
+        return modulo;
     }
 
 
     public bool Delete(int id)
     {
-        Modulo? modToDelete = ModuloInMemory.Modulos.Find(x => x.Id == id);
-        if (modToDelete != null)
-        {
-            ModuloInMemory.Modulos.Remove(modToDelete);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        var moduloRepository = new ModuloRepository();
+        return moduloRepository.Delete(id);
     }
 
-    public Modulo Get(int id)
+    public ModuloDTO Get(int id)
     {
-        return ModuloInMemory.Modulos.FirstOrDefault(x => x.Id == id);
+        var moduloRepository = new ModuloRepository();
+        Modulo? modulo = moduloRepository.Get(id);
+        if (modulo == null)
+            return null;
+        return new ModuloDTO(
+            modulo.Id,
+            modulo.Descripcion,
+            modulo.Ejecuta);
+        
     }
 
-    public IEnumerable<Modulo> GetAll()
+    public IEnumerable<ModuloDTO> GetAll()
     {
-        return ModuloInMemory.Modulos.ToList();
+        var moduloRepository = new ModuloRepository();
+        return moduloRepository.GetAll().Select(mod => new ModuloDTO(
+            mod.Id,
+            mod.Descripcion,
+            mod.Ejecuta)).ToList();
+
     }
 
-    public bool Update(Modulo modulo)
+    public bool Update(ModuloDTO dto)
     {
-        var modToUpdate = ModuloInMemory.Modulos.FirstOrDefault(x => x.Id == modulo.Id);
-        if (modToUpdate != null)
-        {
-            modToUpdate.SetId(modulo.Id);
-            modToUpdate.SetDescripcion(modulo.Descripcion);
-            modToUpdate.SetEjecuta(modulo.Ejecuta);
-            
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        var moduloRepository = new ModuloRepository();
+        Modulo modulo = new Modulo(dto.Id,dto.Descripcion,dto.Ejecuta);
+        return moduloRepository.Update(modulo);
     }
 }
  

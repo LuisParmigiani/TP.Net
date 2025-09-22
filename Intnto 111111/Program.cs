@@ -1,6 +1,17 @@
 using Domain.Service;
 using Domain.Model;
+using DTOs;
 using Microsoft.AspNetCore.Components.Web;
+using Alumno_Inscripcion = Domain.Model.Alumno_Inscripcion;
+using Comision = Domain.Model.Comision;
+using Curso = Domain.Model.Curso;
+using DocenteCurso = Domain.Model.DocenteCurso;
+using Especialidad = Domain.Model.Especialidad;
+using Materia = Domain.Model.Materia;
+using ModuloUsuario = Domain.Model.ModuloUsuario;
+using Persona = Domain.Model.Persona;
+using Plan = Domain.Model.Plan;
+using Usuario = Domain.Model.Usuario;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +20,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpLogging(o => { });
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorWasm",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:7170", "https://localhost:5076")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
@@ -1007,16 +1029,10 @@ app.MapDelete("/usuarios/{id}", (int id) =>
 app.MapGet("/modulos/{id}", (int id) =>
 {
     ModuloService ModService = new ModuloService();
-    Modulo mod = ModService.Get(id);
+    ModuloDTO mod = ModService.Get(id);
     if (mod != null)
     {
-        var dto = new DTOs.Modulo()
-        {
-            Id = mod.Id,
-            Descripcion = mod.Descripcion,
-            Ejecuta = mod.Ejecuta,
-        };
-        return Results.Ok(dto);
+        return Results.Ok(mod);
     }
     else
     {
@@ -1024,7 +1040,7 @@ app.MapGet("/modulos/{id}", (int id) =>
     }
 })
 .WithName("GetModulo")
-.Produces<DTOs.Modulo>(StatusCodes.Status200OK)
+.Produces<ModuloDTO>(StatusCodes.Status200OK)
 .Produces(StatusCodes.Status404NotFound)
 .WithOpenApi();
 
@@ -1032,24 +1048,19 @@ app.MapGet("/modulos", () =>
 {
     ModuloService ModService = new ModuloService();
     var modulos = ModService.GetAll();
-    var dtos = modulos.Select(p => new DTOs.Modulo(p.Id, p.Descripcion,p.Ejecuta)).ToList();
-    return Results.Ok(dtos);
+    return Results.Ok(modulos);
 })
 .WithName("GetAllModulos")
-.Produces<List<DTOs.Modulo>>(StatusCodes.Status200OK)
+.Produces<List<ModuloDTO>>(StatusCodes.Status200OK)
 .WithOpenApi();
 
-app.MapPost("/modulos", (DTOs.Modulo mod) =>
+app.MapPost("/modulos", (ModuloDTO mod) =>
 {
     try
     {
         ModuloService ModService = new ModuloService();
-        Modulo modulo = new Modulo(mod.Id, mod.Descripcion,mod.Ejecuta);
-        ModService.Add(modulo);
-
-        var dtoResultado = new DTOs.Modulo(modulo.Id, modulo.Descripcion,modulo.Ejecuta);
-
-        return Results.Created($"/modulos/{dtoResultado.Id}", dtoResultado);
+        ModuloDTO dto = ModService.Add(mod);
+        return Results.Created($"/modulos/{dto.Id}", dto);
     }
     catch (ArgumentException ex)
     {
@@ -1057,18 +1068,16 @@ app.MapPost("/modulos", (DTOs.Modulo mod) =>
     }
 })
 .WithName("AddModulo")
-.Produces<DTOs.Modulo>(StatusCodes.Status201Created)
+.Produces<ModuloDTO>(StatusCodes.Status201Created)
 .Produces(StatusCodes.Status400BadRequest)
 .WithOpenApi();
 
-app.MapPut("/modulos/{id}", (int id, DTOs.Modulo dto) =>
+app.MapPut("/modulos/{id}", (int id, ModuloDTO dto) =>
 {
     try
     {
         ModuloService modService = new ModuloService();
-        Modulo esp = new Modulo(dto.Id, dto.Descripcion,dto.Ejecuta);
-
-        var found = modService.Update(esp);
+        var found = modService.Update(dto);
         if (!found)
         {
             return Results.NotFound();
