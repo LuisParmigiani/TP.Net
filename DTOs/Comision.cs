@@ -12,5 +12,19 @@ namespace DTOs
         public int AnioEspecialidad { get; set; }
         public string Descripcion { get; set; }
         public int IDPlan { get; set; }
+
+        public Comision()
+        {
+            
+        }
+
+        public Comision(int id, int anioEsp, string desc, int idPlan)
+        {
+            Id = id;
+            AnioEspecialidad = anioEsp;
+            Descripcion = desc;
+            IDPlan = idPlan;
+        }
     }
+    
 }

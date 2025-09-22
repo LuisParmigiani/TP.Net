@@ -12,6 +12,18 @@ namespace DTOs
         public string Cargo { get; set; }
         public int IDCurso { get; set; }
         public int IDDocente { get; set; }
-        
+
+        public DocenteCurso()
+        {
+            
+        }
+
+        public DocenteCurso(int id, string car, int idC, int idD)
+        {
+            Id = id;
+            Cargo = car;
+            IDCurso = idC;
+            IDDocente = idD;
+        }
     }
 }

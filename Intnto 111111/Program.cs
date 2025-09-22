@@ -1,5 +1,6 @@
 using Domain.Service;
 using Domain.Model;
+using Microsoft.AspNetCore.Components.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -601,6 +602,607 @@ app.MapDelete("/planes/{id}", (int id) =>
     return Results.NoContent();
 })
 .WithName("DeletePlan")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+//Persona 
+app.MapGet("/personas/{id}", (int id) =>
+{
+    PersonaService personaService = new PersonaService();
+    Persona persona = personaService.Get(id);
+    if (persona != null)
+    {
+        var dto =new DTOs.Persona(persona.Id, persona.Nombre, persona.Apellido, persona.Direccion,
+            persona.Email,
+            persona.Telefono, persona.FechaNacimiento, persona.Legajo, persona.TipoPersona, persona.IdPlan);
+        return Results.Ok(dto);
+    }
+    else
+    {
+        return Results.NotFound();
+    }
+})
+.WithName("GetPersona")
+.Produces<DTOs.Persona>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+
+app.MapGet("/personas", () =>
+{
+    PersonaService personaService = new PersonaService();
+    var personas = personaService.GetAll();
+    var dtos = personas.Select(p => new DTOs.Persona(p.Id, p.Nombre, p.Apellido, p.Direccion, p.Email,
+        p.Telefono, p.FechaNacimiento, p.Legajo, p.TipoPersona, p.IdPlan)).ToList();
+
+    return Results.Ok(dtos);
+})
+.WithName("GetAllPersonas")
+.Produces<List<DTOs.Persona>>(StatusCodes.Status200OK)
+.WithOpenApi();
+
+app.MapPost("/personas", (DTOs.Persona dto) =>
+{
+    try
+    {
+        PersonaService personaService = new PersonaService();
+        Persona persona = new Persona(dto.Id,dto.Nombre, dto.Apellido, dto.Direccion, 
+            dto.Email, dto.Telefono, dto.FechaNacimiento, dto.Legajo, 
+            dto.TipoPersona, dto.IdPlan);
+        personaService.Add(persona);
+
+        var dtoResultado = new DTOs.Persona(persona.Id, persona.Nombre, persona.Apellido, persona.Direccion,
+            persona.Email,
+            persona.Telefono, persona.FechaNacimiento, persona.Legajo, persona.TipoPersona, persona.IdPlan);
+
+        return Results.Created($"/personas/{dtoResultado.Id}", dtoResultado);
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("AddPersona")
+.Produces<DTOs.Persona>(StatusCodes.Status201Created)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapPut("/personas/{id}", (int id, DTOs.Persona dto) =>
+{
+    try
+    {
+        PersonaService personaService = new PersonaService();
+        Persona persona = new Persona(dto.Id,dto.Nombre, dto.Apellido, dto.Direccion,
+            dto.Email, dto.Telefono, dto.FechaNacimiento, dto.Legajo,
+            dto.TipoPersona, dto.IdPlan);
+
+        var found = personaService.Update(persona);
+        if (!found)
+        {
+            return Results.NotFound();
+        }
+
+        return Results.NoContent();
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("UpdatePersona")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapDelete("/personas/{id}", (int id) =>
+{
+    PersonaService personaService = new PersonaService();
+    var deleted = personaService.Delete(id);
+
+    if (!deleted)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.NoContent();
+})
+.WithName("DeletePersona")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+
+
+//Especialidades 
+app.MapGet("/especialidades/{id}", (int id) =>
+{
+    EspecialidadService espService = new EspecialidadService();
+    Especialidad esp = espService.Get(id);
+    if (esp != null)
+    {
+        var dto = new DTOs.Especialidad()
+        {
+            Id = esp.Id,
+            Descripcion = esp.Descripcion,
+        };
+        return Results.Ok(dto);
+    }
+    else
+    {
+        return Results.NotFound();
+    }
+})
+.WithName("GetEspecialidad")
+.Produces<DTOs.Especialidad>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+
+app.MapGet("/especialidades", () =>
+{
+    EspecialidadService EspService = new EspecialidadService();
+    var especialidades = EspService.GetAll();
+    var dtos = especialidades.Select(p => new DTOs.Especialidad(p.Id, p.Descripcion)).ToList();
+    return Results.Ok(dtos);
+})
+.WithName("GetAllEspecialidades")
+.Produces<List<DTOs.Especialidad>>(StatusCodes.Status200OK)
+.WithOpenApi();
+
+app.MapPost("/especialidades", (DTOs.Especialidad esp) =>
+{
+    try
+    {
+        EspecialidadService espService = new EspecialidadService();
+        Especialidad especialidad = new Especialidad(esp.Id, esp.Descripcion);
+        espService.Add(especialidad);
+
+        var dtoResultado = new DTOs.Especialidad(especialidad.Id, especialidad.Descripcion);
+
+        return Results.Created($"/especialidades/{dtoResultado.Id}", dtoResultado);
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("Addespecialidad")
+.Produces<DTOs.Especialidad>(StatusCodes.Status201Created)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapPut("/especialidades/{id}", (int id, DTOs.Especialidad dto) =>
+{
+    try
+    {
+        EspecialidadService espService = new EspecialidadService();
+        Especialidad esp = new Especialidad(dto.Id, dto.Descripcion);
+
+        var found = espService.Update(esp);
+        if (!found)
+        {
+            return Results.NotFound();
+        }
+
+        return Results.NoContent();
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("UpdateEspecialidad") 
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapDelete("/especialidades/{id}", (int id) =>
+{
+    EspecialidadService espService = new EspecialidadService();
+    var deleted = espService.Delete(id);
+
+    if (!deleted)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.NoContent();
+})
+.WithName("DeleteEspecialidad")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+
+//Inscripciones 
+app.MapGet("/inscripciones/{id}", (int id) =>
+{ 
+    AlumnoInscripcionService InscService = new AlumnoInscripcionService();
+    Alumno_Inscripcion esp = InscService.Get(id);
+    if (esp != null)
+    {
+        var dto = new DTOs.Alumno_Inscripcion(esp.Id,esp.IdAlumno,esp.IdCurso,esp.Nota,esp.Condicion);
+        return Results.Ok(dto);
+    }
+    else
+    {
+        return Results.NotFound();
+    }
+})
+.WithName("GetInscripcion")
+.Produces<DTOs.Alumno_Inscripcion>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+
+app.MapGet("/inscripciones", () =>
+{
+    AlumnoInscripcionService InscService = new AlumnoInscripcionService();
+    var inscripciones = InscService.GetAll();
+    var dtos = inscripciones.Select(p => new DTOs.Alumno_Inscripcion(p.Id, p.IdAlumno,p.IdCurso,p.Nota,p.Condicion)).ToList();
+    return Results.Ok(dtos);
+})
+.WithName("GetAllInscripciones")
+.Produces<List<DTOs.Alumno_Inscripcion>>(StatusCodes.Status200OK)
+.WithOpenApi();
+
+app.MapPost("/inscripciones", (DTOs.Alumno_Inscripcion insc) =>
+{
+    try
+    {
+        AlumnoInscripcionService inscService = new AlumnoInscripcionService();
+        Alumno_Inscripcion inscripcion = new Alumno_Inscripcion(insc.Id, insc.IdAlumno,insc.IdCurso,insc.Nota,insc.Condicion);
+        inscService.Add(inscripcion);
+
+        var dtoResultado = new DTOs.Alumno_Inscripcion(insc.Id, insc.IdAlumno,insc.IdCurso,insc.Nota,insc.Condicion);
+
+        return Results.Created($"/inscripciones/{dtoResultado.Id}", dtoResultado);
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("AddInscripcion")
+.Produces<DTOs.Alumno_Inscripcion>(StatusCodes.Status201Created)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapPut("/inscripciones/{id}", (int id, DTOs.Alumno_Inscripcion dto) =>
+{
+    try
+    {
+        AlumnoInscripcionService inscService = new AlumnoInscripcionService();
+        Alumno_Inscripcion insc = new Alumno_Inscripcion(dto.Id, dto.IdAlumno,dto.IdCurso,dto.Nota,dto.Condicion);
+
+        var found = inscService.Update(insc);
+        if (!found)
+        {
+            return Results.NotFound();
+        }
+
+        return Results.NoContent();
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("UpdateInscripcion") 
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapDelete("/inscripciones/{id}", (int id) =>
+{
+    AlumnoInscripcionService inscService = new AlumnoInscripcionService();
+    var deleted = inscService.Delete(id);
+
+    if (!deleted)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.NoContent();
+})
+.WithName("DeleteInscripcion")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+
+//Usuarios 
+app.MapGet("/usuarios/{id}", (int id) =>
+{ 
+    UsuarioService userService = new UsuarioService();
+    Usuario user = userService.Get(id);
+    if (user != null)
+    {
+        var dto = new DTOs.Usuario(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
+        return Results.Ok(dto);
+    }
+    else
+    {
+        return Results.NotFound();
+    }
+})
+.WithName("GetUsuario")
+.Produces<DTOs.Usuario>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+
+app.MapGet("/usuarios", () =>
+{
+    UsuarioService userService = new UsuarioService();
+    var usuarios = userService.GetAll();
+    var dtos = usuarios.Select(p => new DTOs.Usuario(p.Id,p.NombreUsuario,p.Clave,p.Habilitado,p.IdPersona,p.CambiaClave)).ToList();
+    return Results.Ok(dtos);
+})
+.WithName("GetAllusuarios")
+.Produces<List<DTOs.Usuario>>(StatusCodes.Status200OK)
+.WithOpenApi();
+
+app.MapPost("/usuarios", (DTOs.Usuario user) =>
+{
+    try
+    {
+        UsuarioService userService = new UsuarioService();
+        Usuario usuario = new Usuario(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.CambiaClave,user.IdPersona);
+        userService.Add(usuario);
+
+        var dtoResultado = new DTOs.Usuario(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
+
+        return Results.Created($"/usuarios/{dtoResultado.Id}", dtoResultado);
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("AddUsuario")
+.Produces<DTOs.Usuario>(StatusCodes.Status201Created)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapPut("/usuarios/{id}", (int id, DTOs.Usuario user) =>
+{
+    try
+    {
+        UsuarioService usuarioService = new UsuarioService();
+        Usuario usuario = new Usuario(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.CambiaClave,user.IdPersona);
+
+        var found = usuarioService.Update(usuario);
+        if (!found)
+        {
+            return Results.NotFound();
+        }
+
+        return Results.NoContent();
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("UpdateUsuario") 
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapDelete("/usuarios/{id}", (int id) =>
+{
+    UsuarioService usuarioService = new UsuarioService();
+    var deleted = usuarioService.Delete(id);
+
+    if (!deleted)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.NoContent();
+})
+.WithName("DeleteUsuario")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+//Modulos 
+app.MapGet("/modulos/{id}", (int id) =>
+{
+    ModuloService ModService = new ModuloService();
+    Modulo mod = ModService.Get(id);
+    if (mod != null)
+    {
+        var dto = new DTOs.Modulo()
+        {
+            Id = mod.Id,
+            Descripcion = mod.Descripcion,
+            Ejecuta = mod.Ejecuta,
+        };
+        return Results.Ok(dto);
+    }
+    else
+    {
+        return Results.NotFound();
+    }
+})
+.WithName("GetModulo")
+.Produces<DTOs.Modulo>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+
+app.MapGet("/modulos", () =>
+{
+    ModuloService ModService = new ModuloService();
+    var modulos = ModService.GetAll();
+    var dtos = modulos.Select(p => new DTOs.Modulo(p.Id, p.Descripcion,p.Ejecuta)).ToList();
+    return Results.Ok(dtos);
+})
+.WithName("GetAllModulos")
+.Produces<List<DTOs.Modulo>>(StatusCodes.Status200OK)
+.WithOpenApi();
+
+app.MapPost("/modulos", (DTOs.Modulo mod) =>
+{
+    try
+    {
+        ModuloService ModService = new ModuloService();
+        Modulo modulo = new Modulo(mod.Id, mod.Descripcion,mod.Ejecuta);
+        ModService.Add(modulo);
+
+        var dtoResultado = new DTOs.Modulo(modulo.Id, modulo.Descripcion,modulo.Ejecuta);
+
+        return Results.Created($"/modulos/{dtoResultado.Id}", dtoResultado);
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("AddModulo")
+.Produces<DTOs.Modulo>(StatusCodes.Status201Created)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapPut("/modulos/{id}", (int id, DTOs.Modulo dto) =>
+{
+    try
+    {
+        ModuloService modService = new ModuloService();
+        Modulo esp = new Modulo(dto.Id, dto.Descripcion,dto.Ejecuta);
+
+        var found = modService.Update(esp);
+        if (!found)
+        {
+            return Results.NotFound();
+        }
+
+        return Results.NoContent();
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("UpdateModulo") 
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapDelete("/modulos/{id}", (int id) =>
+{
+    ModuloService moduloService = new ModuloService();
+    var deleted = moduloService.Delete(id);
+
+    if (!deleted)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.NoContent();
+})
+.WithName("DeleteModulo")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+//Modulos Usuarios
+app.MapGet("/modulo-usuario/{id}", (int id) =>
+{
+    ModuloUsuarioService ModService = new ModuloUsuarioService();
+    ModuloUsuario mod = ModService.Get(id);
+    if (mod != null)
+    {
+        var dto = new DTOs.ModuloUsuario()
+        {
+            Id = mod.Id,
+            IdModulo = mod.IdModulo,
+            IdUsuario = mod.IdUsuario,
+            Alta = mod.Alta,
+            Baja = mod.Baja,
+            Modificacion = mod.Modificacion,
+            Consulta = mod.Consulta
+        };
+        return Results.Ok(dto);
+    }
+    else
+    {
+        return Results.NotFound();
+    }
+})
+.WithName("GetModuloUsuario")
+.Produces<DTOs.ModuloUsuario>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+app.MapGet("/modulo-usuario", () =>
+{
+    ModuloUsuarioService ModService = new ModuloUsuarioService();
+    var modulos = ModService.GetAll();
+    var dtos = modulos.Select(p => new DTOs.ModuloUsuario(p.Id,p.IdModulo,p.IdUsuario,p.Alta,p.Baja,p.Modificacion,p.Consulta)).ToList();
+    return Results.Ok(dtos);
+})
+.WithName("GetAllModuloUsuarios")
+.Produces<List<DTOs.ModuloUsuario>>(StatusCodes.Status200OK)
+.WithOpenApi();
+
+app.MapPost("/modulo-usuario", (DTOs.ModuloUsuario mod) =>
+{
+    try
+    {
+        ModuloUsuarioService ModService = new ModuloUsuarioService();
+        ModuloUsuario modulo = new ModuloUsuario(mod.Id, mod.IdModulo,mod.IdUsuario,mod.Alta,mod.Baja,mod.Modificacion,mod.Consulta);
+        ModService.Add(modulo);
+
+        var dtoResultado = new DTOs.ModuloUsuario(modulo.Id,modulo.IdModulo,modulo.IdUsuario,modulo.Alta,modulo.Baja,modulo.Modificacion,modulo.Consulta);
+
+        return Results.Created($"/modulos/{dtoResultado.Id}", dtoResultado);
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("AddModuloUsuario")
+.Produces<DTOs.ModuloUsuario>(StatusCodes.Status201Created)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapPut("/modulo-usuario/{id}", (int id, DTOs.ModuloUsuario dto) =>
+{
+    try
+    {
+        ModuloUsuarioService modService = new ModuloUsuarioService();
+        ModuloUsuario esp = new ModuloUsuario(dto.Id,dto.IdModulo,dto.IdUsuario,dto.Alta,dto.Baja,dto.Modificacion,dto.Consulta);
+
+        var found = modService.Update(esp);
+        if (!found)
+        {
+            return Results.NotFound();
+        }
+
+        return Results.NoContent();
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("UpdateModuloUsuario") 
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapDelete("/modulo-usuario/{id}", (int id) =>
+{
+    ModuloUsuarioService moduloService = new ModuloUsuarioService();
+    var deleted = moduloService.Delete(id);
+
+    if (!deleted)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.NoContent();
+})
+.WithName("DeleteModuloUsuario")
 .Produces(StatusCodes.Status204NoContent)
 .Produces(StatusCodes.Status404NotFound)
 .WithOpenApi();

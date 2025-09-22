@@ -1,12 +1,12 @@
 using Domain.Model;
 
+using System.Text.RegularExpressions;
 namespace Domain.Model 
 {
     
 public class Curso : BusinessEntity
 {
-    public int AnioCalendario { get; private set; }
-    public int Cupo { get; private set; }
+    public int AnioCalendario { get; private set; } public int Cupo { get; private set; }
     public string Descripcion { get; private set; }
     public int IdComision { get; private set; }
     public int IdMateria { get; private set; }
