@@ -1,5 +1,6 @@
 using Domain.Service;
 using Domain.Model;
+using Microsoft.AspNetCore.Components.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -714,11 +715,11 @@ app.MapDelete("/personas/{id}", (int id) =>
 //Especialidades 
 app.MapGet("/especialidades/{id}", (int id) =>
 {
-    EspecialidadService EspService = new EspecialidadService();
-    Especialidad esp = EspService.Get(id);
+    EspecialidadService espService = new EspecialidadService();
+    Especialidad esp = espService.Get(id);
     if (esp != null)
     {
-        var dto = new DTOs.Plan()
+        var dto = new DTOs.Especialidad()
         {
             Id = esp.Id,
             Descripcion = esp.Descripcion,
@@ -756,7 +757,7 @@ app.MapPost("/especialidades", (DTOs.Especialidad esp) =>
 
         var dtoResultado = new DTOs.Especialidad(especialidad.Id, especialidad.Descripcion);
 
-        return Results.Created($"/planes/{dtoResultado.Id}", dtoResultado);
+        return Results.Created($"/especialidades/{dtoResultado.Id}", dtoResultado);
     }
     catch (ArgumentException ex)
     {
@@ -999,6 +1000,209 @@ app.MapDelete("/usuarios/{id}", (int id) =>
     return Results.NoContent();
 })
 .WithName("DeleteUsuario")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+//Modulos 
+app.MapGet("/modulos/{id}", (int id) =>
+{
+    ModuloService ModService = new ModuloService();
+    Modulo mod = ModService.Get(id);
+    if (mod != null)
+    {
+        var dto = new DTOs.Modulo()
+        {
+            Id = mod.Id,
+            Descripcion = mod.Descripcion,
+            Ejecuta = mod.Ejecuta,
+        };
+        return Results.Ok(dto);
+    }
+    else
+    {
+        return Results.NotFound();
+    }
+})
+.WithName("GetModulo")
+.Produces<DTOs.Modulo>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+
+app.MapGet("/modulos", () =>
+{
+    ModuloService ModService = new ModuloService();
+    var modulos = ModService.GetAll();
+    var dtos = modulos.Select(p => new DTOs.Modulo(p.Id, p.Descripcion,p.Ejecuta)).ToList();
+    return Results.Ok(dtos);
+})
+.WithName("GetAllModulos")
+.Produces<List<DTOs.Modulo>>(StatusCodes.Status200OK)
+.WithOpenApi();
+
+app.MapPost("/modulos", (DTOs.Modulo mod) =>
+{
+    try
+    {
+        ModuloService ModService = new ModuloService();
+        Modulo modulo = new Modulo(mod.Id, mod.Descripcion,mod.Ejecuta);
+        ModService.Add(modulo);
+
+        var dtoResultado = new DTOs.Modulo(modulo.Id, modulo.Descripcion,modulo.Ejecuta);
+
+        return Results.Created($"/modulos/{dtoResultado.Id}", dtoResultado);
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("AddModulo")
+.Produces<DTOs.Modulo>(StatusCodes.Status201Created)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapPut("/modulos/{id}", (int id, DTOs.Modulo dto) =>
+{
+    try
+    {
+        ModuloService modService = new ModuloService();
+        Modulo esp = new Modulo(dto.Id, dto.Descripcion,dto.Ejecuta);
+
+        var found = modService.Update(esp);
+        if (!found)
+        {
+            return Results.NotFound();
+        }
+
+        return Results.NoContent();
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("UpdateModulo") 
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapDelete("/modulos/{id}", (int id) =>
+{
+    ModuloService moduloService = new ModuloService();
+    var deleted = moduloService.Delete(id);
+
+    if (!deleted)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.NoContent();
+})
+.WithName("DeleteModulo")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+//Modulos Usuarios
+app.MapGet("/modulo-usuario/{id}", (int id) =>
+{
+    ModuloUsuarioService ModService = new ModuloUsuarioService();
+    ModuloUsuario mod = ModService.Get(id);
+    if (mod != null)
+    {
+        var dto = new DTOs.ModuloUsuario()
+        {
+            Id = mod.Id,
+            IdModulo = mod.IdModulo,
+            IdUsuario = mod.IdUsuario,
+            Alta = mod.Alta,
+            Baja = mod.Baja,
+            Modificacion = mod.Modificacion,
+            Consulta = mod.Consulta
+        };
+        return Results.Ok(dto);
+    }
+    else
+    {
+        return Results.NotFound();
+    }
+})
+.WithName("GetModuloUsuario")
+.Produces<DTOs.ModuloUsuario>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+app.MapGet("/modulo-usuario", () =>
+{
+    ModuloUsuarioService ModService = new ModuloUsuarioService();
+    var modulos = ModService.GetAll();
+    var dtos = modulos.Select(p => new DTOs.ModuloUsuario(p.Id,p.IdModulo,p.IdUsuario,p.Alta,p.Baja,p.Modificacion,p.Consulta)).ToList();
+    return Results.Ok(dtos);
+})
+.WithName("GetAllModuloUsuarios")
+.Produces<List<DTOs.ModuloUsuario>>(StatusCodes.Status200OK)
+.WithOpenApi();
+
+app.MapPost("/modulo-usuario", (DTOs.ModuloUsuario mod) =>
+{
+    try
+    {
+        ModuloUsuarioService ModService = new ModuloUsuarioService();
+        ModuloUsuario modulo = new ModuloUsuario(mod.Id, mod.IdModulo,mod.IdUsuario,mod.Alta,mod.Baja,mod.Modificacion,mod.Consulta);
+        ModService.Add(modulo);
+
+        var dtoResultado = new DTOs.ModuloUsuario(modulo.Id,modulo.IdModulo,modulo.IdUsuario,modulo.Alta,modulo.Baja,modulo.Modificacion,modulo.Consulta);
+
+        return Results.Created($"/modulos/{dtoResultado.Id}", dtoResultado);
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("AddModuloUsuario")
+.Produces<DTOs.ModuloUsuario>(StatusCodes.Status201Created)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapPut("/modulo-usuario/{id}", (int id, DTOs.ModuloUsuario dto) =>
+{
+    try
+    {
+        ModuloUsuarioService modService = new ModuloUsuarioService();
+        ModuloUsuario esp = new ModuloUsuario(dto.Id,dto.IdModulo,dto.IdUsuario,dto.Alta,dto.Baja,dto.Modificacion,dto.Consulta);
+
+        var found = modService.Update(esp);
+        if (!found)
+        {
+            return Results.NotFound();
+        }
+
+        return Results.NoContent();
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("UpdateModuloUsuario") 
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+app.MapDelete("/modulo-usuario/{id}", (int id) =>
+{
+    ModuloUsuarioService moduloService = new ModuloUsuarioService();
+    var deleted = moduloService.Delete(id);
+
+    if (!deleted)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.NoContent();
+})
+.WithName("DeleteModuloUsuario")
 .Produces(StatusCodes.Status204NoContent)
 .Produces(StatusCodes.Status404NotFound)
 .WithOpenApi();
