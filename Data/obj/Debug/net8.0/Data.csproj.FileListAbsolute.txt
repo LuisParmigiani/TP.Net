@@ -61,3 +61,12 @@ C:/Users/parmi/OneDrive/Documentos/CompuACT/TP.Net/Data/obj/Debug/net8.0/ref/Dat
 /Users/agus/Facultad/NET/TP.Net/Data/obj/Debug/net8.0/refint/Data.dll
 /Users/agus/Facultad/NET/TP.Net/Data/obj/Debug/net8.0/Data.pdb
 /Users/agus/Facultad/NET/TP.Net/Data/obj/Debug/net8.0/ref/Data.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.csproj.AssemblyReference.cache
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.AssemblyInfoInputs.cache
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.AssemblyInfo.cs
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.csproj.CoreCompileInputs.cache
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.sourcelink.json
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\refint\Data.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\Data\obj\Debug\net8.0\Data.pdb

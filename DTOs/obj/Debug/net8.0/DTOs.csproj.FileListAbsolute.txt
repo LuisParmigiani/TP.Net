@@ -38,3 +38,15 @@ C:/Users/parmi/OneDrive/Documentos/CompuACT/TP.Net/DTOs/obj/Debug/net8.0/ref/DTO
 /Users/agus/Facultad/NET/TP.Net/DTOs/obj/Debug/net8.0/refint/DTOs.dll
 /Users/agus/Facultad/NET/TP.Net/DTOs/obj/Debug/net8.0/DTOs.pdb
 /Users/agus/Facultad/NET/TP.Net/DTOs/obj/Debug/net8.0/ref/DTOs.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\DTOs\bin\Debug\net8.0\DTOs.deps.json
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\DTOs\bin\Debug\net8.0\DTOs.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\DTOs\bin\Debug\net8.0\DTOs.pdb
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\DTOs\obj\Debug\net8.0\DTOs.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\DTOs\obj\Debug\net8.0\DTOs.AssemblyInfoInputs.cache
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\DTOs\obj\Debug\net8.0\DTOs.AssemblyInfo.cs
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\DTOs\obj\Debug\net8.0\DTOs.csproj.CoreCompileInputs.cache
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\DTOs\obj\Debug\net8.0\DTOs.sourcelink.json
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\DTOs\obj\Debug\net8.0\DTOs.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\DTOs\obj\Debug\net8.0\refint\DTOs.dll
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\DTOs\obj\Debug\net8.0\DTOs.pdb
+C:\Users\parmi\OneDrive\Documentos\CompuACT\TP.Net\DTOs\obj\Debug\net8.0\ref\DTOs.dll

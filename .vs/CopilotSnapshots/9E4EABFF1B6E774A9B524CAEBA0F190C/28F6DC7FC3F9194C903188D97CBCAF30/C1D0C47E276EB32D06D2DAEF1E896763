@@ -1,0 +1,117 @@
+﻿namespace WinFormsApp
+{
+    partial class Login
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            login = new Button();
+            registrarse = new Button();
+            mail = new TextBox();
+            password = new TextBox();
+            mailLabel = new Label();
+            passLabel = new Label();
+            SuspendLayout();
+            // 
+            // login
+            // 
+            login.Location = new Point(518, 333);
+            login.Name = "login";
+            login.Size = new Size(149, 32);
+            login.TabIndex = 0;
+            login.Text = "Iniciar secion";
+            login.UseVisualStyleBackColor = true;
+            login.Click += login_Click;
+            // 
+            // registrarse
+            // 
+            registrarse.Location = new Point(129, 333);
+            registrarse.Name = "registrarse";
+            registrarse.Size = new Size(111, 32);
+            registrarse.TabIndex = 1;
+            registrarse.Text = "registrarse";
+            registrarse.UseVisualStyleBackColor = true;
+            registrarse.Click += registrarse_Click;
+            // 
+            // mail
+            // 
+            mail.Location = new Point(129, 226);
+            mail.Name = "mail";
+            mail.Size = new Size(538, 23);
+            mail.TabIndex = 2;
+            // 
+            // password
+            // 
+            password.Location = new Point(129, 142);
+            password.Name = "password";
+            password.Size = new Size(538, 23);
+            password.TabIndex = 3;
+            // 
+            // mailLabel
+            // 
+            mailLabel.AutoSize = true;
+            mailLabel.Location = new Point(129, 124);
+            mailLabel.Name = "mailLabel";
+            mailLabel.Size = new Size(38, 15);
+            mailLabel.TabIndex = 4;
+            mailLabel.Text = "mailLabel";
+            // 
+            // passLabel
+            // 
+            passLabel.AutoSize = true;
+            passLabel.Location = new Point(133, 208);
+            passLabel.Name = "passLabel";
+            passLabel.Size = new Size(38, 15);
+            passLabel.TabIndex = 5;
+            passLabel.Text = "passLabel";
+            // 
+            // Login
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(passLabel);
+            Controls.Add(mailLabel);
+            Controls.Add(password);
+            Controls.Add(mail);
+            Controls.Add(registrarse);
+            Controls.Add(login);
+            Name = "Login";
+            Text = "Iniciar sesion";
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private Button login;
+        private Button registrarse;
+        private TextBox mail;
+        private TextBox password;
+        private Label mailLabel;
+        private Label passLabel;
+    }
+}}

@@ -1,0 +1,26 @@
+﻿.vs/
+bin/
+nobj/
+nDebug/
+nRelease/
+
+# Archivos de Visual Studio
+.vs/
+
+# Compilación
+bin/
+obj/
+Debug/
+Release/
+
+# Archivos de usuario
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Dependencias de paquetes
+packages/
+*.nupkg
+project.lock.json
+project.fragment.lock.json
