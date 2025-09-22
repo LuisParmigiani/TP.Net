@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "701Nw/IJ4qU=",
+  "dgSpecHash": "3VGcYMhhywU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\TP.Net\\DTOs\\DTOs.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/Users/agus/Facultad/NET/TP.Net/DTOs/DTOs.csproj",
+  "expectedPackageFiles": [
+    "/Users/agus/.nuget/packages/microsoft.netcore.app.ref/8.0.19/microsoft.netcore.app.ref.8.0.19.nupkg.sha512",
+    "/Users/agus/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.19/microsoft.aspnetcore.app.ref.8.0.19.nupkg.sha512"
+  ],
   "logs": []
 }
