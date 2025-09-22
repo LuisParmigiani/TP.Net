@@ -1,16 +1,16 @@
 namespace DTOs;
 
-public class Modulo
+public class ModuloDTO
 {
     public int Id { get; set; }
     public string Descripcion { get; set; }
     public string Ejecuta { get; set; }
 
-    public Modulo()
+    public ModuloDTO()
     {
     }
 
-    public Modulo(int id, string descripcion, string ejecuta)
+    public ModuloDTO(int id, string descripcion, string ejecuta)
     {
         Id = id;
         Descripcion = descripcion;

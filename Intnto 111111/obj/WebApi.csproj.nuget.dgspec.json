@@ -48,6 +48,28 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.FileExtensions": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -176,6 +198,9 @@
               },
               "/Users/agus/Facultad/NET/TP.Net/Domain.Model/Domain.Model.csproj": {
                 "projectPath": "/Users/agus/Facultad/NET/TP.Net/Domain.Model/Domain.Model.csproj"
+              },
+              "/Users/agus/Facultad/NET/TP.Net/DTOs/DTOs.csproj": {
+                "projectPath": "/Users/agus/Facultad/NET/TP.Net/DTOs/DTOs.csproj"
               }
             }
           }

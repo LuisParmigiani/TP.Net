@@ -69,3 +69,5 @@ C:/Users/parmi/OneDrive/Documentos/CompuACT/TP.Net/Domain.Service/obj/Debug/net8
 /Users/agus/Facultad/NET/TP.Net/Domain.Service/obj/Debug/net8.0/refint/Domain.Service.dll
 /Users/agus/Facultad/NET/TP.Net/Domain.Service/obj/Debug/net8.0/Domain.Service.pdb
 /Users/agus/Facultad/NET/TP.Net/Domain.Service/obj/Debug/net8.0/ref/Domain.Service.dll
+/Users/agus/Facultad/NET/TP.Net/Domain.Service/bin/Debug/net8.0/DTOs.dll
+/Users/agus/Facultad/NET/TP.Net/Domain.Service/bin/Debug/net8.0/DTOs.pdb
