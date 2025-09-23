@@ -11,8 +11,11 @@ namespace Domain.Model
         public string Cargo { get; private set; }
         public int IDCurso { get; private set; }
         public int IDDocente { get; private set; }
-    
 
+        public DocenteCurso()
+        {
+            
+        }
     public DocenteCurso(int id, string cargo, int idCurso, int idDocente)
     {
         SetId(id);

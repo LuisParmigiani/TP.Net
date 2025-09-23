@@ -8,61 +8,58 @@ namespace Domain.Service
     public class UsuarioService
     {
 
-        public void Add(UsuarioDTO user)
+        public UsuarioDTO Add(UsuarioDTO user)
         {
             var usuarioRepository = new UsuarioRepository();
-            Modulo mod = new Modulo(0,modulo.Descripcion,modulo.Ejecuta);
-            moduloRepository.Add(mod);
+            Usuario us = new Usuario(0,user.NombreUsuario,user.Clave,user.Habilitado,user.CambiaClave,user.IdPersona);
+            usuarioRepository.Add(us);
 
-            modulo.Id = mod.Id;
+            user.Id = us.Id;
 
-            return modulo;
+            return user;
         }
 
 
         public bool Delete(int id)
         {
-            Usuario? perToDelete = UsuarioRepository.Usuarios.Find(x => x.Id == id);
-            if (perToDelete != null)
-            {
-                UsuarioRepository.Usuarios.Remove(perToDelete);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var usuaRepository = new UsuarioRepository();
+            return usuaRepository.Delete(id);
         }
 
-        public Usuario Get(int id)
+        public UsuarioDTO Get(int id)
         {
-            return UsuarioRepository.Usuarios.FirstOrDefault(x => x.Id == id);
+            var usRepository = new UsuarioRepository();
+            Usuario? usuario = usRepository.Get(id);
+            if (usuario == null)
+                return null;
+            return new UsuarioDTO(
+                usuario.Id,
+                usuario.NombreUsuario,
+                usuario.Clave,
+                usuario.Habilitado,
+                usuario.IdPersona,
+                usuario.CambiaClave
+                );
         }
 
-        public IEnumerable<Usuario> GetAll()
+        public IEnumerable<UsuarioDTO> GetAll()
         {
-            return UsuarioRepository.Usuarios.ToList();
+            var usRepo = new UsuarioRepository();
+            return usRepo.GetAll().Select(usuario => new UsuarioDTO(
+                usuario.Id,
+                usuario.NombreUsuario,
+                usuario.Clave,
+                usuario.Habilitado,
+                usuario.IdPersona,
+                usuario.CambiaClave
+            )).ToList();
         }
 
-        public bool Update(Usuario usuario)
+        public bool Update(UsuarioDTO usuario)
         {
-            var UsuarioToUpdate = UsuarioRepository.Usuarios.FirstOrDefault(x => x.Id == usuario.Id);
-            if (UsuarioToUpdate != null)
-            {
-                UsuarioToUpdate.SetNombre(usuario.NombreUsuario);
-                UsuarioToUpdate.SetClave(usuario.Clave);
-                UsuarioToUpdate.SetHabilitado(usuario.Habilitado);
-                UsuarioToUpdate.SetCambiaClave(usuario.CambiaClave);
-                UsuarioToUpdate.SetIdPersona(usuario.IdPersona);
-            
-            
-        
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var usRepo = new UsuarioRepository();
+            Usuario us = new Usuario(usuario.Id,usuario.NombreUsuario,usuario.Clave,usuario.Habilitado,usuario.CambiaClave,usuario.IdPersona);
+            return usRepo.Update(us);
         }
     }
 }

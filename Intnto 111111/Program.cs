@@ -738,10 +738,10 @@ app.MapDelete("/personas/{id}", (int id) =>
 app.MapGet("/especialidades/{id}", (int id) =>
 {
     EspecialidadService espService = new EspecialidadService();
-    Especialidad esp = espService.Get(id);
+    EspecialidadDTO esp = espService.Get(id);
     if (esp != null)
     {
-        var dto = new DTOs.Especialidad()
+        var dto = new EspecialidadDTO()
         {
             Id = esp.Id,
             Descripcion = esp.Descripcion,
@@ -754,7 +754,7 @@ app.MapGet("/especialidades/{id}", (int id) =>
     }
 })
 .WithName("GetEspecialidad")
-.Produces<DTOs.Especialidad>(StatusCodes.Status200OK)
+.Produces<EspecialidadDTO>(StatusCodes.Status200OK)
 .Produces(StatusCodes.Status404NotFound)
 .WithOpenApi();
 
@@ -762,22 +762,22 @@ app.MapGet("/especialidades", () =>
 {
     EspecialidadService EspService = new EspecialidadService();
     var especialidades = EspService.GetAll();
-    var dtos = especialidades.Select(p => new DTOs.Especialidad(p.Id, p.Descripcion)).ToList();
+    var dtos = especialidades.Select(p => new EspecialidadDTO(p.Id, p.Descripcion)).ToList();
     return Results.Ok(dtos);
 })
 .WithName("GetAllEspecialidades")
-.Produces<List<DTOs.Especialidad>>(StatusCodes.Status200OK)
+.Produces<List<EspecialidadDTO>>(StatusCodes.Status200OK)
 .WithOpenApi();
 
-app.MapPost("/especialidades", (DTOs.Especialidad esp) =>
+app.MapPost("/especialidades", (EspecialidadDTO esp) =>
 {
     try
     {
         EspecialidadService espService = new EspecialidadService();
-        Especialidad especialidad = new Especialidad(esp.Id, esp.Descripcion);
+        EspecialidadDTO especialidad = new EspecialidadDTO(esp.Id, esp.Descripcion);
         espService.Add(especialidad);
 
-        var dtoResultado = new DTOs.Especialidad(especialidad.Id, especialidad.Descripcion);
+        var dtoResultado = new EspecialidadDTO(especialidad.Id, especialidad.Descripcion);
 
         return Results.Created($"/especialidades/{dtoResultado.Id}", dtoResultado);
     }
@@ -787,11 +787,11 @@ app.MapPost("/especialidades", (DTOs.Especialidad esp) =>
     }
 })
 .WithName("Addespecialidad")
-.Produces<DTOs.Especialidad>(StatusCodes.Status201Created)
+.Produces<EspecialidadDTO>(StatusCodes.Status201Created)
 .Produces(StatusCodes.Status400BadRequest)
 .WithOpenApi();
 
-app.MapPut("/especialidades/{id}", (int id, DTOs.Especialidad dto) =>
+app.MapPut("/especialidades/{id}", (int id, EspecialidadDTO dto) =>
 {
     try
     {
@@ -934,10 +934,10 @@ app.MapDelete("/inscripciones/{id}", (int id) =>
 app.MapGet("/usuarios/{id}", (int id) =>
 { 
     UsuarioService userService = new UsuarioService();
-    Usuario user = userService.Get(id);
+    UsuarioDTO user = userService.Get(id);
     if (user != null)
     {
-        var dto = new DTOs.Usuario(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
+        var dto = new UsuarioDTO(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
         return Results.Ok(dto);
     }
     else
@@ -946,7 +946,7 @@ app.MapGet("/usuarios/{id}", (int id) =>
     }
 })
 .WithName("GetUsuario")
-.Produces<DTOs.Usuario>(StatusCodes.Status200OK)
+.Produces<UsuarioDTO>(StatusCodes.Status200OK)
 .Produces(StatusCodes.Status404NotFound)
 .WithOpenApi();
 
@@ -954,22 +954,22 @@ app.MapGet("/usuarios", () =>
 {
     UsuarioService userService = new UsuarioService();
     var usuarios = userService.GetAll();
-    var dtos = usuarios.Select(p => new DTOs.Usuario(p.Id,p.NombreUsuario,p.Clave,p.Habilitado,p.IdPersona,p.CambiaClave)).ToList();
+    var dtos = usuarios.Select(p => new UsuarioDTO(p.Id,p.NombreUsuario,p.Clave,p.Habilitado,p.IdPersona,p.CambiaClave)).ToList();
     return Results.Ok(dtos);
 })
 .WithName("GetAllusuarios")
-.Produces<List<DTOs.Usuario>>(StatusCodes.Status200OK)
+.Produces<List<UsuarioDTO>>(StatusCodes.Status200OK)
 .WithOpenApi();
 
-app.MapPost("/usuarios", (DTOs.Usuario user) =>
+app.MapPost("/usuarios", (UsuarioDTO user) =>
 {
     try
     {
         UsuarioService userService = new UsuarioService();
-        Usuario usuario = new Usuario(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.CambiaClave,user.IdPersona);
+        UsuarioDTO usuario = new UsuarioDTO(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
         userService.Add(usuario);
 
-        var dtoResultado = new DTOs.Usuario(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
+        var dtoResultado = new UsuarioDTO(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
 
         return Results.Created($"/usuarios/{dtoResultado.Id}", dtoResultado);
     }
@@ -979,16 +979,16 @@ app.MapPost("/usuarios", (DTOs.Usuario user) =>
     }
 })
 .WithName("AddUsuario")
-.Produces<DTOs.Usuario>(StatusCodes.Status201Created)
+.Produces<UsuarioDTO>(StatusCodes.Status201Created)
 .Produces(StatusCodes.Status400BadRequest)
 .WithOpenApi();
 
-app.MapPut("/usuarios/{id}", (int id, DTOs.Usuario user) =>
+app.MapPut("/usuarios/{id}", (int id, UsuarioDTO user) =>
 {
     try
     {
         UsuarioService usuarioService = new UsuarioService();
-        Usuario usuario = new Usuario(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.CambiaClave,user.IdPersona);
+        UsuarioDTO usuario = new UsuarioDTO(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
 
         var found = usuarioService.Update(usuario);
         if (!found)

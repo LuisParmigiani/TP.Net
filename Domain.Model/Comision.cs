@@ -8,6 +8,11 @@
         
         public ICollection<Curso> Cursos { get; set; }
 
+        public Comision()
+        {
+            
+        }
+
         public Comision(int id, int anioEspecialidad, string descripcion, int idPlan) : base(id)
         {
             SetId(id);

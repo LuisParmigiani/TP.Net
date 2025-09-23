@@ -19,6 +19,11 @@ public class Persona : BusinessEntity
     //Cursos a los que va la persona. Solo para los alumnos
     public ICollection<Alumno_Inscripcion> Incripciones { get; set; }
 
+    public Persona()
+    {
+        
+    }
+
     public Persona(int id, string nombre, string apellido, string direccion, string email, string telefono,
         DateTime fechaNacimiento, int legajo, int tipoPersona, int idPlan) : base(id)
     {

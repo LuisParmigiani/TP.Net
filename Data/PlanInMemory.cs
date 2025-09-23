@@ -9,9 +9,7 @@ public static class PlanInMemory
         {
             Planes = new List<Plan>
             {
-                new Plan( 1 , "Plan 2025",1),
-                new Plan( 1 , "Plan 2026",2),
-                new Plan( 1 , "Plan 2027",3),
+                new Plan("plan 1", 1, 1)
                 
             };
         }

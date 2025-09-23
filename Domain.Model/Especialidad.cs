@@ -18,6 +18,10 @@ public class Especialidad : BusinessEntity
         }
     }
 
+    public Especialidad()
+    {
+        
+    }
     public Especialidad(int idEsp, string descripcion)
     {
         Id = idEsp;

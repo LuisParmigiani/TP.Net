@@ -1,15 +1,15 @@
 namespace DTOs;
 
-public class Especialidad
+public class EspecialidadDTO
 {
     public int Id { get; set; }
     public string Descripcion { get; set; }
 
-    public Especialidad()
+    public EspecialidadDTO()
     {
         
     }
-    public Especialidad(int id, string desc)
+    public EspecialidadDTO(int id, string desc)
     {
         Id = id;
         Descripcion = desc;

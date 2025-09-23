@@ -9,7 +9,11 @@ namespace Domain.Model
         public ICollection<Comision> Comisiones { get; set; }
         
         public ICollection<Persona> Alumnos { get; set; }
-        
+
+        public Plan()
+        {
+            
+        }
         public Plan(string desc, int idEspecialidad, int id) : base(id)
         {
             SetDescripcion(desc);
@@ -17,11 +21,6 @@ namespace Domain.Model
         
         }
 
-        public Plan(int idEspecialidad, string desc, int id) : base(id)
-        {
-            IdEspecialidad = idEspecialidad;
-            Descripcion = desc;
-        }
 
         public void SetDescripcion(string descripcion)
         {

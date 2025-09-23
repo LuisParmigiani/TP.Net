@@ -7,6 +7,10 @@ public class Alumno_Inscripcion : BusinessEntity
     public int Nota { get; private set; }
     public string Condicion { get; private set; }
 
+    public Alumno_Inscripcion()
+    {
+        
+    }
     public Alumno_Inscripcion(int idInsc, int idAlumno, int idCurso, int nota, string condicion)
     {
         SetId(idInsc);

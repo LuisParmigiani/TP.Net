@@ -8,9 +8,21 @@ public class TPIContext : DbContext
 {
     public DbSet<Modulo> Modulos { get; set; }
     public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Plan> Planes { get; set; }
+    public DbSet<ModuloUsuario> ModuloUsuarios { get; set; }
+    public DbSet<Especialidad> Especialidades { get; set; }
+    public DbSet<Comision> Comisiones { get; set; }
+    public DbSet<Materia> Materias { get; set; }
+    public DbSet<Curso> Cursos { get; set; }
+    public DbSet<Alumno_Inscripcion> Inscripciones { get; set; }
+    public DbSet<DocenteCurso> Dictados { get; set; }
+    public DbSet<Persona> Personas { get; set; }
 
     internal TPIContext()
     {
+        //La borramos para garantizar que en desarrollo siempre tenga los últimos cambios
+        //que le hacemos al modelo con EF
+        this.Database.EnsureDeleted();
         this.Database.EnsureCreated();
     }
 

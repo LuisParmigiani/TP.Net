@@ -11,6 +11,10 @@ public class Usuario : BusinessEntity
     
     public ICollection<Modulo> Modulos { get; set; } = new List<Modulo>();
 
+    public Usuario()
+    {
+        
+    }
     public Usuario(int id, string nombre, string clave, bool habilitado, bool cambiaClave, int idPersona)
     {
         SetId(id);

@@ -8,6 +8,11 @@
         public int IDPlan { get; private set; }
         
         public ICollection<Curso> Cursos { get; set; }
+
+        public Materia()
+        {
+            
+        }
         public Materia(int id, string descripcion, int hsSemanales, int hsTotales, int idPlan) : base(id)
         {
             SetDescripcion(descripcion);

@@ -14,8 +14,51 @@ namespace Data
         public void Add(Usuario usuario)
         {
             using var context = CreateContext();
-            context.Modulos.Add(usuario);
+            context.Usuarios.Add(usuario);
             context.SaveChanges();
         }
+        
+        public bool Delete(int id)
+        {
+            using var context = CreateContext();
+            var user = context.Usuarios.Find(id);
+            if (user != null)
+            {
+                context.Usuarios.Remove(user);
+                context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+        public Usuario? Get(int id)
+        {
+            using var context = CreateContext();
+            var usuario = context.Usuarios.Find(id);
+            return usuario;
+        }
+        public IEnumerable<Usuario> GetAll()
+        {
+            using var context = CreateContext();
+            return context.Usuarios.ToList();
+        }
+        public bool Update(Usuario usuario)
+        {
+            using var context = CreateContext();
+            var userExist = context.Usuarios.Find(usuario.Id);
+            if (userExist != null)
+            {
+                userExist.SetNombre(usuario.NombreUsuario);
+                userExist.SetIdPersona(usuario.IdPersona);
+                userExist.SetCambiaClave(usuario.CambiaClave);
+                userExist.SetClave(usuario.Clave);
+                userExist.SetHabilitado(usuario.Habilitado);
+
+                context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+        //Puede que en un futuro tengamos más 
     }
 }
