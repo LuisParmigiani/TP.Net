@@ -7,6 +7,9 @@ public class Usuario : BusinessEntity
     public bool Habilitado { get; private set; }
     public bool CambiaClave { get; private set; }
     public int IdPersona { get; private set; }
+    //Defino la colección de Modulos que va a tener un usuario
+    
+    public ICollection<Modulo> Modulos { get; set; } = new List<Modulo>();
 
     public Usuario(int id, string nombre, string clave, bool habilitado, bool cambiaClave, int idPersona)
     {

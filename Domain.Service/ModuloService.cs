@@ -2,7 +2,6 @@
 using Domain.Model;
 using Data;
 using DTOs;
-using ModuloUsuario = Domain.Model.ModuloUsuario;
 
 namespace Domain.Service;
 

@@ -5,6 +5,8 @@
         public int AnioEspecialidad { get; private set; }
         public string Descripcion { get; private set; }
         public int IDPlan { get; private set; }
+        
+        public ICollection<Curso> Cursos { get; set; }
 
         public Comision(int id, int anioEspecialidad, string descripcion, int idPlan) : base(id)
         {

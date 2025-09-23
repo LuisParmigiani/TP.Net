@@ -3,6 +3,8 @@ namespace Domain.Model;
 public class Especialidad : BusinessEntity
 {
     public string Descripcion { get; private set; }
+    
+    public ICollection<Plan> Planes { get; set; }
 
     public void SetDescripcion(string desc)
     {

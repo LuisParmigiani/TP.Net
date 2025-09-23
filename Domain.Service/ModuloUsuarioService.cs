@@ -1,4 +1,3 @@
-
 using Domain.Model;
 using Data;
 namespace Domain.Service;
@@ -56,4 +55,3 @@ public class ModuloUsuarioService
         }
     }
 }
- 

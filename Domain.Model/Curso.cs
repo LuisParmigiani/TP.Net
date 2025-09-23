@@ -10,6 +10,12 @@ public class Curso : BusinessEntity
     public string Descripcion { get; private set; }
     public int IdComision { get; private set; }
     public int IdMateria { get; private set; }
+    
+    public ICollection<Alumno_Inscripcion> Alumnos { get; private set; }
+    
+    public ICollection<DocenteCurso> DocentesCursos { get;  set; }
+    
+    
 
     public Curso(int anio, int cupo, string descripcion, int idComision, int idMateria,int id):base(id)
     {

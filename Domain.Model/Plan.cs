@@ -4,7 +4,12 @@ namespace Domain.Model
     {
         public string Descripcion { get; private set; }
         public int IdEspecialidad { get;  private set; }
-
+        
+        public ICollection<Materia> Materias { get; set; }
+        public ICollection<Comision> Comisiones { get; set; }
+        
+        public ICollection<Persona> Alumnos { get; set; }
+        
         public Plan(string desc, int idEspecialidad, int id) : base(id)
         {
             SetDescripcion(desc);

@@ -11,8 +11,13 @@ public class Persona : BusinessEntity
     public string Telefono { get; private set; }
     public DateTime FechaNacimiento { get; private set; }
     public int Legajo { get; private set; }
-    public int TipoPersona { get; private set; } // Puede ser usuario,alumno o docente
+    public int TipoPersona { get; private set; } // Puede ser alumno(2) o docente(1)
     public int IdPlan { get; private set; }
+    public ICollection<Usuario> Usuarios { get; set; }
+    //Cursos que dicta la persona. Solo para los profesores
+    public ICollection<DocenteCurso> Dictados { get; set; }
+    //Cursos a los que va la persona. Solo para los alumnos
+    public ICollection<Alumno_Inscripcion> Incripciones { get; set; }
 
     public Persona(int id, string nombre, string apellido, string direccion, string email, string telefono,
         DateTime fechaNacimiento, int legajo, int tipoPersona, int idPlan) : base(id)

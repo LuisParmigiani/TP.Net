@@ -29,7 +29,7 @@ public class ModuloUsuario : BusinessEntity
             IdModulo = idMod;
         }else
         {
-         throw new ArgumentException("El id del modulod debe ser mayor a 0");   
+            throw new ArgumentException("El id del modulod debe ser mayor a 0");   
         }
     }
 
@@ -45,9 +45,9 @@ public class ModuloUsuario : BusinessEntity
         }
     }
     public void SetAlta(bool alta)
-        {
+    {
         Alta = alta;
-        }
+    }
 
     public void SetBaja(bool baja)
     {

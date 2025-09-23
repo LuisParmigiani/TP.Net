@@ -1,15 +1,16 @@
 namespace Data;
 using Domain.Model;
 
-public static class ModuloUsuarioInMemory
+public static class ModuloInMemory
 {
-    public static List<ModuloUsuario> ModulosUsuarios;
+    public static List<Modulo> Modulos;
 
-    static ModuloUsuarioInMemory()
+    static ModuloInMemory()
     {
-        ModulosUsuarios = new List<ModuloUsuario>
+        Modulos = new List<Modulo>
         {
-            new ModuloUsuario(1,1,1,true,false,false,false)
+            new Modulo(1,"Modulo número 1","No se que iría acá"),
+            new Modulo(2,"Módulo número 2","Tampoco sé")
         };
     }
  
