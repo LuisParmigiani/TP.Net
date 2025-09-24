@@ -1,17 +1,17 @@
 namespace Domain.Model;
 
-public class Alumno_Inscripcion : BusinessEntity
+public class Inscripcion : BusinessEntity
 {
     public int IdAlumno { get; private set; }
     public int IdCurso { get; private set; }
     public int Nota { get; private set; }
     public string Condicion { get; private set; }
 
-    public Alumno_Inscripcion()
+    public Inscripcion()
     {
         
     }
-    public Alumno_Inscripcion(int idInsc, int idAlumno, int idCurso, int nota, string condicion)
+    public Inscripcion(int idInsc, int idAlumno, int idCurso, int nota, string condicion)
     {
         SetId(idInsc);
         SetIdAlumno(idAlumno);

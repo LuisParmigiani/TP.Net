@@ -12,7 +12,14 @@ namespace Domain.Service
         {
             var usuarioRepository = new UsuarioRepository();
             Usuario us = new Usuario(0,user.NombreUsuario,user.Clave,user.Habilitado,user.CambiaClave,user.IdPersona);
-            usuarioRepository.Add(us);
+            try
+            {
+                usuarioRepository.Add(us);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
             user.Id = us.Id;
 
@@ -58,8 +65,16 @@ namespace Domain.Service
         public bool Update(UsuarioDTO usuario)
         {
             var usRepo = new UsuarioRepository();
-            Usuario us = new Usuario(usuario.Id,usuario.NombreUsuario,usuario.Clave,usuario.Habilitado,usuario.CambiaClave,usuario.IdPersona);
-            return usRepo.Update(us);
+            try
+            {
+                Usuario us = new Usuario(usuario.Id, usuario.NombreUsuario, usuario.Clave, usuario.Habilitado,
+                    usuario.CambiaClave, usuario.IdPersona);
+                return usRepo.Update(us);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

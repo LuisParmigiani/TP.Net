@@ -1,6 +1,6 @@
 namespace DTOs;
 
-public class Alumno_Inscripcion
+public class InscripcionDTO
 {
     public int Id{get;set;}
     public int IdCurso{get;set;}
@@ -8,11 +8,11 @@ public class Alumno_Inscripcion
     public int Nota{get;set;}
     public string Condicion{get;set;}
 
-    public Alumno_Inscripcion()
+    public InscripcionDTO()
     {
         
     }
-    public Alumno_Inscripcion(int id, int idAlumno, int idCurso, int nota, string cond)
+    public InscripcionDTO(int id, int idAlumno, int idCurso, int nota, string cond)
     {
         Id = id;
         IdAlumno = idAlumno;

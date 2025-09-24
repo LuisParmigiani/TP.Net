@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace DTOs
 {
-    public class DocenteCurso
+    public class DictadoDTO
     {
         public int Id { get; set; }
         public string Cargo { get; set; }
         public int IDCurso { get; set; }
         public int IDDocente { get; set; }
 
-        public DocenteCurso()
+        public DictadoDTO()
         {
             
         }
 
-        public DocenteCurso(int id, string car, int idC, int idD)
+        public DictadoDTO(int id, string car, int idC, int idD)
         {
             Id = id;
             Cargo = car;

@@ -11,9 +11,9 @@ public class Curso : BusinessEntity
     public int IdComision { get; private set; }
     public int IdMateria { get; private set; }
     
-    public ICollection<Alumno_Inscripcion> Alumnos { get; private set; }
+    public ICollection<Inscripcion> Alumnos { get; private set; }
     
-    public ICollection<DocenteCurso> DocentesCursos { get;  set; }
+    public ICollection<Dictado> DocentesCursos { get;  set; }
 
     public Curso()
     {

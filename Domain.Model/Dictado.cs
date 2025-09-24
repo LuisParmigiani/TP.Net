@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
-    public class DocenteCurso : BusinessEntity
+    public class Dictado : BusinessEntity
     {
         public string Cargo { get; private set; }
         public int IDCurso { get; private set; }
         public int IDDocente { get; private set; }
 
-        public DocenteCurso()
+        public Dictado()
         {
             
         }
-    public DocenteCurso(int id, string cargo, int idCurso, int idDocente)
+    public Dictado(int id, string cargo, int idCurso, int idDocente)
     {
         SetId(id);
         SetCargo(cargo);

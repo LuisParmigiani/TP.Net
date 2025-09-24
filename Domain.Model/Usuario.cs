@@ -9,8 +9,6 @@ public class Usuario : BusinessEntity
     public int IdPersona { get; private set; }
     //Defino la colección de Modulos que va a tener un usuario
     
-    public ICollection<Modulo> Modulos { get; set; } = new List<Modulo>();
-
     public Usuario()
     {
         

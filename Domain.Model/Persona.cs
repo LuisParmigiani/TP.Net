@@ -15,9 +15,9 @@ public class Persona : BusinessEntity
     public int IdPlan { get; private set; }
     public ICollection<Usuario> Usuarios { get; set; }
     //Cursos que dicta la persona. Solo para los profesores
-    public ICollection<DocenteCurso> Dictados { get; set; }
+    public ICollection<Dictado> Dictados { get; set; }
     //Cursos a los que va la persona. Solo para los alumnos
-    public ICollection<Alumno_Inscripcion> Incripciones { get; set; }
+    public ICollection<Inscripcion> Incripciones { get; set; }
 
     public Persona()
     {

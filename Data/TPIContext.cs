@@ -6,16 +6,14 @@ namespace Data;
 
 public class TPIContext : DbContext
 {
-    public DbSet<Modulo> Modulos { get; set; }
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<Plan> Planes { get; set; }
-    public DbSet<ModuloUsuario> ModuloUsuarios { get; set; }
     public DbSet<Especialidad> Especialidades { get; set; }
     public DbSet<Comision> Comisiones { get; set; }
     public DbSet<Materia> Materias { get; set; }
     public DbSet<Curso> Cursos { get; set; }
-    public DbSet<Alumno_Inscripcion> Inscripciones { get; set; }
-    public DbSet<DocenteCurso> Dictados { get; set; }
+    public DbSet<Inscripcion> Inscripciones { get; set; }
+    public DbSet<Dictado> Dictados { get; set; }
     public DbSet<Persona> Personas { get; set; }
 
     internal TPIContext()
@@ -42,24 +40,6 @@ public class TPIContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<Modulo>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-            entity.Property(e => e.Id).ValueGeneratedOnAdd();
-            entity.Property(e => e.Descripcion)
-                .IsRequired()
-                .HasMaxLength(50);
-            entity.Property(e => e.Ejecuta)
-                .IsRequired()
-                .HasMaxLength(50);
-
-        });
-        modelBuilder.Entity<Modulo>().HasData(
-            new Modulo(1, "Modulo numero 1, hace algo", "Algun formulario random"),
-            new Modulo(2, "Modulo numero 2, hace nada", "Algun formulario random"),
-            new Modulo(3, "Modulo numero 3, hace algo", "Algun formulario random"),
-            new Modulo (4,"Modulo numero 4, hace nada","Algun formulario random")
-            );
         
         modelBuilder.Entity<Usuario>(entity =>
         {
@@ -74,25 +54,6 @@ public class TPIContext : DbContext
                 .WithMany(p => p.Usuarios)
                 .HasForeignKey(u => u.IdPersona)
                 .IsRequired();
-        });
-        modelBuilder.Entity<ModuloUsuario>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-            entity.HasOne<Usuario>()
-                .WithMany()
-                .HasForeignKey(e => e.IdUsuario)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .IsRequired();
-            entity.HasOne<Modulo>()
-                .WithMany()
-                .HasForeignKey(e => e.IdModulo)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .IsRequired();
-            entity.Property(mu => mu.Alta).HasDefaultValue(false);
-            entity.Property(mu => mu.Baja).HasDefaultValue(false);
-            entity.Property(mu => mu.Modificacion).HasDefaultValue(false);
-            entity.Property(mu => mu.Consulta).HasDefaultValue(false);
-            
         });
         modelBuilder.Entity<Especialidad>(entity =>
         {
@@ -164,7 +125,7 @@ public class TPIContext : DbContext
                 .HasForeignKey(cur => cur.IdMateria)
                 .IsRequired();
         });
-        modelBuilder.Entity<DocenteCurso>(entity =>
+        modelBuilder.Entity<Dictado>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
@@ -178,7 +139,7 @@ public class TPIContext : DbContext
                 .HasForeignKey(dc => dc.IDDocente)
                 .IsRequired();
         });
-        modelBuilder.Entity<Alumno_Inscripcion>(entity =>
+        modelBuilder.Entity<Inscripcion>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).ValueGeneratedOnAdd();

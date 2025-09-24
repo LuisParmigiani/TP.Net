@@ -14,6 +14,10 @@ namespace Data
         public void Add(Usuario usuario)
         {
             using var context = CreateContext();
+            if (context.Personas.Any(p => p.Id == usuario.IdPersona) != true)
+            {
+                throw new Exception("No se encontró una persona con el ID ingresado");
+            }
             context.Usuarios.Add(usuario);
             context.SaveChanges();
         }
@@ -48,11 +52,14 @@ namespace Data
             if (userExist != null)
             {
                 userExist.SetNombre(usuario.NombreUsuario);
+                if (context.Personas.Any(p => p.Id == usuario.IdPersona) != true)
+                {
+                    throw new Exception("No se encontró una persona con el ID ingresado");
+                }
                 userExist.SetIdPersona(usuario.IdPersona);
                 userExist.SetCambiaClave(usuario.CambiaClave);
                 userExist.SetClave(usuario.Clave);
                 userExist.SetHabilitado(usuario.Habilitado);
-
                 context.SaveChanges();
                 return true;
             }
