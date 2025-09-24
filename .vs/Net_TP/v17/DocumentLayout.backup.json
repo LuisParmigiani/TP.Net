@@ -7,20 +7,8 @@
       "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\usuariocrud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\tp.net\\winformsapp\\usuariocrud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\usuariocrud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\tp.net\\winformsapp\\usuariocrud.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\usuariocrud.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\tp.net\\winformsapp\\modulocrud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\modulocrud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\tp.net\\winformsapp\\docentecursocrud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\docentecursocrud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -44,14 +32,14 @@
               "RelativeDocumentMoniker": "WinFormsApp\\UsuarioCrud.cs",
               "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\TP.Net\\WinFormsApp\\UsuarioCrud.cs",
               "RelativeToolTip": "WinFormsApp\\UsuarioCrud.cs",
-              "ViewState": "AgIAAAQBAAAAAAAAAAAQwBkBAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAALIAAAAAAAAAAAAiwBkBAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-24T14:25:06Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "UsuarioCrud.Designer.cs",
               "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\TP.Net\\WinFormsApp\\UsuarioCrud.Designer.cs",
               "RelativeDocumentMoniker": "WinFormsApp\\UsuarioCrud.Designer.cs",
@@ -61,63 +49,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-24T14:01:24.378Z",
               "EditorCaption": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "2ed0e330-c043-4a98-843a-f62d3d01375e",
-        "Display": 2,
-        "X": 192,
-        "Y": 33,
-        "Width": 1657,
-        "Height": 883,
-        "WindowState": 0
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UsuarioCrud.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\TP.Net\\WinFormsApp\\UsuarioCrud.cs",
-              "RelativeDocumentMoniker": "WinFormsApp\\UsuarioCrud.cs",
-              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\TP.Net\\WinFormsApp\\UsuarioCrud.cs [Dise\u00F1o]",
-              "RelativeToolTip": "WinFormsApp\\UsuarioCrud.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-24T14:26:48.778Z",
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ModuloCrud.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\TP.Net\\WinFormsApp\\ModuloCrud.cs",
-              "RelativeDocumentMoniker": "WinFormsApp\\ModuloCrud.cs",
-              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\TP.Net\\WinFormsApp\\ModuloCrud.cs [Dise\u00F1o]",
-              "RelativeToolTip": "WinFormsApp\\ModuloCrud.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-24T13:59:09.355Z",
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DocenteCursoCrud.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\TP.Net\\WinFormsApp\\DocenteCursoCrud.cs",
-              "RelativeDocumentMoniker": "WinFormsApp\\DocenteCursoCrud.cs",
-              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\TP.Net\\WinFormsApp\\DocenteCursoCrud.cs [Dise\u00F1o]",
-              "RelativeToolTip": "WinFormsApp\\DocenteCursoCrud.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-24T12:43:55.698Z",
-              "EditorCaption": " [Dise\u00F1o]"
             }
           ]
         }
