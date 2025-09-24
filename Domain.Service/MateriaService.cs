@@ -1,53 +1,61 @@
 ﻿using Domain.Model;
 using Data;
+using DTOs;
 
-namespace Domain.Service {
-    public class MateriasService
+namespace Domain.Service
+{
+    public class MateriaService
     {
-        public void Add(Materia materia)
+        
+        public MateriaDTO Add(MateriaDTO mat)
         {
-            MateriaInMemory.Materias.Add(materia);
+            try
+            {
+                MateriaRepository matRepo = new MateriaRepository();
+                Materia materia = new Materia(0, mat.Descripcion, mat.HSSemanales, mat.HSTotales, mat.IdPlan);
+                matRepo.Add(materia);
+                mat.Id = materia.Id;
+                return mat;
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
         }
 
 
         public bool Delete(int id)
         {
-            Materia? materiaToDelete = MateriaInMemory.Materias.Find(x => x.Id == id);
-            if (materiaToDelete != null)
-            {
-                MateriaInMemory.Materias.Remove(materiaToDelete);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            MateriaRepository matRepo = new MateriaRepository();
+            return matRepo.Delete(id);
         }
 
-        public Materia Get(int id)
+        public MateriaDTO Get(int id)
         {
-            return MateriaInMemory.Materias.FirstOrDefault(x => x.Id == id);
+            MateriaRepository matRepo = new MateriaRepository();
+            Materia? mat = matRepo.Get(id);
+            if (mat == null)
+                return null;
+            return new MateriaDTO(mat.Id,mat.Descripcion,mat.HSSemanales,mat.HSTotales,mat.IDPlan);
         }
 
-        public IEnumerable<Materia> GetAll()
+        public IEnumerable<MateriaDTO> GetAll()
         {
-            return MateriaInMemory.Materias.ToList();
+            var matRepo = new MateriaRepository();
+            return matRepo.GetAll().Select(mat => new MateriaDTO(mat.Id,mat.Descripcion,mat.HSSemanales,mat.HSTotales,mat.IDPlan)).ToList();
         }
 
-        public bool Update(Materia materia)
+        public bool Update(Materia mat)
         {
-            var materiaToUpdate = MateriaInMemory.Materias.FirstOrDefault(x => x.Id == materia.Id);
-            if (materiaToUpdate != null)
-            {
-                materiaToUpdate.SetDescripcion(materia.Descripcion);
-                materiaToUpdate.SetHSSemanales(materia.HSSemanales);
-                materiaToUpdate.SetHSTotales(materia.HSTotales);
-                materiaToUpdate.SetIDPlan(materia.IDPlan);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var matRepo = new MateriaRepository();
+            Materia materini = new Materia(mat.Id,mat.Descripcion,mat.HSSemanales,mat.HSTotales,mat.IDPlan);
+            return matRepo.Update(materini);
         }
-    } }
+    }
+
+ 
+}

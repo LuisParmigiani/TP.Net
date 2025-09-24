@@ -22,7 +22,7 @@ public class TPIContext : DbContext
     {
         //La borramos para garantizar que en desarrollo siempre tenga los últimos cambios
         //que le hacemos al modelo con EF
-        this.Database.EnsureDeleted();
+        //this.Database.EnsureDeleted();
         this.Database.EnsureCreated();
     }
 
@@ -54,6 +54,13 @@ public class TPIContext : DbContext
                 .HasMaxLength(50);
 
         });
+        modelBuilder.Entity<Modulo>().HasData(
+            new Modulo(1, "Modulo numero 1, hace algo", "Algun formulario random"),
+            new Modulo(2, "Modulo numero 2, hace nada", "Algun formulario random"),
+            new Modulo(3, "Modulo numero 3, hace algo", "Algun formulario random"),
+            new Modulo (4,"Modulo numero 4, hace nada","Algun formulario random")
+            );
+        
         modelBuilder.Entity<Usuario>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -93,6 +100,12 @@ public class TPIContext : DbContext
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Descripcion).HasMaxLength(50).IsRequired();
         });
+        modelBuilder.Entity<Especialidad>().HasData(
+            new Especialidad(1, "Programación"),
+            new Especialidad(2, "Especialidad de Mecánica"),
+            new Especialidad(3, "Especialidad de Electrica"),
+            new Especialidad(4, "Especialidad de Química")
+            );
         modelBuilder.Entity<Plan>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -105,6 +118,12 @@ public class TPIContext : DbContext
                 .IsRequired();
             
         });
+        modelBuilder.Entity<Plan>().HasData(
+            new Plan("Ing en sistemas 2023",1,1),
+            new Plan("Ing Mecanica 2024",2,2),
+            new Plan("Ing Electrica 2023",3,3),
+            new Plan("Ing Química 2023",4,4)
+            );
         modelBuilder.Entity<Materia>(entity =>
         {
             entity.HasKey(e => e.Id);

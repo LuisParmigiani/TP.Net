@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace DTOs
 {
-    public class Comision
+    public class ComisionDTO
     {
         public int Id { get; set; }
         public int AnioEspecialidad { get; set; }
         public string Descripcion { get; set; }
         public int IDPlan { get; set; }
 
-        public Comision()
+        public ComisionDTO()
         {
             
         }
 
-        public Comision(int id, int anioEsp, string desc, int idPlan)
+        public ComisionDTO(int id, int anioEsp, string desc, int idPlan)
         {
             Id = id;
             AnioEspecialidad = anioEsp;

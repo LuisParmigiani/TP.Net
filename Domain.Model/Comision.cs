@@ -22,11 +22,14 @@
         }
         public void SetAnioEspecialidad(int anioEspecialidad)
         {
-            if (anioEspecialidad < 1900 || anioEspecialidad > DateTime.Now.Year + 1)
+            if (anioEspecialidad >= 1 && anioEspecialidad <= 5)
             {
-                throw new ArgumentException("El año de especialidad debe ser un año válido.");
+                AnioEspecialidad = anioEspecialidad;
             }
-            AnioEspecialidad = anioEspecialidad;
+            else
+            {
+                throw new ArgumentException("AnioEspecialidad especialidad no valido");
+            }
         }
         public void SetDescripcion(string descripcion)
         {

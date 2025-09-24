@@ -1,55 +1,56 @@
 using Domain.Model;
 using Data;
+using DTOs;
 
 namespace Domain.Service
 {
     public class PlanService
     {
-
-        public void Add(Plan plan)
+        
+        public PlanDTO Add(PlanDTO esp)
         {
-            PlanInMemory.Planes.Add(plan);
+            try
+            {
+                PlanRepository planRepo = new PlanRepository();
+                Plan plan = new Plan(esp.Descripcion, esp.IdEspecialidad, 0);
+                planRepo.Add(plan);
+                esp.Id = plan.Id;
+                return esp;
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
         }
 
 
         public bool Delete(int id)
         {
-            Plan? planToDelete = PlanInMemory.Planes.Find(x => x.Id == id);
-            if (planToDelete != null)
-            {
-                PlanInMemory.Planes.Remove(planToDelete);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            PlanRepository planRepo = new PlanRepository();
+            return planRepo.Delete(id);
         }
 
-        public Plan Get(int id)
+        public PlanDTO Get(int id)
         {
-            return PlanInMemory.Planes.FirstOrDefault(x => x.Id == id);
+            PlanRepository planRepo = new PlanRepository();
+            Plan? plan = planRepo.Get(id);
+            if (plan == null)
+                return null;
+            return new PlanDTO(plan.Id,plan.Descripcion,plan.IdEspecialidad);
         }
 
-        public IEnumerable<Plan> GetAll()
+        public IEnumerable<PlanDTO> GetAll()
         {
-            return PlanInMemory.Planes.ToList();
+            var planRepo = new PlanRepository();
+            return planRepo.GetAll().Select(e => new PlanDTO(e.Id, e.Descripcion,e.IdEspecialidad)).ToList();
         }
 
         public bool Update(Plan plan)
         {
-            var planToUpdate = PlanInMemory.Planes.FirstOrDefault(x => x.Id == plan.Id);
-            if (planToUpdate != null)
-            {
-                planToUpdate.SetDescripcion(plan.Descripcion);
-                planToUpdate.SetIdEspecialidad(plan.IdEspecialidad);
+            var planRepo = new PlanRepository();
+            Plan planini = new Plan(plan.Descripcion,plan.IdEspecialidad,0);
+            return planRepo.Update(planini);
             
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 

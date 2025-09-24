@@ -1,62 +1,75 @@
-﻿using Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Model;
+﻿using Domain.Model;
+using Data;
+using DTOs;
 
 namespace Domain.Service
 {
+    
     public class ComisionService
     {
-        public void Add(Comision comision)
+
+        public ComisionDTO Add(ComisionDTO com)
         {
-            ComisionInMemory.Comisiones.Add(comision);
+            var comRepo = new ComisionRepository();
+            Comision comi = new Comision(0,com.AnioEspecialidad,com.Descripcion,com.IDPlan);
+            try
+            {
+                comRepo.Add(comi);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            com.Id = comi.Id;
+
+            return com;
         }
+
 
         public bool Delete(int id)
         {
-            Comision? comisionToDelete = ComisionInMemory.Comisiones.Find(x => x.Id == id);
-            if (comisionToDelete != null)
-            {
-                ComisionInMemory.Comisiones.Remove(comisionToDelete);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var comRepo = new ComisionRepository();
+            return comRepo.Delete(id);
         }
 
-        public Comision Get(int id)
+        public ComisionDTO Get(int id)
         {
-            return ComisionInMemory.Comisiones.FirstOrDefault(x => x.Id == id);
+            var comRepository = new ComisionRepository();
+            Comision? comi = comRepository.Get(id);
+            if (comi == null)
+                return null;
+            return new ComisionDTO(
+                comi.Id,
+                comi.AnioEspecialidad,
+                comi.Descripcion,
+                comi.IDPlan
+            );
         }
 
-        public IEnumerable<Comision> GetAll()
+        public IEnumerable<ComisionDTO> GetAll()
         {
-            return ComisionInMemory.Comisiones.ToList();
+            var comRepo = new ComisionRepository();
+            return comRepo.GetAll().Select(comi => new ComisionDTO(
+                comi.Id,
+                comi.AnioEspecialidad,
+                comi.Descripcion,
+                comi.IDPlan
+            )).ToList();
         }
 
-        public bool Update(Comision comision)
+        public bool Update(ComisionDTO com)
         {
-            var comisionToUpdate = ComisionInMemory.Comisiones.FirstOrDefault(x => x.Id == comision.Id);
-            if (comisionToUpdate != null)
+            var comRepo = new ComisionRepository();
+            try
             {
-                comisionToUpdate.SetDescripcion(comision.Descripcion);
-                comisionToUpdate.SetAnioEspecialidad(comision.AnioEspecialidad);
-                comisionToUpdate.SetIDPlan(comision.IDPlan);
-                return true;
+            Comision comi = new Comision(0,com.AnioEspecialidad,com.Descripcion,com.IDPlan);
+                return comRepo.Update(comi);
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                throw new Exception(ex.Message);
             }
         }
     }
-}
-
-
-
-
+};

@@ -1,67 +1,88 @@
-
 using Domain.Model;
 using Data;
+using DTOs;
 
 namespace Domain.Service
 {
+    
     public class PersonaService
     {
 
-        public void Add(Persona per)
+        public PersonaDTO Add(PersonaDTO per)
         {
-            PersonaInMemory.Personas.Add(per);
+            var perRepo = new PersonaRepository();
+            Persona persona = new Persona(0,per.Nombre,per.Apellido,per.Direccion,per.Email,per.Telefono,per.FechaNacimiento,per.Legajo,per.TipoPersona,per.IdPlan);
+            try
+            {
+                perRepo.Add(persona);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            per.Id = persona.Id;
+
+            return per;
         }
 
 
         public bool Delete(int id)
         {
-            Persona? perToDelete = PersonaInMemory.Personas.Find(x => x.Id == id);
-            if (perToDelete != null)
-            {
-                PersonaInMemory.Personas.Remove(perToDelete);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var usuaRepository = new PersonaRepository();
+            return usuaRepository.Delete(id);
         }
 
-        public Persona Get(int id)
+        public PersonaDTO Get(int id)
         {
-            return PersonaInMemory.Personas.FirstOrDefault(x => x.Id == id);
+            var perRepo = new PersonaRepository();
+            Persona? persona = perRepo.Get(id);
+            if (persona == null)
+                return null;
+            return new PersonaDTO(
+                persona.Id,
+                persona.Nombre,
+                persona.Apellido,
+                persona.Direccion,
+                persona.Email,
+                persona.Telefono,
+                persona.FechaNacimiento,
+                persona.Legajo,
+                persona.TipoPersona,
+                persona.IdPlan
+            );
         }
 
-        public IEnumerable<Persona> GetAll()
+        public IEnumerable<PersonaDTO> GetAll()
         {
-            return PersonaInMemory.Personas.ToList();
+            var perRepo = new PersonaRepository();
+            return perRepo.GetAll().Select(persona => new PersonaDTO(
+                persona.Id,
+                persona.Nombre,
+                persona.Apellido,
+                persona.Direccion,
+                persona.Email,
+                persona.Telefono,
+                persona.FechaNacimiento,
+                persona.Legajo,
+                persona.TipoPersona,
+                persona.IdPlan
+            )).ToList();
         }
 
-        public bool Update(Persona persona)
+        public bool Update(PersonaDTO per)
         {
-            var personaToUpdate = PersonaInMemory.Personas.FirstOrDefault(x => x.Id == persona.Id);
-            if (personaToUpdate != null)
+            var perRepo = new PersonaRepository();
+            try
             {
-                personaToUpdate.SetNombre(persona.Nombre);
-                personaToUpdate.SetApellido(persona.Apellido);
-                personaToUpdate.SetDireccion(persona.Direccion);
-                personaToUpdate.SetTelefono(persona.Telefono);
-                personaToUpdate.SetEmail(persona.Email);
-                personaToUpdate.SetFechaNacimiento(persona.FechaNacimiento);
-                personaToUpdate.SetIdPlan(persona.IdPlan);
-                personaToUpdate.SetLegajo(persona.Legajo);
-                personaToUpdate.SetTipoPersona(persona.TipoPersona);
-                
-            
-                return true;
+                Persona persona = new Persona(0, per.Nombre, per.Apellido, per.Direccion, per.Email, per.Telefono,
+                    per.FechaNacimiento, per.Legajo, per.TipoPersona, per.IdPlan);
+                return perRepo.Update(persona);
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                throw new Exception(ex.Message);
             }
         }
     }
-
- 
-}
- 
+};

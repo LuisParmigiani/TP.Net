@@ -1,6 +1,6 @@
 namespace DTOs;
 
-public class Curso
+public class CursoDTO
 {
     public int Id { get; set; }
     public int AnioCalendario { get;  set; }
@@ -9,12 +9,12 @@ public class Curso
     public int IdComision { get;  set; }
     public int IdMateria { get; set; }
 
-    public Curso()
+    public CursoDTO()
     {
         
     }
 
-    public Curso(int id, int anio, int cupo, string desc, int idC, int idM)
+    public CursoDTO(int id, int anio, int cupo, string desc, int idC, int idM)
     {
         Id = id;
         AnioCalendario = anio;

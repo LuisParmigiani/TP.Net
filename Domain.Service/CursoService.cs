@@ -1,93 +1,79 @@
-
-using Data;
 using Domain.Model;
+using Data;
+using DTOs;
+
 namespace Domain.Service
-
 {
-
-
+    
     public class CursoService
     {
-        public void Add(Curso curso)
+
+        public CursoDTO Add(CursoDTO cur)
         {
-            CursoInMemory.Cursos.Add(curso);
+            var curRepo = new CursoRepository();
+            Curso curso = new Curso(cur.AnioCalendario, cur.Cupo, cur.Descripcion, cur.IdComision, cur.IdMateria, 0);
+            try
+            {
+                curRepo.Add(curso);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            cur.Id = curso.Id;
+
+            return cur;
         }
+
 
         public bool Delete(int id)
         {
-            Curso? cursoToDelete = CursoInMemory.Cursos.Find(c => c.Id == id);
-            if (cursoToDelete != null)
-            {
-                CursoInMemory.Cursos.Remove(cursoToDelete);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var curRepo = new CursoRepository();
+            return curRepo.Delete(id);
         }
 
-        public Curso Get(int id)
+        public CursoDTO Get(int id)
         {
-            Curso cur = CursoInMemory.Cursos.Find(c => c.Id == id);
-            if (cur != null)
-            {
-                return cur;
-            }
-            else
-            {
+            var curRepo = new CursoRepository();
+            Curso? curso = curRepo.Get(id);
+            if (curso == null)
                 return null;
-            }
-
+            return new CursoDTO(
+                curso.Id,
+                curso.AnioCalendario,
+                curso.Cupo,
+                curso.Descripcion,
+                curso.IdComision,
+                curso.IdMateria
+            );
         }
 
-        public IEnumerable<Curso> GetAll()
+        public IEnumerable<CursoDTO> GetAll()
         {
-            return CursoInMemory.Cursos.ToList();
+            var curRepo = new CursoRepository();
+            return curRepo.GetAll().Select(curso => new CursoDTO(
+                curso.Id,
+                curso.AnioCalendario,
+                curso.Cupo,
+                curso.Descripcion,
+                curso.IdComision,
+                curso.IdMateria
+            )).ToList();
         }
 
-        public IEnumerable<Curso> GetCursosPorDescripcion(string descripcion)
+        public bool Update(CursoDTO cur)
         {
-            return CursoInMemory.Cursos.Where(c => c.Descripcion.Contains(descripcion));
-        }
-
-        public bool Update(Curso curso)
-        {
-            Curso? cursoToUpdate = CursoInMemory.Cursos.Find(c => c.Id == curso.Id);
-
-            if (cursoToUpdate != null)
-            {
-                cursoToUpdate.SetAnioCalendario(curso.AnioCalendario);
-                cursoToUpdate.SetCupo(curso.Cupo);
-                cursoToUpdate.SetDescripcion(curso.Descripcion);
-                cursoToUpdate.SetIdComision(curso.IdComision);
-                cursoToUpdate.SetIdMateria(curso.IdMateria);
-
-                return true;
+            var curRepo = new CursoRepository();
+            try{
+            
+                Curso curso = new Curso(cur.AnioCalendario, cur.Cupo, cur.Descripcion, cur.IdComision, cur.IdMateria, 0);
+                return curRepo.Update(curso);
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                throw new Exception(ex.Message);
             }
         }
-
-        private static int GetNextId()
-        {
-            int nextId;
-
-            if (CursoInMemory.Cursos.Count > 0)
-            {
-                nextId = CursoInMemory.Cursos.Max(x => x.Id) + 1;
-            }
-            else
-            {
-                nextId = 1;
-            }
-
-            return nextId;
-        }
-
-
-
     }
-}
+};
