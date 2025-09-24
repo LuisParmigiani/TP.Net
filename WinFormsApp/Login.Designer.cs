@@ -34,6 +34,7 @@
             mailLabel = new Label();
             passLabel = new Label();
             LogIni = new Button();
+            Cruds = new Button();
             SuspendLayout();
             // 
             // registrarse
@@ -67,7 +68,7 @@
             mailLabel.AutoSize = true;
             mailLabel.Location = new Point(129, 124);
             mailLabel.Name = "mailLabel";
-            mailLabel.Size = new Size(58, 15);
+            mailLabel.Size = new Size(30, 15);
             mailLabel.TabIndex = 5;
             mailLabel.Text = "Mail";
             mailLabel.Click += mailLabel_Click;
@@ -77,7 +78,7 @@
             passLabel.AutoSize = true;
             passLabel.Location = new Point(133, 208);
             passLabel.Name = "passLabel";
-            passLabel.Size = new Size(58, 15);
+            passLabel.Size = new Size(67, 15);
             passLabel.TabIndex = 6;
             passLabel.Text = "Contraseña";
             passLabel.Click += passLabel_Click;
@@ -92,11 +93,22 @@
             LogIni.UseVisualStyleBackColor = true;
             LogIni.Click += LogIni_Click;
             // 
+            // Cruds
+            // 
+            Cruds.Location = new Point(129, 406);
+            Cruds.Name = "Cruds";
+            Cruds.Size = new Size(538, 32);
+            Cruds.TabIndex = 7;
+            Cruds.Text = "Cruds";
+            Cruds.UseVisualStyleBackColor = true;
+            Cruds.Click += Cruds_Click;
+            // 
             // Login
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(Cruds);
             Controls.Add(LogIni);
             Controls.Add(passLabel);
             Controls.Add(mailLabel);
@@ -118,5 +130,6 @@
         private Label mailLabel;
         private Label passLabel;
         private Button LogIni;
+        private Button Cruds;
     }
 }
