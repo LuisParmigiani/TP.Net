@@ -1,0 +1,34 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+@code { 
+    [Parameter]
+    private string user;
+    private string password;
+
+
+    private void Login()
+    {
+        Console.WriteLine($"Usuario: {user}, Contraseña: {password}");
+    }
+}
+
+<h1>Web de alumnado </h1>
+<div class="text-center">
+    <img src="images/Students.png" alt="Students" />
+    <div>
+        <h3>Bienvenido a la web de alumnado</h3>
+        <div>
+            <label for="user" Name="user">Usuario:</label>
+            <input @bind="user" name="User" placeholder="Usuario" />
+        </div>
+        <div>
+            <label for="password" Name="password">Contraseña:</label>
+            <input @bind="password" name="Password" placeholder="Contraseña" type="password" />
+        </div>
+        <div>
+            <button @onclick="Login">Login</button>
+        </div>
+
+    </div>
+</div>

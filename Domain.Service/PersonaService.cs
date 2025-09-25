@@ -75,7 +75,7 @@ namespace Domain.Service
             var perRepo = new PersonaRepository();
             try
             {
-                Persona persona = new Persona(0, per.Nombre, per.Apellido, per.Direccion, per.Email, per.Telefono,
+                Persona persona = new Persona(per.Id, per.Nombre, per.Apellido, per.Direccion, per.Email, per.Telefono,
                     per.FechaNacimiento, per.Legajo, per.TipoPersona, per.IdPlan);
                 return perRepo.Update(persona);
             }

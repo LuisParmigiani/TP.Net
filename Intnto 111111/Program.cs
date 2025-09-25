@@ -12,14 +12,17 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Your API", Version = "v1" });
     c.TagActionsBy(api => new[] { api.GroupName });
-});builder.Services.AddHttpLogging(o => { });
+});
 
+builder.Services.AddHttpLogging(o => { });
+
+// Minimal CORS policy to allow calls from the WebApp development URL
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowBlazorWasm",
         policy =>
         {
-            policy.WithOrigins("http://localhost:7170", "https://localhost:5076")
+            policy.WithOrigins("http://localhost:5246", "http://localhost:5183")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
@@ -30,11 +33,16 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseHttpLogging();
 }
+
 app.UseHttpsRedirection();
+
+// Enable CORS so the Blazor app can call this API
+app.UseCors("AllowBlazorWasm");
 //Dictado
 app.MapDictadoEndpoints();
 //comision 

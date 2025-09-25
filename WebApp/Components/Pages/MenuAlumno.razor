@@ -1,0 +1,87 @@
+﻿@page "/MenuAlumno/{int: id?}"
+
+@inject NavigationManager Navigation
+
+<h3>MenuAlumno</h3>
+
+@code {
+    [Parameter]
+    public int Page { get; set; } = 1;
+    private void Sec(int sec)
+    {
+        var url = sec == 0 ? "/MenuAlumno" : $"/MenuAlumno/{sec}";
+        Navigation.NavigateTo(url);
+    }
+}
+@if (Page == 0)
+{
+    <div>
+        <button @onclick="() => Sec(1)">Inscripcion materias</button>
+        <button @onclick="() => Sec(2)">Ver notas</button>
+        <button @onclick="() => Sec(3)">Estado Academico</button>
+    </div>
+}
+else if(Page == 1)
+{
+    <div>
+        <h3>Inscripcion materias</h3>
+        <button @onclick="() => Sec(0)">Volver</button>
+    </div>
+}
+else if(Page == 2)
+{
+    <div>
+        <h3>Ver notas</h3>
+        <table>          
+             <thead>        
+                <tr>         
+                  <th>Materias</th> 
+                  <th>Notas</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (int i = 0; i < 5; i++)
+                {
+                    <tr>
+                        <td> Materia {i}</td>
+                        <td> Nota {i}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button @onclick="() => Sec(0)">Volver</button>
+    </div>
+}
+else if(Page == 3)
+{
+    <div>
+        <h3>Estado Academico</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Materias</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 5; i++)
+                {
+                    <tr>
+                        <td> Materia {i}</td>
+                        <td> Esatdo: --- si aprobada nota :  {i}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button @onclick="() => Sec(0)">Volver</button>
+         
+    </div>
+}
+else
+{
+    <div>
+        <button @onclick="() => Sec(0)">Volver</button>
+    </div>
+}
+
+
