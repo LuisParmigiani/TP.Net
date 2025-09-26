@@ -7,28 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace WinFormsApp
 {
     public partial class AlumnoInscripcionCrud : Form
     {
-        // Agrega la declaración del ComboBox 'cmbModificarCondicion' como un campo de la clase AlumnoInscripcionCrud.
-        // Esto soluciona el error CS0103 asegurando que el control exista en el contexto actual.
-        // Si el control ya existe en el diseñador, asegúrate de que su nombre coincida exactamente.
-
-        private ComboBox cmbModificarCondicion;
-        // Agrega la declaración del ComboBox 'cmbCrearCondicion' como un campo de la clase AlumnoInscripcionCrud.
-        // Esto soluciona el error CS0103 asegurando que el control exista en el contexto actual.
-        // Si el control ya existe en el diseñador, asegúrate de que su nombre coincida exactamente.
-
-        private ComboBox cmbCrearCondicion;
-
         public AlumnoInscripcionCrud()
         {
             InitializeComponent();
-
-
         }
+
+        private readonly HttpClient _httpClient = new()
+        {
+            BaseAddress = new Uri("http://localhost:5183")
+        };
+
+        // DTO local que refleja InscripcionDTO del servidor
+        private record InscripcionDto(int Id, int IdAlumno, int IdCurso, int Nota, string Condicion);
 
         private void txtCrearIdAlumno_TextChanged(object sender, EventArgs e)
         {
@@ -185,12 +182,13 @@ namespace WinFormsApp
             }
         }
 
-        private void btnCrearCrear_Click(object sender, EventArgs e)
+        // Crear inscripcion -> POST /inscripciones
+        private async void btnCrearCrear_Click(object sender, EventArgs e)
         {
             var idAlumnoText = txtCrearIdAlumno.Text;
             var idCursoText = txtCrearIdCurso.Text;
             var notaText = txtCrearNota.Text;
-            string condicion = null; // Declarar la variable 'condicion' antes de usarla
+            string condicion = null;
 
             if (radioCrearRegular.Checked)
             {
@@ -204,19 +202,40 @@ namespace WinFormsApp
             {
                 condicion = "aprobado";
             }
+
             if (string.IsNullOrEmpty(idAlumnoText) || string.IsNullOrEmpty(idCursoText) || string.IsNullOrEmpty(notaText) || string.IsNullOrEmpty(condicion))
             {
                 MessageBox.Show("Por favor, complete todos los campos.");
                 return;
             }
+
             int idAlumno = int.Parse(idAlumnoText);
             int idCurso = int.Parse(idCursoText);
             int nota = int.Parse(notaText);
-            // Aquí puedes agregar la lógica para crear la inscripción del alumno
-            MessageBox.Show($"Inscripción creada:\nID Alumno: {idAlumno}\nID Curso: {idCurso}\nNota: {nota}\nCondición: {condicion}");
+
+            try
+            {
+                var dto = new InscripcionDto(0, idAlumno, idCurso, nota, condicion);
+                var response = await _httpClient.PostAsJsonAsync("/inscripciones", dto);
+                if (response.IsSuccessStatusCode)
+                {
+                    var created = await response.Content.ReadFromJsonAsync<InscripcionDto>();
+                    MessageBox.Show($"Inscripción creada. ID: {created?.Id}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error al crear: {response.StatusCode} - {content}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"No se pudo conectar con la API: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void btnModificarBuscar_Click(object sender, EventArgs e)
+        // Buscar para modificar -> GET /inscripciones/{id}
+        private async void btnModificarBuscar_Click(object sender, EventArgs e)
         {
             var idText = txtModificarId.Text;
             if (string.IsNullOrEmpty(idText))
@@ -224,41 +243,55 @@ namespace WinFormsApp
                 MessageBox.Show("Por favor, ingrese un ID para buscar.");
                 return;
             }
-            int id = int.Parse(idText);
-            // Aquí puedes agregar la lógica para buscar la inscripción del alumno por ID
-            txtModificarIdAlumno.Text = "1"; // Ejemplo de ID Alumno
-            txtModificarIdCurso.Text = "101"; // Ejemplo de ID Curso
-            txtModificarIdNota.Text = "8"; // Ejemplo de Nota
-            string condicion = "aprobado";
 
-            if (condicion == "regular")
+            if (!int.TryParse(idText, out int id))
             {
-                radioMoificarRegular.Checked = true;
-                radioMoificarRegular.Checked = false;
-                radioMoificarAprobado.Checked = false;
-            }
-            else if (condicion == "libre")
-            {
-                radioMoificarRegular.Checked = false;
-                radioMoificarLibre.Checked = true;
-                radioMoificarAprobado.Checked = false;
-            }
-            else if (condicion == "aprobado")
-            {
-                radioMoificarRegular.Checked = false;
-                radioMoificarLibre.Checked = false;
-                radioMoificarAprobado.Checked = true;
+                MessageBox.Show("ID inválido.");
+                return;
             }
 
+            try
+            {
+                var response = await _httpClient.GetAsync($"/inscripciones/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var insc = await response.Content.ReadFromJsonAsync<InscripcionDto>();
+                    if (insc != null)
+                    {
+                        txtModificarIdAlumno.Text = insc.IdAlumno.ToString();
+                        txtModificarIdCurso.Text = insc.IdCurso.ToString();
+                        txtModificarIdNota.Text = insc.Nota.ToString();
+
+                        radioMoificarRegular.Checked = insc.Condicion == "regular";
+                        radioMoificarLibre.Checked = insc.Condicion == "libre";
+                        radioMoificarAprobado.Checked = insc.Condicion == "aprobado";
+
+                        MessageBox.Show("Inscripción encontrada.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    MessageBox.Show("Inscripción no encontrada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show($"Error al consultar la API: {response.StatusCode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"No se pudo conectar con la API: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void btnModificarModificar_Click(object sender, EventArgs e)
+        // Modificar inscripcion -> PUT /inscripciones/{id}
+        private async void btnModificarModificar_Click(object sender, EventArgs e)
         {
             var idText = txtModificarId.Text;
             var idAlumnoText = txtModificarIdAlumno.Text;
             var idCursoText = txtModificarIdCurso.Text;
             var notaText = txtModificarIdNota.Text;
-            string condicion = null; // Declarar la variable 'condicion' antes de usarla
+            string condicion = null;
 
             if (radioMoificarRegular.Checked)
             {
@@ -272,21 +305,48 @@ namespace WinFormsApp
             {
                 condicion = "aprobado";
             }
+
             if (string.IsNullOrEmpty(idText) || string.IsNullOrEmpty(idAlumnoText) || string.IsNullOrEmpty(idCursoText) || string.IsNullOrEmpty(notaText) || string.IsNullOrEmpty(condicion))
             {
                 MessageBox.Show("Por favor, complete todos los campos.");
                 return;
             }
-            int id = int.Parse(idText);
-            int idAlumno = int.Parse(idAlumnoText);
-            int idCurso = int.Parse(idCursoText);
-            int nota = int.Parse(notaText);
-            // Aquí puedes agregar la lógica para modificar la inscripción del alumno
-            MessageBox.Show($"Inscripción modificada:\nID: {id}\nID Alumno: {idAlumno}\nID Curso: {idCurso}\nNota: {nota}\nCondición: {condicion}");
 
+            if (!int.TryParse(idText, out int id) ||
+                !int.TryParse(idAlumnoText, out int idAlumno) ||
+                !int.TryParse(idCursoText, out int idCurso) ||
+                !int.TryParse(notaText, out int nota))
+            {
+                MessageBox.Show("Algunos valores numéricos son inválidos.");
+                return;
+            }
+
+            try
+            {
+                var dto = new InscripcionDto(id, idAlumno, idCurso, nota, condicion);
+                var response = await _httpClient.PutAsJsonAsync($"/inscripciones/{id}", dto);
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Inscripción modificada.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    MessageBox.Show("Inscripción no encontrada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error al modificar: {response.StatusCode} - {content}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"No se pudo conectar con la API: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void btnBuscarBuscarId_Click(object sender, EventArgs e)
+        // Buscar para visualizar -> GET /inscripciones/{id}
+        private async void btnBuscarBuscarId_Click(object sender, EventArgs e)
         {
             var idText = txtBuscarBuscarId.Text;
             if (string.IsNullOrEmpty(idText))
@@ -294,35 +354,49 @@ namespace WinFormsApp
                 MessageBox.Show("Por favor, ingrese un ID para buscar.");
                 return;
             }
-            int id = int.Parse(idText);
-            txtBuscarIdAlumno.Text = "1"; // Ejemplo de ID Alumno
-            txtBuscarIdCurso.Text = "101"; // Ejemplo de ID Curso
-            txtBuscarNota.Text = "8"; // Ejemplo de Nota
-            string condicion = "aprobado";
 
-            if (condicion == "regular")
+            if (!int.TryParse(idText, out int id))
             {
-                RadioBuscarRegular.Checked = true;
-                RadioBuscarRegular.Checked = false;
-                RadioBuscarAprobado.Checked = false;
-            }
-            else if (condicion == "libre")
-            {
-                RadioBuscarRegular.Checked = false;
-                RadioBuscarLibre.Checked = true;
-                RadioBuscarAprobado.Checked = false;
-            }
-            else if (condicion == "aprobado")
-            {
-                RadioBuscarRegular.Checked = false;
-                RadioBuscarLibre.Checked = false;
-                RadioBuscarAprobado.Checked = true;
+                MessageBox.Show("ID inválido.");
+                return;
             }
 
+            try
+            {
+                var response = await _httpClient.GetAsync($"/inscripciones/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var insc = await response.Content.ReadFromJsonAsync<InscripcionDto>();
+                    if (insc != null)
+                    {
+                        txtBuscarIdAlumno.Text = insc.IdAlumno.ToString();
+                        txtBuscarIdCurso.Text = insc.IdCurso.ToString();
+                        txtBuscarNota.Text = insc.Nota.ToString();
 
+                        RadioBuscarRegular.Checked = insc.Condicion == "regular";
+                        RadioBuscarLibre.Checked = insc.Condicion == "libre";
+                        RadioBuscarAprobado.Checked = insc.Condicion == "aprobado";
+
+                        MessageBox.Show("Inscripción encontrada.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    MessageBox.Show("Inscripción no encontrada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show($"Error al consultar la API: {response.StatusCode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"No se pudo conectar con la API: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void btnEliminarBuscar_Click(object sender, EventArgs e)
+        // Eliminar -> DELETE /inscripciones/{id}
+        private async void btnEliminarBuscar_Click(object sender, EventArgs e)
         {
             var id = txtEliminarId;
             if (string.IsNullOrEmpty(id.Text))
@@ -330,10 +404,50 @@ namespace WinFormsApp
                 MessageBox.Show("Por favor, ingrese un ID para buscar.");
                 return;
             }
-            int idEliminar = int.Parse(id.Text);
-            // Aquí puedes agregar la lógica para buscar la inscripción del alumno por ID
-            MessageBox.Show($"Inscripción con ID {idEliminar} encontrada.");
 
+            if (!int.TryParse(id.Text, out int idEliminar))
+            {
+                MessageBox.Show("ID inválido.");
+                return;
+            }
+
+            try
+            {
+                var response = await _httpClient.GetAsync($"/inscripciones/{idEliminar}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var insc = await response.Content.ReadFromJsonAsync<InscripcionDto>();
+                    var confirm = MessageBox.Show($"Inscripción encontrada (Alumno {insc?.IdAlumno}, Curso {insc?.IdCurso}). ¿Desea eliminarla?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (confirm == DialogResult.Yes)
+                    {
+                        var delResp = await _httpClient.DeleteAsync($"/inscripciones/{idEliminar}");
+                        if (delResp.IsSuccessStatusCode)
+                        {
+                            MessageBox.Show("Inscripción eliminada.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else if (delResp.StatusCode == System.Net.HttpStatusCode.NotFound)
+                        {
+                            MessageBox.Show("Inscripción no encontrada al intentar eliminar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Error al eliminar: {delResp.StatusCode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    MessageBox.Show("Inscripción no encontrada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show($"Error al consultar la API: {response.StatusCode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"No se pudo conectar con la API: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void Volver_Click(object sender, EventArgs e)

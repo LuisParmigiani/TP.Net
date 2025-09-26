@@ -13,6 +13,8 @@
     <ProjectReference Include="..\Domain.Model\Domain.Model.csproj" />
     <ProjectReference Include="..\Domain.Service\Domain.Service.csproj" />
     <ProjectReference Include="..\DTOs\DTOs.csproj" />
+    <ProjectReference Include="..\Intnto 111111\WebApi.csproj" />
+    <ProjectReference Include="..\WebApp\WebApp.csproj" />
   </ItemGroup>
 
 </Project>

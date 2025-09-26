@@ -117,7 +117,7 @@
             PanelEliminar.Controls.Add(txtEliminarId);
             PanelEliminar.Controls.Add(LabelEliminarId);
             PanelEliminar.Controls.Add(btnEliminarBuscar);
-            PanelEliminar.Location = new Point(39, 89);
+            PanelEliminar.Location = new Point(769, 340);
             PanelEliminar.Name = "PanelEliminar";
             PanelEliminar.Size = new Size(679, 245);
             PanelEliminar.TabIndex = 7;
@@ -162,7 +162,7 @@
             PanelModificar.Controls.Add(txtModificarId);
             PanelModificar.Controls.Add(labelModificarId);
             PanelModificar.Controls.Add(btnModificarBuscar);
-            PanelModificar.Location = new Point(39, 92);
+            PanelModificar.Location = new Point(42, 340);
             PanelModificar.Name = "PanelModificar";
             PanelModificar.Size = new Size(679, 245);
             PanelModificar.TabIndex = 6;
@@ -362,7 +362,7 @@
             PanelCrear.Controls.Add(labelCrearAnoEspecialidad);
             PanelCrear.Controls.Add(labelCrearDecripcion);
             PanelCrear.Controls.Add(btnCrearCrear);
-            PanelCrear.Location = new Point(39, 89);
+            PanelCrear.Location = new Point(769, 89);
             PanelCrear.Name = "PanelCrear";
             PanelCrear.Size = new Size(679, 245);
             PanelCrear.TabIndex = 4;
@@ -431,12 +431,13 @@
             // 
             // Volver
             // 
-            Volver.Location = new Point(45, 358);
+            Volver.Location = new Point(652, 36);
             Volver.Name = "Volver";
             Volver.Size = new Size(676, 23);
             Volver.TabIndex = 8;
             Volver.Text = "Volver";
             Volver.UseVisualStyleBackColor = true;
+            Volver.Click += Volver_Click;
             // 
             // ComisionCrud
             // 

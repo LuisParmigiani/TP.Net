@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using System.Windows.Forms;
 using System.Drawing;
 
 namespace WinFormsApp
@@ -51,6 +52,8 @@ namespace WinFormsApp
             btnModificar = new Button();
             btnBorrar = new Button();
             panelCrear = new Panel();
+            txtCrearLegajo = new TextBox();
+            labelCrearLegajo = new Label();
             dateTimePicker1 = new DateTimePicker();
             lblCrearFechaNac = new Label();
             lblCrearTipoUsuario = new Label();
@@ -113,6 +116,12 @@ namespace WinFormsApp
             txtIdBorrar = new TextBox();
             btnBorrarBorrar = new Button();
             btnVolver = new Button();
+            labelCrearIdPlan = new Label();
+            labelBuscarIdPlan = new Label();
+            labelModificarIdPlan = new Label();
+            txtCrearIdPlan = new TextBox();
+            txtBuscarIdPlan = new TextBox();
+            txtModificarIdPlan = new TextBox();
             panelCrear.SuspendLayout();
             panelBuscar.SuspendLayout();
             panelModificar.SuspendLayout();
@@ -158,6 +167,10 @@ namespace WinFormsApp
             // panelCrear
             // 
             panelCrear.BorderStyle = BorderStyle.FixedSingle;
+            panelCrear.Controls.Add(txtCrearIdPlan);
+            panelCrear.Controls.Add(labelCrearIdPlan);
+            panelCrear.Controls.Add(txtCrearLegajo);
+            panelCrear.Controls.Add(labelCrearLegajo);
             panelCrear.Controls.Add(dateTimePicker1);
             panelCrear.Controls.Add(lblCrearFechaNac);
             panelCrear.Controls.Add(lblCrearTipoUsuario);
@@ -174,14 +187,30 @@ namespace WinFormsApp
             panelCrear.Controls.Add(lblNombreCrear);
             panelCrear.Controls.Add(txtNombreCrear);
             panelCrear.Controls.Add(btnGuardarCrear);
-            panelCrear.Location = new Point(20, 70);
+            panelCrear.Location = new Point(665, 70);
             panelCrear.Name = "panelCrear";
             panelCrear.Size = new Size(582, 327);
             panelCrear.TabIndex = 4;
             // 
+            // txtCrearLegajo
+            // 
+            txtCrearLegajo.Location = new Point(116, 106);
+            txtCrearLegajo.Name = "txtCrearLegajo";
+            txtCrearLegajo.Size = new Size(347, 23);
+            txtCrearLegajo.TabIndex = 17;
+            // 
+            // labelCrearLegajo
+            // 
+            labelCrearLegajo.AutoSize = true;
+            labelCrearLegajo.Location = new Point(20, 109);
+            labelCrearLegajo.Name = "labelCrearLegajo";
+            labelCrearLegajo.Size = new Size(42, 15);
+            labelCrearLegajo.TabIndex = 16;
+            labelCrearLegajo.Text = "Legajo";
+            // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(116, 202);
+            dateTimePicker1.Location = new Point(116, 230);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(347, 23);
             dateTimePicker1.TabIndex = 15;
@@ -189,7 +218,7 @@ namespace WinFormsApp
             // lblCrearFechaNac
             // 
             lblCrearFechaNac.AutoSize = true;
-            lblCrearFechaNac.Location = new Point(20, 205);
+            lblCrearFechaNac.Location = new Point(20, 233);
             lblCrearFechaNac.Name = "lblCrearFechaNac";
             lblCrearFechaNac.Size = new Size(59, 15);
             lblCrearFechaNac.TabIndex = 14;
@@ -198,7 +227,7 @@ namespace WinFormsApp
             // lblCrearTipoUsuario
             // 
             lblCrearTipoUsuario.AutoSize = true;
-            lblCrearTipoUsuario.Location = new Point(20, 237);
+            lblCrearTipoUsuario.Location = new Point(16, 261);
             lblCrearTipoUsuario.Name = "lblCrearTipoUsuario";
             lblCrearTipoUsuario.Size = new Size(71, 15);
             lblCrearTipoUsuario.TabIndex = 13;
@@ -207,7 +236,7 @@ namespace WinFormsApp
             // RadioAlumno
             // 
             RadioAlumno.AutoSize = true;
-            RadioAlumno.Location = new Point(369, 235);
+            RadioAlumno.Location = new Point(365, 259);
             RadioAlumno.Name = "RadioAlumno";
             RadioAlumno.Size = new Size(98, 19);
             RadioAlumno.TabIndex = 12;
@@ -218,7 +247,7 @@ namespace WinFormsApp
             // RadioProfesor
             // 
             RadioProfesor.AutoSize = true;
-            RadioProfesor.Location = new Point(125, 235);
+            RadioProfesor.Location = new Point(121, 259);
             RadioProfesor.Name = "RadioProfesor";
             RadioProfesor.Size = new Size(99, 19);
             RadioProfesor.TabIndex = 11;
@@ -229,7 +258,7 @@ namespace WinFormsApp
             // lblCrearTelefono
             // 
             lblCrearTelefono.AutoSize = true;
-            lblCrearTelefono.Location = new Point(20, 167);
+            lblCrearTelefono.Location = new Point(20, 201);
             lblCrearTelefono.Name = "lblCrearTelefono";
             lblCrearTelefono.Size = new Size(53, 15);
             lblCrearTelefono.TabIndex = 10;
@@ -238,7 +267,7 @@ namespace WinFormsApp
             // lblCrearEmail
             // 
             lblCrearEmail.AutoSize = true;
-            lblCrearEmail.Location = new Point(20, 129);
+            lblCrearEmail.Location = new Point(26, 143);
             lblCrearEmail.Name = "lblCrearEmail";
             lblCrearEmail.Size = new Size(36, 15);
             lblCrearEmail.TabIndex = 9;
@@ -247,7 +276,7 @@ namespace WinFormsApp
             // lblCrearDireccion
             // 
             lblCrearDireccion.AutoSize = true;
-            lblCrearDireccion.Location = new Point(20, 92);
+            lblCrearDireccion.Location = new Point(20, 77);
             lblCrearDireccion.Name = "lblCrearDireccion";
             lblCrearDireccion.Size = new Size(57, 15);
             lblCrearDireccion.TabIndex = 8;
@@ -255,7 +284,7 @@ namespace WinFormsApp
             // 
             // txtCrearTelefono
             // 
-            txtCrearTelefono.Location = new Point(116, 164);
+            txtCrearTelefono.Location = new Point(116, 201);
             txtCrearTelefono.Name = "txtCrearTelefono";
             txtCrearTelefono.Size = new Size(347, 23);
             txtCrearTelefono.TabIndex = 7;
@@ -263,7 +292,7 @@ namespace WinFormsApp
             // 
             // txtCrearEmail
             // 
-            txtCrearEmail.Location = new Point(116, 126);
+            txtCrearEmail.Location = new Point(116, 135);
             txtCrearEmail.Name = "txtCrearEmail";
             txtCrearEmail.Size = new Size(347, 23);
             txtCrearEmail.TabIndex = 6;
@@ -271,14 +300,14 @@ namespace WinFormsApp
             // 
             // txtCrearDireccion
             // 
-            txtCrearDireccion.Location = new Point(116, 89);
+            txtCrearDireccion.Location = new Point(116, 77);
             txtCrearDireccion.Name = "txtCrearDireccion";
             txtCrearDireccion.Size = new Size(347, 23);
             txtCrearDireccion.TabIndex = 5;
             // 
             // txtCrearApellido
             // 
-            txtCrearApellido.Location = new Point(116, 49);
+            txtCrearApellido.Location = new Point(116, 46);
             txtCrearApellido.Name = "txtCrearApellido";
             txtCrearApellido.Size = new Size(347, 23);
             txtCrearApellido.TabIndex = 4;
@@ -319,6 +348,8 @@ namespace WinFormsApp
             // panelBuscar
             // 
             panelBuscar.BorderStyle = BorderStyle.FixedSingle;
+            panelBuscar.Controls.Add(txtBuscarIdPlan);
+            panelBuscar.Controls.Add(labelBuscarIdPlan);
             panelBuscar.Controls.Add(lblBuscarApellido);
             panelBuscar.Controls.Add(txtBuscarEmail);
             panelBuscar.Controls.Add(txtBuscarLegajo);
@@ -338,7 +369,7 @@ namespace WinFormsApp
             panelBuscar.Controls.Add(lblIdBuscar);
             panelBuscar.Controls.Add(txtIdBuscar);
             panelBuscar.Controls.Add(btnBuscarBuscar);
-            panelBuscar.Location = new Point(20, 70);
+            panelBuscar.Location = new Point(665, 408);
             panelBuscar.Name = "panelBuscar";
             panelBuscar.Size = new Size(582, 297);
             panelBuscar.TabIndex = 5;
@@ -499,6 +530,8 @@ namespace WinFormsApp
             // panelModificar
             // 
             panelModificar.BorderStyle = BorderStyle.FixedSingle;
+            panelModificar.Controls.Add(txtModificarIdPlan);
+            panelModificar.Controls.Add(labelModificarIdPlan);
             panelModificar.Controls.Add(BuscarModificar);
             panelModificar.Controls.Add(lblModificarApellido);
             panelModificar.Controls.Add(txtModificarEmail);
@@ -519,7 +552,7 @@ namespace WinFormsApp
             panelModificar.Controls.Add(lblIdModificar);
             panelModificar.Controls.Add(txtIdModificar);
             panelModificar.Controls.Add(btnModificarModificar);
-            panelModificar.Location = new Point(20, 70);
+            panelModificar.Location = new Point(20, 408);
             panelModificar.Name = "panelModificar";
             panelModificar.Size = new Size(582, 297);
             panelModificar.TabIndex = 6;
@@ -539,7 +572,7 @@ namespace WinFormsApp
             // lblModificarApellido
             // 
             lblModificarApellido.AutoSize = true;
-            lblModificarApellido.Location = new Point(17, 130);
+            lblModificarApellido.Location = new Point(17, 104);
             lblModificarApellido.Name = "lblModificarApellido";
             lblModificarApellido.Size = new Size(51, 15);
             lblModificarApellido.TabIndex = 38;
@@ -554,7 +587,7 @@ namespace WinFormsApp
             // 
             // txtModificarLegajo
             // 
-            txtModificarLegajo.Location = new Point(106, 215);
+            txtModificarLegajo.Location = new Point(106, 176);
             txtModificarLegajo.Name = "txtModificarLegajo";
             txtModificarLegajo.Size = new Size(171, 23);
             txtModificarLegajo.TabIndex = 36;
@@ -568,7 +601,7 @@ namespace WinFormsApp
             // 
             // txtModificarTipoUsuario
             // 
-            txtModificarTipoUsuario.Location = new Point(106, 171);
+            txtModificarTipoUsuario.Location = new Point(106, 132);
             txtModificarTipoUsuario.Name = "txtModificarTipoUsuario";
             txtModificarTipoUsuario.Size = new Size(171, 23);
             txtModificarTipoUsuario.TabIndex = 34;
@@ -585,7 +618,7 @@ namespace WinFormsApp
             // lblModificarLegajo
             // 
             lblModificarLegajo.AutoSize = true;
-            lblModificarLegajo.Location = new Point(17, 215);
+            lblModificarLegajo.Location = new Point(17, 176);
             lblModificarLegajo.Name = "lblModificarLegajo";
             lblModificarLegajo.Size = new Size(42, 15);
             lblModificarLegajo.TabIndex = 32;
@@ -603,7 +636,7 @@ namespace WinFormsApp
             // lblModificarTipoUsuario
             // 
             lblModificarTipoUsuario.AutoSize = true;
-            lblModificarTipoUsuario.Location = new Point(17, 174);
+            lblModificarTipoUsuario.Location = new Point(17, 135);
             lblModificarTipoUsuario.Name = "lblModificarTipoUsuario";
             lblModificarTipoUsuario.Size = new Size(71, 15);
             lblModificarTipoUsuario.TabIndex = 30;
@@ -642,7 +675,6 @@ namespace WinFormsApp
             txtModificarTelefono.Name = "txtModificarTelefono";
             txtModificarTelefono.Size = new Size(171, 23);
             txtModificarTelefono.TabIndex = 26;
-            txtModificarTelefono.TextChanged += textBox13_TextChanged;
             // 
             // txtModificarDireccion
             // 
@@ -653,7 +685,7 @@ namespace WinFormsApp
             // 
             // txtModificarApellido
             // 
-            txtModificarApellido.Location = new Point(106, 130);
+            txtModificarApellido.Location = new Point(106, 104);
             txtModificarApellido.Name = "txtModificarApellido";
             txtModificarApellido.Size = new Size(171, 23);
             txtModificarApellido.TabIndex = 24;
@@ -728,7 +760,7 @@ namespace WinFormsApp
             // 
             // btnVolver
             // 
-            btnVolver.Location = new Point(31, 403);
+            btnVolver.Location = new Point(548, 27);
             btnVolver.Name = "btnVolver";
             btnVolver.Size = new Size(560, 23);
             btnVolver.TabIndex = 8;
@@ -736,9 +768,57 @@ namespace WinFormsApp
             btnVolver.UseVisualStyleBackColor = true;
             btnVolver.Click += btnVolver_Click;
             // 
+            // labelCrearIdPlan
+            // 
+            labelCrearIdPlan.AutoSize = true;
+            labelCrearIdPlan.Location = new Point(24, 172);
+            labelCrearIdPlan.Name = "labelCrearIdPlan";
+            labelCrearIdPlan.Size = new Size(38, 15);
+            labelCrearIdPlan.TabIndex = 18;
+            labelCrearIdPlan.Text = "labelCrearIdPlan";
+            // 
+            // labelBuscarIdPlan
+            // 
+            labelBuscarIdPlan.AutoSize = true;
+            labelBuscarIdPlan.Location = new Point(20, 262);
+            labelBuscarIdPlan.Name = "labelBuscarIdPlan";
+            labelBuscarIdPlan.Size = new Size(38, 15);
+            labelBuscarIdPlan.TabIndex = 9;
+            labelBuscarIdPlan.Text = "labelBuscarIdPlan";
+            // 
+            // labelModificarIdPlan
+            // 
+            labelModificarIdPlan.AutoSize = true;
+            labelModificarIdPlan.Location = new Point(17, 211);
+            labelModificarIdPlan.Name = "labelModificarIdPlan";
+            labelModificarIdPlan.Size = new Size(38, 15);
+            labelModificarIdPlan.TabIndex = 40;
+            labelModificarIdPlan.Text = "labelModificarIdPlan";
+            // 
+            // txtCrearIdPlan
+            // 
+            txtCrearIdPlan.Location = new Point(116, 172);
+            txtCrearIdPlan.Name = "txtCrearIdPlan";
+            txtCrearIdPlan.Size = new Size(347, 23);
+            txtCrearIdPlan.TabIndex = 19;
+            // 
+            // txtBuscarIdPlan
+            // 
+            txtBuscarIdPlan.Location = new Point(109, 259);
+            txtBuscarIdPlan.Name = "txtBuscarIdPlan";
+            txtBuscarIdPlan.Size = new Size(171, 23);
+            txtBuscarIdPlan.TabIndex = 20;
+            // 
+            // txtModificarIdPlan
+            // 
+            txtModificarIdPlan.Location = new Point(106, 208);
+            txtModificarIdPlan.Name = "txtModificarIdPlan";
+            txtModificarIdPlan.Size = new Size(171, 23);
+            txtModificarIdPlan.TabIndex = 41;
+            // 
             // PersonaCrud
             // 
-            ClientSize = new Size(667, 437);
+            ClientSize = new Size(1259, 717);
             Controls.Add(btnVolver);
             Controls.Add(btnCrear);
             Controls.Add(btnBuscar);
@@ -840,5 +920,13 @@ namespace WinFormsApp
         private TextBox txtModificarApellido;
         private TextBox txtModificarNombre;
         private Button BuscarModificar;
+        private TextBox txtCrearLegajo;
+        private Label labelCrearLegajo;
+        private TextBox txtCrearIdPlan;
+        private Label labelCrearIdPlan;
+        private TextBox txtBuscarIdPlan;
+        private Label labelBuscarIdPlan;
+        private TextBox txtModificarIdPlan;
+        private Label labelModificarIdPlan;
     }
 }

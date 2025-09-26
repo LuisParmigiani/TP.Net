@@ -37,9 +37,6 @@
     <Compile Update="menuCrud.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="ModuloCrud.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="PersonaCrud.cs">
       <SubType>Form</SubType>
     </Compile>

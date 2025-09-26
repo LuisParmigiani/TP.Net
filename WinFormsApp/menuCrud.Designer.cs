@@ -100,16 +100,7 @@
             Materia.Text = "Materia";
             Materia.UseVisualStyleBackColor = true;
             Materia.Click += Materia_Click;
-            // 
-            // Modulo
-            // 
-            Modulo.Location = new Point(407, 101);
-            Modulo.Name = "Modulo";
-            Modulo.Size = new Size(279, 23);
-            Modulo.TabIndex = 7;
-            Modulo.Text = "Modulo";
-            Modulo.UseVisualStyleBackColor = true;
-            Modulo.Click += Modulo_Click;
+           
             // 
             // Persona
             // 

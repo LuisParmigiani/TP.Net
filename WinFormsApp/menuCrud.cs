@@ -38,13 +38,6 @@ namespace WinFormsApp
             this.Hide();
         }
 
-        private void Modulo_Click(object sender, EventArgs e)
-        {
-           ModuloCrud moduloCrud = new ModuloCrud();
-            moduloCrud.Show();
-            this.Hide();
-
-        }
 
         private void Curso_Click(object sender, EventArgs e)
         {
