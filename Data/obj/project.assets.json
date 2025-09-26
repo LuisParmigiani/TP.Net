@@ -1270,36 +1270,43 @@
     ]
   },
   "packageFolders": {
-    "/Users/agus/.nuget/packages/": {}
+    "C:\\Users\\parmi\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/agus/Facultad/NET/TP.Net/Data/Data.csproj",
+      "projectUniqueName": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Data\\Data.csproj",
       "projectName": "Data",
-      "projectPath": "/Users/agus/Facultad/NET/TP.Net/Data/Data.csproj",
-      "packagesPath": "/Users/agus/.nuget/packages/",
-      "outputPath": "/Users/agus/Facultad/NET/TP.Net/Data/obj/",
+      "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Data\\Data.csproj",
+      "packagesPath": "C:\\Users\\parmi\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Data\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/agus/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\parmi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/agus/Facultad/NET/TP.Net/Domain.Model/Domain.Model.csproj": {
-              "projectPath": "/Users/agus/Facultad/NET/TP.Net/Domain.Model/Domain.Model.csproj"
+            "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
+              "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Model\\Domain.Model.csproj"
             },
-            "/Users/agus/Facultad/NET/TP.Net/DTOs/DTOs.csproj": {
-              "projectPath": "/Users/agus/Facultad/NET/TP.Net/DTOs/DTOs.csproj"
+            "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\DTOs\\DTOs.csproj": {
+              "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\DTOs\\DTOs.csproj"
             }
           }
         }
@@ -1352,22 +1359,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.19, 8.0.19]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.19, 8.0.19]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.304/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

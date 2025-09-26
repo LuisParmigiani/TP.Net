@@ -1,0 +1,131 @@
+﻿@page "/MenuProfesor/{PPPPPP:int?}"
+
+@inject NavigationManager Navigation
+
+<h3>MenuProfesor</h3>
+
+@code {
+
+    [Parameter]
+    public int? PPPPPP { get; set; } = 1;
+    private string? mensaje;
+    private int nota;
+    private void Sec(int sec)
+    {
+        var url = sec == 0 ? "/MenuProfesor" : $"/MenuProfesor/{sec}";
+        Navigation.NavigateTo(url);
+    }
+    public void SubirNota(int id)
+    {
+        if(id != -1 || id != 0 || (id >= 6 && id <= 10))
+        {
+            mensaje = "Nota no valida";
+            return;
+        } else
+        {
+            mensaje = "Error al guardar la nota";
+            return;
+        }
+        mensaje = "Nota guardada correctamente";
+    }
+
+}
+
+@if (!string.IsNullOrEmpty(mensaje))
+{
+    <div class="alert alert-success">@mensaje</div>
+}
+
+@if (PPPPPP == 0)
+{
+    <div>
+        <button @onclick="() => Sec(1)">Listado de Cursos </button>
+    </div>
+}
+else if (PPPPPP == 1)
+{
+    <div>
+        <h3>Listado de materias</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Materias</th>
+                    <th>Listados</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 5; i++)
+                {
+                    <tr>
+                        <td> Materia {i}</td>
+                        <td>
+                            <button @onclick="() => Sec(2)">Listado de alumnos</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <button @onclick="() => Sec(0)">Volver</button>
+    </div>
+}
+else if (PPPPPP == 2)
+{
+    <div>
+        <h3>Listado de alumnos </h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Leg</th>
+                    <th>Nombre y Apellido</th>
+                    <th>Nota (-1 Es libre y 0 es regular miestras que de 6 a 10 es la nota  )</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 5; i++)
+                {
+                    <tr>
+                        <td> Leg</td>
+                        <td> Nombre y Apellido</td>
+                        <td>
+                            <input @bind="nota" name="name" placeholder="Nota del alumno" />
+                            <button @onclick="() => SubirNota(i)">Guardar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button @onclick="() => Sec(1)">Volver</button>
+    </div>
+}
+else if (PPPPPP == 3)
+{
+    <div>
+        <h3>Estado Academico</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Materias</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 5; i++)
+                {
+                    <tr>
+                        <td> Materia {i}</td>
+                        <td> Esatdo: --- si aprobada nota :  {i}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button @onclick="() => Sec(0)">Volver</button>
+
+    </div>
+}
+else
+{
+    <div>
+        <button @onclick="() => Sec(0)">Volver</button>
+    </div>
+}

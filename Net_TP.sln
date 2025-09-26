@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "Intnto 111111\Web
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsApp", "WinFormsApp\WinFormsApp.csproj", "{E75B8523-CED9-49F2-8327-7B0A127CA10D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{C93C43C9-3667-47D7-B8BE-8205CC433ACE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{E75B8523-CED9-49F2-8327-7B0A127CA10D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E75B8523-CED9-49F2-8327-7B0A127CA10D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E75B8523-CED9-49F2-8327-7B0A127CA10D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C93C43C9-3667-47D7-B8BE-8205CC433ACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C93C43C9-3667-47D7-B8BE-8205CC433ACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C93C43C9-3667-47D7-B8BE-8205CC433ACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C93C43C9-3667-47D7-B8BE-8205CC433ACE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
