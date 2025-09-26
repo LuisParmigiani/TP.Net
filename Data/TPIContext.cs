@@ -55,7 +55,7 @@ public class TPIContext : DbContext
                 .WithMany(p => p.Usuarios)
                 .HasForeignKey(u => u.IdPersona)
                 .IsRequired();
-            entity.ToTable("Usuario");
+            entity.ToTable("Usuarios");
         });
         modelBuilder.Entity<Especialidad>(entity =>
         {
