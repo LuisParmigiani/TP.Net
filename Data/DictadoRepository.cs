@@ -49,6 +49,7 @@ namespace Data
             using var context = CreateContext();
             return context.Dictados.ToList();
         }
+
         public bool Update(Dictado dictado)
         {
             using var context = CreateContext();

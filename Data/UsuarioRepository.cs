@@ -67,5 +67,26 @@ namespace Data
             return false;
         }
         //Puede que en un futuro tengamos más 
+        public Usuario? Login(string username, string password)
+        {
+            using var context = CreateContext();
+            var us = context.Usuarios.First(u=> u.NombreUsuario == username);
+            if (us != null)
+            {
+                if (us.NombreUsuario == username && us.Clave == password)
+                {
+                    return us;
+                }
+                else
+                {
+                    throw new Exception("Contraseña incorrecta");
+                }
+            }
+            else
+            {
+
+                throw new Exception("No se encontró un usuario con ese nombre");
+            }
+        }
     }
 }

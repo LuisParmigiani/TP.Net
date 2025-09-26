@@ -29,6 +29,9 @@
             "projectReferences": {
               "/Users/agus/Facultad/NET/TP.Net/Domain.Model/Domain.Model.csproj": {
                 "projectPath": "/Users/agus/Facultad/NET/TP.Net/Domain.Model/Domain.Model.csproj"
+              },
+              "/Users/agus/Facultad/NET/TP.Net/DTOs/DTOs.csproj": {
+                "projectPath": "/Users/agus/Facultad/NET/TP.Net/DTOs/DTOs.csproj"
               }
             }
           }

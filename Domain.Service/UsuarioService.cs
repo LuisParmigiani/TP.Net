@@ -75,6 +75,30 @@ namespace Domain.Service
             {
                 throw new Exception(ex.Message);
             }
+            
+        }
+
+        public UsuarioDTO Login(string username, string password)
+        {
+            var usRepo = new UsuarioRepository();
+            try
+            {
+                
+                Usuario? user = usRepo.Login(username, password);
+                UsuarioDTO usuarioDevuelto = new UsuarioDTO(
+                    user.Id,
+                    user.NombreUsuario,
+                    user.Clave,
+                    user.Habilitado,
+                    user.IdPersona,
+                    user.CambiaClave
+                );
+                return usuarioDevuelto;
+
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

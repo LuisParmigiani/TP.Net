@@ -62,12 +62,32 @@ namespace Domain.Service
             )).ToList();
         }
 
+        public IEnumerable<CursoDTO> GetByProfesor(int idProfesor)
+        {
+            var curRepo = new CursoRepository();
+            try
+            {
+                return curRepo.GetCursosByProfId(idProfesor).Select(curso => new CursoDTO(
+                    curso.Id,
+                    curso.AnioCalendario,
+                    curso.Cupo,
+                    curso.Descripcion,
+                    curso.IdComision,
+                    curso.IdMateria
+                )).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public bool Update(CursoDTO cur)
         {
             var curRepo = new CursoRepository();
             try{
             
-                Curso curso = new Curso(cur.AnioCalendario, cur.Cupo, cur.Descripcion, cur.IdComision, cur.IdMateria, 0);
+                Curso curso = new Curso(cur.AnioCalendario, cur.Cupo, cur.Descripcion, cur.IdComision, cur.IdMateria, cur.Id);
                 return curRepo.Update(curso);
             }
             catch (Exception ex)

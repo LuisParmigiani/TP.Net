@@ -28,6 +28,17 @@ public static class UsuarioEndpoints
                 .Produces<UsuarioDTO>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound)
                 .WithOpenApi();
+                app.MapGet("/usuarios/{username}/{password}", (string username, string password) =>
+                    { 
+                        UsuarioService userService = new UsuarioService();
+                        var user = userService.Login(username, password);
+                        return Results.Ok(user);
+                    })
+                    .WithName("LoginUsuario")
+                    .WithTags("Usuarios")
+                    .Produces<UsuarioDTO>(StatusCodes.Status200OK)
+                    .Produces(StatusCodes.Status404NotFound)
+                    .WithOpenApi();
 
                 app.MapGet("/usuarios", () =>
                 {

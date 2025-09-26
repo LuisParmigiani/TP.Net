@@ -40,6 +40,37 @@ public static class InscripcionEndpoints
                 .Produces<List<InscripcionDTO>>(StatusCodes.Status200OK)
                 .WithOpenApi();
 
+                app.MapGet("/inscripciones/estadoOfAlumno", (int idAlumno) =>
+                    {
+                        InscripcionService InscService = new InscripcionService();
+                        try
+                        {
+                            var estados = InscService.GetEstadoAcademicoOfAlumno(idAlumno);
+                            var dtos = estados.Select(p => new EstadoAcedemico(
+                                    p.Id_Inscripcion,
+                                    p.Id_Alumno,
+                                    p.Condicion,
+                                    p.Nota,
+                                    p.Id_Curso,
+                                    p.AnioCalendario,
+                                    p.Id_Comision,
+                                    p.Descripcion_Comision,
+                                    p.Id_Materia,
+                                    p.Descripcion_Materia
+                                )
+                            ).ToList();
+                            return Results.Ok(dtos);
+                        }
+                        catch (Exception ex)
+                        {
+                            return Results.NotFound(ex.Message);
+                        }
+                    })
+                    .WithName("GetEstadoAcademicoOfAlumno")
+                    .WithTags("Inscripciones")
+                    .Produces<List<EstadoAcedemico>>(StatusCodes.Status200OK)
+                    .Produces(StatusCodes.Status404NotFound)
+                    .WithOpenApi();
                 app.MapPost("/inscripciones", (InscripcionDTO insc) =>
                 {
                     try

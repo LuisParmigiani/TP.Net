@@ -43,6 +43,37 @@ public static class PersonaEndpoints
                 .WithTags("Personas")
                 .Produces<List<PersonaDTO>>(StatusCodes.Status200OK)
                 .WithOpenApi();
+                app.MapGet("/alumnos/byCurso/{idCurso}", (int idCurso) =>
+                    {
+                        PersonaService perService = new PersonaService();
+                        try
+                        {
+                            var alumnosByCurso = perService.GetByCurso(idCurso);
+                            var dtos = alumnosByCurso.Select(p => new PersonaDTO(
+                                p.Id,
+                                p.Nombre,
+                                p.Apellido,
+                                p.Direccion,
+                                p.Email,
+                                p.Telefono,
+                                p.FechaNacimiento,
+                                p.Legajo,
+                                p.TipoPersona,
+                                p.IdPlan)).ToList();
+
+                            return Results.Ok(dtos);
+                        }
+                        catch (Exception ex)
+                        {
+                            return Results.NotFound(ex.Message);
+                        }
+                    })
+                    .WithName("GetByCurso")
+                    .WithTags("Alumnos")
+                    .Produces<List<PersonaDTO>>(StatusCodes.Status200OK)
+                    .Produces(StatusCodes.Status404NotFound)
+                    
+                    .WithOpenApi();
 
                 app.MapPost("/personas", (PersonaDTO dto) =>
                 {

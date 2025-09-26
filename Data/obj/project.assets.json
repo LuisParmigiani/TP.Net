@@ -478,6 +478,16 @@
         "runtime": {
           "bin/placeholder/Domain.Model.dll": {}
         }
+      },
+      "DTOs/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/DTOs.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DTOs.dll": {}
+        }
       }
     }
   },
@@ -1241,10 +1251,16 @@
       "type": "project",
       "path": "../Domain.Model/Domain.Model.csproj",
       "msbuildProject": "../Domain.Model/Domain.Model.csproj"
+    },
+    "DTOs/1.0.0": {
+      "type": "project",
+      "path": "../DTOs/DTOs.csproj",
+      "msbuildProject": "../DTOs/DTOs.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "DTOs >= 1.0.0",
       "Domain.Model >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 9.0.0",
       "Microsoft.Extensions.Configuration >= 9.0.0",
@@ -1281,6 +1297,9 @@
           "projectReferences": {
             "/Users/agus/Facultad/NET/TP.Net/Domain.Model/Domain.Model.csproj": {
               "projectPath": "/Users/agus/Facultad/NET/TP.Net/Domain.Model/Domain.Model.csproj"
+            },
+            "/Users/agus/Facultad/NET/TP.Net/DTOs/DTOs.csproj": {
+              "projectPath": "/Users/agus/Facultad/NET/TP.Net/DTOs/DTOs.csproj"
             }
           }
         }

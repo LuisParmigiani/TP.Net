@@ -48,7 +48,7 @@ namespace Domain.Service
         public bool Update(Plan plan)
         {
             var planRepo = new PlanRepository();
-            Plan planini = new Plan(plan.Descripcion,plan.IdEspecialidad,0);
+            Plan planini = new Plan(plan.Descripcion,plan.IdEspecialidad,plan.Id);
             return planRepo.Update(planini);
             
         }

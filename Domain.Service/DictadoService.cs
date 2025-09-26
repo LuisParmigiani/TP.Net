@@ -58,6 +58,7 @@ namespace Domain.Service
             )).ToList();
         }
 
+
         public bool Update(DictadoDTO dic)
         {
             var dicRepo = new DictadoRepository();

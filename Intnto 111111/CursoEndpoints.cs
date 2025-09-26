@@ -34,11 +34,31 @@ public static class CursoEndpoints
                 .Produces<CursoDTO>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound)
                 .WithOpenApi();
-
                 app.MapGet("/cursos", () =>
+                    {
+                        CursoService cursoService = new CursoService();
+                        var cursos = cursoService.GetAll();
+                        var dtos = cursos.Select(c => new CursoDTO
+                        {
+                            Id = c.Id,
+                            AnioCalendario = c.AnioCalendario,
+                            Cupo = c.Cupo, 
+                            Descripcion = c.Descripcion,
+                            IdComision = c.IdComision,
+                            IdMateria = c.IdMateria
+                        }).ToList();
+
+                        return Results.Ok(dtos);
+                    })
+                    .WithName("GetAllCursos")
+                    .WithTags("Cursos")
+                    .Produces<List<CursoDTO>>(StatusCodes.Status200OK)
+                    .WithOpenApi();
+
+                app.MapGet("/cursos/Byprofesor/{profId}", (int profId) =>
                 {
                     CursoService cursoService = new CursoService();
-                    var cursos = cursoService.GetAll();
+                    var cursos = cursoService.GetByProfesor(profId);
                     var dtos = cursos.Select(c => new CursoDTO
                     {
                         Id = c.Id,
@@ -51,7 +71,7 @@ public static class CursoEndpoints
 
                     return Results.Ok(dtos);
                 })
-                .WithName("GetAllCursos")
+                .WithName("GetCursosByProfId")
                 .WithTags("Cursos")
                 .Produces<List<CursoDTO>>(StatusCodes.Status200OK)
                 .WithOpenApi();
@@ -92,14 +112,14 @@ public static class CursoEndpoints
                     try
                     {
                         CursoService cursoService = new CursoService();
-                        CursoDTO curso = new CursoDTO(dto.Id,dto.AnioCalendario,dto.Cupo, dto.Descripcion, dto.IdComision, dto.IdMateria);
+                        CursoDTO curso = new CursoDTO(id,dto.AnioCalendario,dto.Cupo, dto.Descripcion, dto.IdComision, dto.IdMateria);
                         var found = cursoService.Update(curso);
                         if (!found)
                         {
                             return Results.NotFound();
                         }
 
-                        return Results.NoContent();
+                        return Results.Ok(curso);
                     }
                     catch (ArgumentException ex)
                     {
@@ -108,6 +128,7 @@ public static class CursoEndpoints
                 })
                 .WithName("UpdateCurso") 
                 .WithTags("Cursos")
+                .Produces(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status204NoContent)
                 .Produces(StatusCodes.Status404NotFound)
                 .Produces(StatusCodes.Status400BadRequest)

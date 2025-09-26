@@ -60,6 +60,19 @@ namespace Domain.Service
             )).ToList();
         }
 
+        public IEnumerable<EstadoAcedemico> GetEstadoAcademicoOfAlumno(int idAlumno)
+        {
+            var inscRepo = new InscripcionRepository();
+            try
+            {
+                return inscRepo.GetEstadoAcademicoOfAlumno(idAlumno);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public bool Update(InscripcionDTO insc)
         {
             var inscRepo = new InscripcionRepository();

@@ -69,13 +69,36 @@ namespace Domain.Service
                 persona.IdPlan
             )).ToList();
         }
+        public IEnumerable<PersonaDTO> GetByCurso(int idCurso)
+        {
+            var perRepo = new PersonaRepository();
+            try
+            {
+                return perRepo.GetByCurso(idCurso).Select(persona => new PersonaDTO(
+                    persona.Id,
+                    persona.Nombre,
+                    persona.Apellido,
+                    persona.Direccion,
+                    persona.Email,
+                    persona.Telefono,
+                    persona.FechaNacimiento,
+                    persona.Legajo,
+                    persona.TipoPersona,
+                    persona.IdPlan
+                )).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         public bool Update(PersonaDTO per)
         {
             var perRepo = new PersonaRepository();
             try
             {
-                Persona persona = new Persona(0, per.Nombre, per.Apellido, per.Direccion, per.Email, per.Telefono,
+                Persona persona = new Persona(per.Id, per.Nombre, per.Apellido, per.Direccion, per.Email, per.Telefono,
                     per.FechaNacimiento, per.Legajo, per.TipoPersona, per.IdPlan);
                 return perRepo.Update(persona);
             }

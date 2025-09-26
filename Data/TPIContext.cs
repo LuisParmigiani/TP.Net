@@ -54,12 +54,14 @@ public class TPIContext : DbContext
                 .WithMany(p => p.Usuarios)
                 .HasForeignKey(u => u.IdPersona)
                 .IsRequired();
+            entity.ToTable("Usuario");
         });
         modelBuilder.Entity<Especialidad>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Descripcion).HasMaxLength(50).IsRequired();
+            entity.ToTable("Especialidades");
         });
         modelBuilder.Entity<Especialidad>().HasData(
             new Especialidad(1, "Programación"),
@@ -77,6 +79,7 @@ public class TPIContext : DbContext
                 .HasForeignKey(p=>p.IdEspecialidad)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .IsRequired();
+            entity.ToTable("Planes");
             
         });
         modelBuilder.Entity<Plan>().HasData(
@@ -96,6 +99,7 @@ public class TPIContext : DbContext
                 .WithMany(p => p.Materias)
                 .HasForeignKey(m => m.IDPlan)
                 .IsRequired();
+            entity.ToTable("Materias");
 
         });
         modelBuilder.Entity<Comision>(entity =>
@@ -108,6 +112,7 @@ public class TPIContext : DbContext
                 .WithMany(p => p.Comisiones)
                 .HasForeignKey(c => c.IDPlan)
                 .IsRequired();
+            entity.ToTable("Comisiones");
 
         });
         modelBuilder.Entity<Curso>(entity =>
@@ -124,6 +129,8 @@ public class TPIContext : DbContext
                 .WithMany(mat => mat.Cursos)
                 .HasForeignKey(cur => cur.IdMateria)
                 .IsRequired();
+            entity.ToTable("Cursos");
+
         });
         modelBuilder.Entity<Dictado>(entity =>
         {
@@ -138,6 +145,7 @@ public class TPIContext : DbContext
                 .WithMany(cur => cur.Dictados)
                 .HasForeignKey(dc => dc.IDDocente)
                 .IsRequired();
+            entity.ToTable("Dictados");
         });
         modelBuilder.Entity<Inscripcion>(entity =>
         {
@@ -153,6 +161,7 @@ public class TPIContext : DbContext
                 .WithMany(alu => alu.Incripciones)
                 .HasForeignKey(ins => ins.IdAlumno)
                 .IsRequired();
+            entity.ToTable("Inscripciones");
         });
         modelBuilder.Entity<Persona>(entity =>
         {
@@ -170,6 +179,7 @@ public class TPIContext : DbContext
                 .WithMany(p => p.Alumnos)
                 .HasForeignKey(per => per.IdPlan)
                 .IsRequired();
+            entity.ToTable("Personas");
 
 
         });

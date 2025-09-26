@@ -57,8 +57,10 @@ namespace Data
             {
                 try
                 {
+                    curExists.SetId(curso.Id);
                     curExists.SetAnioCalendario(curso.AnioCalendario);
                     curExists.SetCupo(curso.Cupo);
+                    curExists.SetDescripcion(curso.Descripcion);
                     if (context.Comisiones.Any(c => c.Id == curso.IdComision) != true)
                     {
                         throw new Exception("No se encontró la comisión con el ID ingresado");
@@ -74,12 +76,39 @@ namespace Data
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception(ex.Message);
+                    throw new Exception($"Uno de los argumentos ingresados no es correcto: {ex.Message}");
                 }
             }
 
             return false;
         }
         //Puede que en un futuro tengamos más 
+        public IEnumerable<Curso> GetCursosByProfId(int idProfesor)
+        {
+            using var context = CreateContext();
+            try
+            {
+                var docExists = context.Dictados.Any(d => d.IDDocente == idProfesor);
+                if (!docExists) {
+                    throw new ArgumentException("El docente ingresado no esta dictando ningún curso");
+                }
+
+                int yearNow = DateTime.Now.Year;
+                var cursos = context.Cursos
+                    .Join(
+                        context.Dictados,
+                        curso => curso.Id,
+                        dictado => dictado.IDCurso,
+                        (curso, dictado) => curso)
+                    .Where(c => context.Dictados
+                        .Any(d => d.IDCurso == c.Id && d.IDDocente == idProfesor && c.AnioCalendario == yearNow))
+                    .ToList();
+                return cursos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Hubo un error: {ex.Message}");
+            }
+        }
     }
 }

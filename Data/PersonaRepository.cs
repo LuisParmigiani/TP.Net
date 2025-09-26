@@ -45,6 +45,37 @@ namespace Data
             using var context = CreateContext();
             return context.Personas.ToList();
         }
+        public IEnumerable<Persona> GetByCurso(int idCurso)
+        {
+            using var context = CreateContext();
+            int year = DateTime.Now.Year;
+            try
+            {
+                var curExists = context.Cursos.Any(c => c.Id == idCurso && c.AnioCalendario == year);
+                if (!curExists)
+                {
+                    throw new Exception("No se encontró un curso con el ID ingresado");
+                }
+
+                var personas = context.Personas
+                    .Join(
+                        context.Inscripciones,
+                        per => per.Id,
+                        insc => insc.IdCurso,
+                        (per, insc) => per
+                    )
+                    .Where(p => context.Inscripciones
+                        .Any(i => p.Id == i.IdCurso  && i.IdCurso == idCurso))
+                    .ToList();
+                return personas;
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Hubo un error: {e.Message}");
+            }
+                
+        }
         public bool Update(Persona persona)
         {
             using var context = CreateContext();
@@ -80,6 +111,7 @@ namespace Data
 
             return false;
         }
+
         //Puede que en un futuro tengamos más 
     }
 }

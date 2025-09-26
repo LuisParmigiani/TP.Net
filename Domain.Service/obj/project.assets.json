@@ -473,6 +473,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "DTOs": "1.0.0",
           "Domain.Model": "1.0.0",
           "Microsoft.EntityFrameworkCore": "9.0.0",
           "Microsoft.Extensions.Configuration": "9.0.0",

@@ -29,6 +29,9 @@
             "projectReferences": {
               "/Users/agus/Facultad/NET/TP.Net/Domain.Model/Domain.Model.csproj": {
                 "projectPath": "/Users/agus/Facultad/NET/TP.Net/Domain.Model/Domain.Model.csproj"
+              },
+              "/Users/agus/Facultad/NET/TP.Net/DTOs/DTOs.csproj": {
+                "projectPath": "/Users/agus/Facultad/NET/TP.Net/DTOs/DTOs.csproj"
               }
             }
           }
@@ -108,6 +111,76 @@
         "projectPath": "/Users/agus/Facultad/NET/TP.Net/Domain.Model/Domain.Model.csproj",
         "packagesPath": "/Users/agus/.nuget/packages/",
         "outputPath": "/Users/agus/Facultad/NET/TP.Net/Domain.Model/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/agus/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.19, 8.0.19]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.19, 8.0.19]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.304/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/agus/Facultad/NET/TP.Net/DTOs/DTOs.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/agus/Facultad/NET/TP.Net/DTOs/DTOs.csproj",
+        "projectName": "DTOs",
+        "projectPath": "/Users/agus/Facultad/NET/TP.Net/DTOs/DTOs.csproj",
+        "packagesPath": "/Users/agus/.nuget/packages/",
+        "outputPath": "/Users/agus/Facultad/NET/TP.Net/DTOs/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/agus/.nuget/NuGet/NuGet.Config"
