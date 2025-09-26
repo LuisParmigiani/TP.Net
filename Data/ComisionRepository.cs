@@ -1,6 +1,9 @@
-﻿using Domain.Model;
+﻿using System;
+using System.Collections.Generic;
+using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace Data
 {

@@ -1,4 +1,7 @@
-﻿namespace Domain.Model
+﻿using System;
+using System.Collections.Generic;
+
+namespace Domain.Model
 {
     public class Comision : BusinessEntity
     {

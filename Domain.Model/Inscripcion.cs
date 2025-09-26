@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+
 namespace Domain.Model;
 
 public class Inscripcion : BusinessEntity
