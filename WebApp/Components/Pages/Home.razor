@@ -1,0 +1,89 @@
+﻿@using DTOs
+@page "/"
+@inject NavigationManager navigation
+@inject IHttpClientFactory ClientFactory
+
+<PageTitle>Home</PageTitle>
+@code {
+    private string user;
+    private string password;
+    private string mensaje;
+
+    private async void Login()
+    {
+        try
+        {
+            var client = ClientFactory.CreateClient("API");
+            // Primero comprobar que la API responde con una llamada GET básica
+            try
+            {
+                var health = await client.GetAsync($"/usuarios", HttpCompletionOption.ResponseHeadersRead);
+                if (!health.IsSuccessStatusCode)
+                {
+                    var body = await health.Content.ReadAsStringAsync();
+                    mensaje = $"API no disponible: {(int)health.StatusCode} {health.ReasonPhrase}. {body}";
+                    return;
+                }
+            }
+            catch (HttpRequestException hre)
+            {
+                mensaje = "Error de conexión al API: " + hre.Message + ". Asegurese de iniciar el WebApi en http://localhost:5183";
+                Console.WriteLine("[PersonasCrud] Health check exception: " + hre);
+                return;
+            }
+            var response = await client.DeleteAsync($"/usuarios/{user}/{password}");
+            if (response.IsSuccessStatusCode)
+            {
+                var Usuario = await response.Content.ReadFromJsonAsync<UsuarioDTO>();
+
+                var id = (Usuario.IdPersona).ToString();
+                var response2 = await client.DeleteAsync($"/personas/{id}");
+                var Persona = await response.Content.ReadFromJsonAsync<PersonaDTO>();
+
+                if (response2.IsSuccessStatusCode)
+                {
+                    if (Persona.TipoPersona == 1)
+                    {
+                        navigation.NavigateTo($"/MenuAlumno/");
+                    }else if (Persona.TipoPersona == 2)
+                    {
+                        navigation.NavigateTo($"/MenuProfesor/");
+                    }
+                    else
+                    {
+                        mensaje = "Tipo de usuario desconocido.";
+                    }
+                }
+            }
+            else
+            {
+                mensaje = $"Usuario o contrasena incorrecta o el boludo q lo hizo no lo hizo bien ";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = "Error: " + ex.Message;
+            Console.WriteLine($"[Login error ] Exception: {ex}");
+        }
+    }
+}
+
+<h1>Web de alumnado </h1>
+<div class="text-center">
+    <img src="images/Students.png" alt="Students" />
+    <div>
+        <h3>Bienvenido a la web de alumnado</h3>
+        <div>
+            <label for="user" Name="user">Usuario:</label>
+            <input @bind="user" name="User" placeholder="Usuario" />
+        </div>
+        <div>
+            <label for="password" Name="password">Contraseña:</label>
+            <input @bind="password" name="Password" placeholder="Contraseña" type="password" />
+        </div>
+        <div>
+            <button @onclick="Login">Login</button>
+        </div>
+
+    </div>
+</div>

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace WinFormsApp
 {
@@ -16,6 +18,14 @@ namespace WinFormsApp
         {
             InitializeComponent();
         }
+
+        private readonly HttpClient _httpClient = new()
+        {
+            BaseAddress = new Uri("http://localhost:5183")
+        };
+
+        // DTO local que refleja DictadoDTO en la API
+        private record DictadoDto(int Id, string Cargo, int IDCurso, int IDDocente);
 
         private void txtCrearIdCurso_TextChanged(object sender, EventArgs e)
         {
@@ -137,7 +147,8 @@ namespace WinFormsApp
             }
         }
 
-        private void btnCrearCrear_Click(object sender, EventArgs e)
+        // Crear DocenteCurso -> POST /dictados
+        private async void btnCrearCrear_Click(object sender, EventArgs e)
         {
             var idCursoText = txtCrearIdCurso.Text;
             var idDocenteText = txtCrearIdDocente.Text;
@@ -147,30 +158,78 @@ namespace WinFormsApp
                 MessageBox.Show("Por favor, complete todos los campos.");
                 return;
             }
-            MessageBox.Show("DocenteCurso creado exitosamente.");
+
+            if (!int.TryParse(idCursoText, out int idCurso) || !int.TryParse(idDocenteText, out int idDocente))
+            {
+                MessageBox.Show("ID de Curso e ID de Docente deben ser números válidos.");
+                return;
+            }
+
+            try
+            {
+                var dto = new DictadoDto(0, cargo, idCurso, idDocente);
+                var resp = await _httpClient.PostAsJsonAsync("/dictados", dto);
+                if (resp.IsSuccessStatusCode)
+                {
+                    var created = await resp.Content.ReadFromJsonAsync<DictadoDto>();
+                    MessageBox.Show($"DocenteCurso creado. ID: {created?.Id}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtCrearIdCurso.Clear();
+                    txtCrearIdDocente.Clear();
+                    txtCrearCargo.Clear();
+                }
+                else
+                {
+                    var content = await resp.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error al crear: {resp.StatusCode} - {content}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"No se pudo conectar con la API: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void btnModificarBuscar_Click(object sender, EventArgs e)
+        // Buscar para modificar -> GET /dictados/{id}
+        private async void btnModificarBuscar_Click(object sender, EventArgs e)
         {
             var idText = txtModificarId.Text;
-            if (string.IsNullOrWhiteSpace(idText))
+            if (string.IsNullOrWhiteSpace(idText) || !int.TryParse(idText, out int id))
             {
                 MessageBox.Show("Por favor, ingrese un ID.");
                 return;
             }
-            if (idText == "1")
+
+            try
             {
-                txtModificarIdCurso.Text = "101";
-                txtModificarIdDocente.Text = "202";
-                txtModificarCargo.Text = "Profesor";
+                var resp = await _httpClient.GetAsync($"/dictados/{id}");
+                if (resp.IsSuccessStatusCode)
+                {
+                    var dc = await resp.Content.ReadFromJsonAsync<DictadoDto>();
+                    if (dc != null)
+                    {
+                        txtModificarIdCurso.Text = dc.IDCurso.ToString();
+                        txtModificarIdDocente.Text = dc.IDDocente.ToString();
+                        txtModificarCargo.Text = dc.Cargo;
+                        MessageBox.Show("DocenteCurso encontrado.");
+                    }
+                }
+                else if (resp.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    MessageBox.Show("DocenteCurso no encontrado.");
+                }
+                else
+                {
+                    MessageBox.Show($"Error al consultar la API: {resp.StatusCode}");
+                }
             }
-            else
+            catch (HttpRequestException ex)
             {
-                MessageBox.Show("DocenteCurso no encontrado.");
+                MessageBox.Show($"No se pudo conectar con la API: {ex.Message}");
             }
         }
 
-        private void btnModificarModificar_Click(object sender, EventArgs e)
+        // Modificar DocenteCurso -> PUT /dictados/{id}
+        private async void btnModificarModificar_Click(object sender, EventArgs e)
         {
             var idText = txtModificarId.Text;
             var idCursoText = txtModificarIdCurso.Text;
@@ -181,44 +240,122 @@ namespace WinFormsApp
                 MessageBox.Show("Por favor, complete todos los campos.");
                 return;
             }
-            MessageBox.Show("DocenteCurso modificado exitosamente.");
+
+            if (!int.TryParse(idText, out int id) || !int.TryParse(idCursoText, out int idCurso) || !int.TryParse(idDocenteText, out int idDocente))
+            {
+                MessageBox.Show("IDs deben ser números válidos.");
+                return;
+            }
+
+            try
+            {
+                var dto = new DictadoDto(id, cargo, idCurso, idDocente);
+                var resp = await _httpClient.PutAsJsonAsync($"/dictados/{id}", dto);
+                if (resp.IsSuccessStatusCode || resp.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    MessageBox.Show("DocenteCurso modificado exitosamente.");
+                }
+                else if (resp.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    MessageBox.Show("DocenteCurso no encontrado.");
+                }
+                else
+                {
+                    var content = await resp.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error al modificar: {resp.StatusCode} - {content}");
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"No se pudo conectar con la API: {ex.Message}");
+            }
         }
 
-        private void btnBuscarBuscarId_Click(object sender, EventArgs e)
+        // Buscar para visualizar -> GET /dictados/{id}
+        private async void btnBuscarBuscarId_Click(object sender, EventArgs e)
         {
             var idText = txtBuscarBuscarId.Text;
-            if (string.IsNullOrWhiteSpace(idText))
+            if (string.IsNullOrWhiteSpace(idText) || !int.TryParse(idText, out int id))
             {
                 MessageBox.Show("Por favor, ingrese un ID.");
                 return;
             }
-            if (idText == "1")
+
+            try
             {
-                txtBuscarIdCurso.Text = "101";
-                txtBuscarIdDocente.Text = "202";
-                txtBuscarCargo.Text = "Profesor";
+                var resp = await _httpClient.GetAsync($"/dictados/{id}");
+                if (resp.IsSuccessStatusCode)
+                {
+                    var dc = await resp.Content.ReadFromJsonAsync<DictadoDto>();
+                    if (dc != null)
+                    {
+                        txtBuscarIdCurso.Text = dc.IDCurso.ToString();
+                        txtBuscarIdDocente.Text = dc.IDDocente.ToString();
+                        txtBuscarCargo.Text = dc.Cargo;
+                    }
+                }
+                else if (resp.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    MessageBox.Show("DocenteCurso no encontrado.");
+                }
+                else
+                {
+                    MessageBox.Show($"Error al consultar la API: {resp.StatusCode}");
+                }
             }
-            else
+            catch (HttpRequestException ex)
             {
-                MessageBox.Show("DocenteCurso no encontrado.");
+                MessageBox.Show($"No se pudo conectar con la API: {ex.Message}");
             }
         }
 
-        private void btnEliminarBuscar_Click(object sender, EventArgs e)
+        // Eliminar -> DELETE /dictados/{id}
+        private async void btnEliminarBuscar_Click(object sender, EventArgs e)
         {
             var idText = txtEliminarId.Text;
-            if (string.IsNullOrWhiteSpace(idText))
+            if (string.IsNullOrWhiteSpace(idText) || !int.TryParse(idText, out int id))
             {
                 MessageBox.Show("Por favor, ingrese un ID.");
                 return;
             }
-            if (idText == "1")
+
+            try
             {
-                MessageBox.Show("DocenteCurso eliminado exitosamente.");
+                var getResp = await _httpClient.GetAsync($"/dictados/{id}");
+                if (getResp.IsSuccessStatusCode)
+                {
+                    var dc = await getResp.Content.ReadFromJsonAsync<DictadoDto>();
+                    var confirm = MessageBox.Show($"Dictado encontrado (Curso {dc?.IDCurso}, Docente {dc?.IDDocente}, Cargo '{dc?.Cargo}'). ¿Desea eliminarlo?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (confirm == DialogResult.Yes)
+                    {
+                        var delResp = await _httpClient.DeleteAsync($"/dictados/{id}");
+                        if (delResp.IsSuccessStatusCode || delResp.StatusCode == System.Net.HttpStatusCode.NoContent)
+                        {
+                            MessageBox.Show("DocenteCurso eliminado exitosamente.");
+                            txtEliminarId.Clear();
+                        }
+                        else if (delResp.StatusCode == System.Net.HttpStatusCode.NotFound)
+                        {
+                            MessageBox.Show("DocenteCurso no encontrado al intentar eliminar.");
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Error al eliminar: {delResp.StatusCode}");
+                        }
+                    }
+                }
+                else if (getResp.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    MessageBox.Show("DocenteCurso no encontrado.");
+                }
+                else
+                {
+                    MessageBox.Show($"Error al consultar la API: {getResp.StatusCode}");
+                }
             }
-            else
+            catch (HttpRequestException ex)
             {
-                MessageBox.Show("DocenteCurso no encontrado.");
+                MessageBox.Show($"No se pudo conectar con la API: {ex.Message}");
             }
         }
 

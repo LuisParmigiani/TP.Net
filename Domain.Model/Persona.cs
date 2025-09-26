@@ -146,6 +146,9 @@ public class Persona : BusinessEntity
         if (edad < 17)
         {
             throw new ArgumentException("Debe ser mayor de 17 para poder registrarse");
+        }else if( edad >  100)
+        {
+            throw new ArgumentException("Debe ser menor de 100 para poder registrarse ");
         }
         else
         {

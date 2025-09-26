@@ -107,7 +107,7 @@ public static class PersonaEndpoints
                     try
                     {
                         PersonaService personaService = new PersonaService();
-                        PersonaDTO persona = new PersonaDTO(dto.Id,dto.Nombre, dto.Apellido, dto.Direccion,
+                        PersonaDTO persona = new PersonaDTO(id,dto.Nombre, dto.Apellido, dto.Direccion,
                             dto.Email, dto.Telefono, dto.FechaNacimiento, dto.Legajo,
                             dto.TipoPersona, dto.IdPlan);
 

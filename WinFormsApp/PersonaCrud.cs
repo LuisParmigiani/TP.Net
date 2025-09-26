@@ -1,42 +1,41 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace WinFormsApp
 {
     public partial class PersonaCrud : Form
     {
-        // Propiedades para almacenar los datos de la persona
-        public string Nombre { get; set; } = "";
-        public string Apellido { get; set; } = "";
-        public string Direccion { get; set; } = "";
-        public string Email { get; set; } = "";
-        public string Telefono { get; set; } = "";
-        public DateTime FechaNac { get; set; }
-        public string TipoUsuario { get; set; } = "";
-
         public PersonaCrud()
         {
             InitializeComponent();
         }
 
+        private readonly HttpClient _httpClient = new()
+        {
+            BaseAddress = new Uri("http://localhost:5183")
+        };
+
+        // DTO local que refleja PersonaDTO del servidor
+        private record PersonaDto(int Id, string Nombre, string Apellido, string Direccion, string Email, string Telefono, DateTime FechaNacimiento, string Legajo, string TipoPersona, int IdPlan);
+
         // Método para el botón Guardar/Cargar del panel Crear
-        private void btnGuardarCrear_Click_1(object sender, EventArgs e)
+        private async void btnGuardarCrear_Click_1(object sender, EventArgs e)
         {
             // Validar campos antes de asignar
             if (!ValidarCamposCrear())
             {
                 return; // Detener ejecución si hay errores
             }
-
-            // Asignar valores de los controles a las propiedades
-            Nombre = txtNombreCrear.Text;
-            Apellido = txtCrearApellido.Text;
-            Direccion = txtCrearDireccion.Text;
-            Email = txtCrearEmail.Text;
-            Telefono = txtCrearTelefono.Text;
-            FechaNac = dateTimePicker1.Value;
-
+            var idPlan = txtModificarIdPlan.Text;
+            if (!int.TryParse(idPlan, out int idp))
+            {
+                MessageBox.Show("Ingrese un ID de plan válido");
+                return;
+            }
             // Determinar el tipo de usuario basado en los RadioButtons
+            var TipoUsuario = "";
             if (RadioProfesor.Checked)
             {
                 TipoUsuario = "Profesor";
@@ -51,7 +50,47 @@ namespace WinFormsApp
                 return;
             }
 
-            MessageBox.Show($"Persona creada:\nNombre: {Nombre}\nApellido: {Apellido}\nTipo: {TipoUsuario}");
+            // Construir DTO (si no tienes FechaNacimiento en la UI, uso DateTime.Now como placeholder)
+            var dto = new PersonaDto(0,
+                                     txtNombreCrear.Text.Trim(),
+                                     txtCrearApellido.Text.Trim(),
+                                     txtCrearDireccion.Text.Trim(),
+                                     txtCrearEmail.Text.Trim(),
+                                     txtCrearTelefono.Text.Trim(),
+                                     DateTime.Now,
+                                     txtCrearLegajo.Text.Trim(),
+                                     TipoUsuario,
+                                     idp
+                                     );
+
+            try
+            {
+                var resp = await _httpClient.PostAsJsonAsync("/personas", dto);
+                if (resp.IsSuccessStatusCode)
+                {
+                    var created = await resp.Content.ReadFromJsonAsync<PersonaDto>();
+                    MessageBox.Show($"Persona creada:\nID: {created?.Id}\nNombre: {created?.Nombre} {created?.Apellido}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // limpiar inputs
+                    txtNombreCrear.Clear();
+                    txtCrearApellido.Clear();
+                    txtCrearDireccion.Clear();
+                    txtCrearEmail.Clear();
+                    txtCrearTelefono.Clear();
+                    txtCrearLegajo.Clear();
+                    RadioProfesor.Checked = false;
+                    RadioAlumno.Checked = false;
+                }
+                else
+                {
+                    var content = await resp.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error al crear persona: {resp.StatusCode} - {content}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"No se pudo conectar con la API: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         // Función necesaria para validar campos del formulario Crear
@@ -62,7 +101,8 @@ namespace WinFormsApp
                         string.IsNullOrWhiteSpace(txtCrearApellido.Text) ||
                 string.IsNullOrWhiteSpace(txtCrearDireccion.Text) ||
                 string.IsNullOrWhiteSpace(txtCrearEmail.Text) ||
-                string.IsNullOrWhiteSpace(txtCrearTelefono.Text))
+                string.IsNullOrWhiteSpace(txtCrearTelefono.Text) ||
+                string.IsNullOrWhiteSpace(txtCrearLegajo.Text))
             {
                 MessageBox.Show("Faltan datos por completar");
                 return false;
@@ -85,6 +125,42 @@ namespace WinFormsApp
             return true;
         }
 
+        // Buscar persona por Id (panel Buscar)
+        private async void btnBuscarBuscar_Click_1(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtIdBuscar.Text, out int id))
+            {
+                try
+                {
+                    var resp = await _httpClient.GetAsync($"/personas/{id}");
+                    if (resp.IsSuccessStatusCode)
+                    {
+                        var persona = await resp.Content.ReadFromJsonAsync<PersonaDto>();
+                        if (persona != null)
+                        {
+                            MessageBox.Show($"Persona encontrada:\nID: {persona.Id}\nNombre: {persona.Nombre} {persona.Apellido}\nEmail: {persona.Email}\nTel: {persona.Telefono}\nLegajo: {persona.Legajo}\nTipo: {persona.TipoPersona}", "Encontrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    else if (resp.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        MessageBox.Show($"No se encontró la persona con ID: {id}", "No encontrado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Error al consultar la API: {resp.StatusCode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (HttpRequestException ex)
+                {
+                    MessageBox.Show($"No se pudo conectar con la API: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ingrese un ID válido");
+            }
+        }
+
         private void btnBuscarBuscar_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Buscando ID: " + txtIdBuscar.Text);
@@ -97,6 +173,7 @@ namespace WinFormsApp
 
         private void btnBorrarBorrar_Click(object sender, EventArgs e)
         {
+            // Reemplazado por llamada real en btnBorrarBorrar_ClickAsync si el botón estuviera enlazado a ese método.
             MessageBox.Show("Borrando ID: " + txtIdBorrar.Text);
         }
 
@@ -158,7 +235,7 @@ namespace WinFormsApp
             }
         }
 
-        private void btnBuscarBuscar_Click_1(object sender, EventArgs e)
+                private void btnBuscarBuscar_Click_1_old(object sender, EventArgs e)
         {
             if (int.TryParse(txtIdBuscar.Text, out int id))
             {
@@ -191,7 +268,8 @@ namespace WinFormsApp
 
         }
 
-        private void BuscarModificar_Click(object sender, EventArgs e)
+        // Buscar para modificar -> ahora consulta la API y completa los campos de modificación
+        private async void BuscarModificar_Click(object sender, EventArgs e)
         {
             if (!int.TryParse(txtIdModificar.Text, out int id))
             {
@@ -199,24 +277,39 @@ namespace WinFormsApp
                 return;
             }
 
-            if (id == 1)
+            try
             {
-                // Simular búsqueda de datos para ID = 1
-                txtModificarNombre.Text = "Juan";
-                txtModificarApellido.Text = "Pérez";
-                txtModificarDireccion.Text = "Calle Principal 123";
-                txtModificarEmail.Text = "juan.perez@email.com";
-                txtModificarTelefono.Text = "5551234567";
-                txtModificarFechaNac.Text = new DateTime(1990, 5, 15).ToShortDateString();
-                // Nota: Los RadioButtons necesitarían ser agregados al diseñador para funcionar correctamente
-                // radioModificarProfesor.Checked = true;
-                // radioAlumnoModificar.Checked = false;
+                var resp = await _httpClient.GetAsync($"/personas/{id}");
+                if (resp.IsSuccessStatusCode)
+                {
+                    var persona = await resp.Content.ReadFromJsonAsync<PersonaDto>();
+                    if (persona != null)
+                    {
+                        txtModificarNombre.Text = persona.Nombre;
+                        txtModificarApellido.Text = persona.Apellido;
+                        txtModificarDireccion.Text = persona.Direccion;
+                        txtModificarEmail.Text = persona.Email;
+                        txtModificarTelefono.Text = persona.Telefono;
+                        txtModificarFechaNac.Text = persona.FechaNacimiento.ToShortDateString();
+                        txtModificarTipoUsuario.Text = persona.TipoPersona;
+                        txtModificarIdPlan.Text = persona.IdPlan.ToString();
+                        // si tienes IdPlan u otros campos, asignarlos aquí
+                        MessageBox.Show("Persona encontrada y cargada para modificar.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else if (resp.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    MessageBox.Show("ID no encontrado", "No encontrado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    LimpiarCamposModificar();
+                }
+                else
+                {
+                    MessageBox.Show($"Error al consultar la API: {resp.StatusCode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch (HttpRequestException ex)
             {
-                MessageBox.Show("ID no encontrado");
-                // Limpiar campos si no se encuentra el ID
-                LimpiarCamposModificar();
+                MessageBox.Show($"No se pudo conectar con la API: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -263,7 +356,8 @@ namespace WinFormsApp
             // Este evento se usa para personalizar el dibujo del panel si es necesario
         }
 
-        private void btnModificarModificar_Click_1(object sender, EventArgs e)
+        // Modificar persona -> PUT /personas/{id}
+        private async void btnModificarModificar_Click_1(object sender, EventArgs e)
         {
             var idText = txtIdModificar.Text;
             var nombre = txtModificarNombre.Text;
@@ -273,21 +367,121 @@ namespace WinFormsApp
             var telefono = txtModificarTelefono.Text;
             var fechaNacText = txtModificarFechaNac.Text;
             var tipoUsuario = txtModificarTipoUsuario.Text;
+            var idPlan = txtModificarIdPlan.Text; 
 
             if (!int.TryParse(idText, out int id))
             {
                 MessageBox.Show("Ingrese un ID válido");
                 return;
             }
-            MessageBox.Show($"Modificando ID: {id}\nNombre: {nombre}\nApellido: {apellido}\nDirección: {direccion}\nEmail: {email}\nTeléfono: {telefono}\nFecha Nac: {fechaNacText}\nTipo Usuario: {tipoUsuario}");
+            if (!int.TryParse(idPlan, out int idp))
+            {
+                MessageBox.Show("Ingrese un ID de plan válido");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(apellido))
+            {
+                MessageBox.Show("Nombre y apellido son requeridos");
+                return;
+            }
+
+            DateTime fechaNac = DateTime.Now;
+            if (!string.IsNullOrWhiteSpace(fechaNacText))
+            {
+                DateTime.TryParse(fechaNacText, out fechaNac);
+            }
+
+            // Reemplaza la creación del DTO en btnModificarModificar_Click_1 por la versión correcta con 10 argumentos
+            var dto = new PersonaDto(
+                id,
+                nombre,
+                apellido,
+                direccion,
+                email,
+                telefono,
+                fechaNac,
+                txtModificarLegajo.Text,
+                tipoUsuario,
+                idp
+            );
+
+            try
+            {
+                var resp = await _httpClient.PutAsJsonAsync($"/personas/{id}", dto);
+                if (resp.IsSuccessStatusCode || resp.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    MessageBox.Show($"Modificado ID: {id}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (resp.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    MessageBox.Show("Persona no encontrada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    var content = await resp.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error al modificar persona: {resp.StatusCode} - {content}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"No se pudo conectar con la API: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void txtIdBorrar_TextChanged(object sender, EventArgs e)
         {
             var id = txtIdBorrar.Text;
             FiltrarSoloNumeros(txtIdBorrar);
-            MessageBox.Show("ID a borrar: " + id);
+            // Se evita mostrar MessageBox en cada cambio de texto. Dejamos el control para cuando el usuario haga clic en borrar.
+        }
 
+        // Eliminar -> DELETE /personas/{id}
+        private async void btnBorrarBorrar_Click_1(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtIdBorrar.Text) || !int.TryParse(txtIdBorrar.Text, out int id))
+            {
+                MessageBox.Show("Por favor, ingrese un Id válido para eliminar la persona.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                var getResp = await _httpClient.GetAsync($"/personas/{id}");
+                if (getResp.IsSuccessStatusCode)
+                {
+                    var persona = await getResp.Content.ReadFromJsonAsync<PersonaDto>();
+                    var confirmResult = MessageBox.Show($"¿Está seguro de que desea eliminar la persona Id {id} ({persona?.Nombre} {persona?.Apellido})?", "Confirmar Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (confirmResult == DialogResult.Yes)
+                    {
+                        var delResp = await _httpClient.DeleteAsync($"/personas/{id}");
+                        if (delResp.IsSuccessStatusCode || delResp.StatusCode == System.Net.HttpStatusCode.NoContent)
+                        {
+                            MessageBox.Show($"Persona con Id: {id} eliminada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtIdBorrar.Clear();
+                        }
+                        else if (delResp.StatusCode == System.Net.HttpStatusCode.NotFound)
+                        {
+                            MessageBox.Show("Persona no encontrada al intentar eliminar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Error al eliminar persona: {delResp.StatusCode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+                else if (getResp.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    MessageBox.Show($"No se encontró ninguna persona con Id: {id}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show($"Error al consultar la API: {getResp.StatusCode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"No se pudo conectar con la API: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnVolver_Click(object sender, EventArgs e)

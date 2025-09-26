@@ -46,6 +46,7 @@
             btnEliminarBuscar = new Button();
             PanelModificar = new Panel();
             txtModificarHsTotales = new NumericUpDown();
+            btnBuscarBuscarId = new Button();
             txtModificarHsSemanales = new NumericUpDown();
             txtModificarIdPlan = new TextBox();
             labelModifiacarIdPlan = new Label();
@@ -59,7 +60,6 @@
             btnModificarBuscar = new Button();
             PanelBuscarliminar = new Panel();
             txtBuscarBuscarId = new TextBox();
-            btnBuscarBuscarId = new Button();
             labelBuscarId = new Label();
             PanelCrear = new Panel();
             txtCrearHsTotales = new NumericUpDown();
@@ -126,6 +126,8 @@
             // 
             // PanelBuscar
             // 
+            PanelBuscar.Controls.Add(btnBuscarBuscarId);
+            PanelBuscar.Controls.Add(txtBuscarBuscarId);
             PanelBuscar.Controls.Add(txtBuscarHsTotales);
             PanelBuscar.Controls.Add(txtBuscarHsSemanales);
             PanelBuscar.Controls.Add(txtBuscarIdPlan);
@@ -134,10 +136,8 @@
             PanelBuscar.Controls.Add(labelBuscarHsSemanales);
             PanelBuscar.Controls.Add(labelBuscarDescripcion);
             PanelBuscar.Controls.Add(txtBuscarDescripcion);
-            PanelBuscar.Controls.Add(txtEliminarId);
             PanelBuscar.Controls.Add(LabelEliminarId);
-            PanelBuscar.Controls.Add(btnEliminarBuscar);
-            PanelBuscar.Location = new Point(9, 83);
+            PanelBuscar.Location = new Point(12, 356);
             PanelBuscar.Name = "PanelBuscar";
             PanelBuscar.Size = new Size(679, 245);
             PanelBuscar.TabIndex = 7;
@@ -215,7 +215,7 @@
             // 
             // txtEliminarId
             // 
-            txtEliminarId.Location = new Point(106, 21);
+            txtEliminarId.Location = new Point(85, 26);
             txtEliminarId.Name = "txtEliminarId";
             txtEliminarId.Size = new Size(397, 23);
             txtEliminarId.TabIndex = 2;
@@ -232,7 +232,7 @@
             // 
             // btnEliminarBuscar
             // 
-            btnEliminarBuscar.Location = new Point(519, 21);
+            btnEliminarBuscar.Location = new Point(530, 26);
             btnEliminarBuscar.Name = "btnEliminarBuscar";
             btnEliminarBuscar.Size = new Size(122, 23);
             btnEliminarBuscar.TabIndex = 0;
@@ -246,6 +246,7 @@
             PanelModificar.Controls.Add(txtModificarHsSemanales);
             PanelModificar.Controls.Add(txtModificarIdPlan);
             PanelModificar.Controls.Add(labelModifiacarIdPlan);
+            PanelModificar.Controls.Add(btnModificarBuscar);
             PanelModificar.Controls.Add(labelModifiacarHsTotales);
             PanelModificar.Controls.Add(labelModifiacarHsSemanale);
             PanelModificar.Controls.Add(labelModifiacarDescripcion);
@@ -253,10 +254,9 @@
             PanelModificar.Controls.Add(btnModificarModificar);
             PanelModificar.Controls.Add(txtModificarId);
             PanelModificar.Controls.Add(labelModificarId);
-            PanelModificar.Controls.Add(btnModificarBuscar);
-            PanelModificar.Location = new Point(9, 83);
+            PanelModificar.Location = new Point(878, 83);
             PanelModificar.Name = "PanelModificar";
-            PanelModificar.Size = new Size(679, 245);
+            PanelModificar.Size = new Size(682, 245);
             PanelModificar.TabIndex = 6;
             PanelModificar.Visible = false;
             // 
@@ -266,6 +266,16 @@
             txtModificarHsTotales.Name = "txtModificarHsTotales";
             txtModificarHsTotales.Size = new Size(551, 23);
             txtModificarHsTotales.TabIndex = 27;
+            // 
+            // btnBuscarBuscarId
+            // 
+            btnBuscarBuscarId.Location = new Point(542, 26);
+            btnBuscarBuscarId.Name = "btnBuscarBuscarId";
+            btnBuscarBuscarId.Size = new Size(75, 23);
+            btnBuscarBuscarId.TabIndex = 1;
+            btnBuscarBuscarId.Text = "BuscarId";
+            btnBuscarBuscarId.UseVisualStyleBackColor = true;
+            btnBuscarBuscarId.Click += btnBuscarBuscarId_Click;
             // 
             // txtModificarHsSemanales
             // 
@@ -355,7 +365,7 @@
             // 
             // btnModificarBuscar
             // 
-            btnModificarBuscar.Location = new Point(524, 17);
+            btnModificarBuscar.Location = new Point(516, 21);
             btnModificarBuscar.Name = "btnModificarBuscar";
             btnModificarBuscar.Size = new Size(104, 23);
             btnModificarBuscar.TabIndex = 0;
@@ -365,10 +375,10 @@
             // 
             // PanelBuscarliminar
             // 
-            PanelBuscarliminar.Controls.Add(txtBuscarBuscarId);
-            PanelBuscarliminar.Controls.Add(btnBuscarBuscarId);
             PanelBuscarliminar.Controls.Add(labelBuscarId);
-            PanelBuscarliminar.Location = new Point(12, 83);
+            PanelBuscarliminar.Controls.Add(btnEliminarBuscar);
+            PanelBuscarliminar.Controls.Add(txtEliminarId);
+            PanelBuscarliminar.Location = new Point(878, 356);
             PanelBuscarliminar.Name = "PanelBuscarliminar";
             PanelBuscarliminar.Size = new Size(679, 245);
             PanelBuscarliminar.TabIndex = 5;
@@ -376,21 +386,11 @@
             // 
             // txtBuscarBuscarId
             // 
-            txtBuscarBuscarId.Location = new Point(92, 19);
+            txtBuscarBuscarId.Location = new Point(90, 22);
             txtBuscarBuscarId.Name = "txtBuscarBuscarId";
             txtBuscarBuscarId.Size = new Size(411, 23);
             txtBuscarBuscarId.TabIndex = 2;
             txtBuscarBuscarId.TextChanged += txtBuscarBuscarId_TextChanged;
-            // 
-            // btnBuscarBuscarId
-            // 
-            btnBuscarBuscarId.Location = new Point(574, 21);
-            btnBuscarBuscarId.Name = "btnBuscarBuscarId";
-            btnBuscarBuscarId.Size = new Size(75, 23);
-            btnBuscarBuscarId.TabIndex = 1;
-            btnBuscarBuscarId.Text = "BuscarId";
-            btnBuscarBuscarId.UseVisualStyleBackColor = true;
-            btnBuscarBuscarId.Click += btnBuscarBuscarId_Click;
             // 
             // labelBuscarId
             // 
@@ -496,7 +496,7 @@
             // 
             // Volver
             // 
-            Volver.Location = new Point(33, 345);
+            Volver.Location = new Point(867, 36);
             Volver.Name = "Volver";
             Volver.Size = new Size(655, 23);
             Volver.TabIndex = 8;
@@ -508,7 +508,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(735, 393);
+            ClientSize = new Size(1626, 645);
             Controls.Add(Volver);
             Controls.Add(PanelModificar);
             Controls.Add(PanelBuscarliminar);

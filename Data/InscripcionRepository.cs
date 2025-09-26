@@ -40,12 +40,14 @@ namespace Data
             }
             return false;
         }
+
         public Inscripcion? Get(int id)
         {
             using var context = CreateContext();
             var insc = context.Inscripciones.Find(id);
             return insc;
         }
+
         public IEnumerable<Inscripcion> GetAll()
         {
             using var context = CreateContext();
@@ -125,6 +127,6 @@ namespace Data
 
             return false;
         }
-        //Puede que en un futuro tengamos más 
+
     }
 }

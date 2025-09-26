@@ -64,7 +64,7 @@ public static class UsuarioEndpoints
 
                         return Results.Created($"/usuarios/{dtoResultado.Id}", dtoResultado);
                     }
-                    catch (ArgumentException ex)
+                    catch (Exception ex)
                     {
                         return Results.BadRequest(new { error = ex.Message });
                     }
@@ -90,7 +90,7 @@ public static class UsuarioEndpoints
 
                         return Results.NoContent();
                     }
-                    catch (ArgumentException ex)
+                    catch (Exception ex)
                     {
                         return Results.BadRequest(new { error = ex.Message });
                     }

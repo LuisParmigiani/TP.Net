@@ -2,7 +2,9 @@ using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Domain.Model;
+
 namespace Data;
+
 
 public class TPIContext : DbContext
 {

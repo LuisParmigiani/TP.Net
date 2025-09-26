@@ -148,15 +148,16 @@
             // 
             // panelModificar
             // 
+            panelModificar.Controls.Add(panelCrear);
             panelModificar.Controls.Add(txtModificarDescripcion);
             panelModificar.Controls.Add(btnModificarModificar);
             panelModificar.Controls.Add(labelModificarDescripcion);
             panelModificar.Controls.Add(txtModificarId);
             panelModificar.Controls.Add(labelModificarId);
             panelModificar.Controls.Add(btnModificarBuscar);
-            panelModificar.Location = new Point(24, 87);
+            panelModificar.Location = new Point(844, 64);
             panelModificar.Name = "panelModificar";
-            panelModificar.Size = new Size(747, 278);
+            panelModificar.Size = new Size(778, 278);
             panelModificar.TabIndex = 7;
             panelModificar.Visible = false;
             panelModificar.Paint += panelModificar_Paint;
@@ -221,7 +222,7 @@
             panelBuscar.Controls.Add(txtBuscarId);
             panelBuscar.Controls.Add(btnBuscarId);
             panelBuscar.Controls.Add(labelBuscarId);
-            panelBuscar.Location = new Point(21, 87);
+            panelBuscar.Location = new Point(21, 90);
             panelBuscar.Name = "panelBuscar";
             panelBuscar.Size = new Size(747, 278);
             panelBuscar.TabIndex = 8;
@@ -234,6 +235,7 @@
             txtBuscardescripcion.Name = "txtBuscardescripcion";
             txtBuscardescripcion.Size = new Size(564, 23);
             txtBuscardescripcion.TabIndex = 4;
+            txtBuscardescripcion.TextChanged += txtBuscardescripcion_TextChanged;
             // 
             // labelBuscarDescripcion
             // 
@@ -276,9 +278,9 @@
             panelCrear.Controls.Add(textBox1);
             panelCrear.Controls.Add(labelCrearDescripcion);
             panelCrear.Controls.Add(btnCrearCrear);
-            panelCrear.Location = new Point(21, 87);
+            panelCrear.Location = new Point(0, 3);
             panelCrear.Name = "panelCrear";
-            panelCrear.Size = new Size(750, 275);
+            panelCrear.Size = new Size(750, 281);
             panelCrear.TabIndex = 5;
             panelCrear.Paint += panelCrear_Paint;
             // 
@@ -323,8 +325,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(815, 526);
-            Controls.Add(panelCrear);
+            ClientSize = new Size(1618, 526);
             Controls.Add(Volver);
             Controls.Add(panelBuscar);
             Controls.Add(panelModificar);

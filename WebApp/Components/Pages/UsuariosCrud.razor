@@ -1,0 +1,469 @@
+﻿@page "/UsuariosCrud/{Page:int?}"
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components
+@using System.Net.Http.Json
+@using DTOs
+
+<h1>Usuario CRUD</h1>
+
+@inject IHttpClientFactory ClientFactory
+@inject NavigationManager Navigation
+
+@code {
+    [Parameter]
+    public int? Page { get; set; }
+    // Campos para crear usuario
+    private int Id;
+    private string nombreUsuario;
+    private string clave;
+    private int idPersona;
+    private bool habilitado;
+    private bool cambiaClave;
+    private string mensaje = string.Empty;
+
+
+    private async Task Borrar()
+    {
+        if (Id <= 0)
+        {
+            mensaje = "Error: Debe especificar un ID de persona válido";
+            return;
+        }
+        try
+        {
+            var client = ClientFactory.CreateClient("API");
+            // Primero comprobar que la API responde con una llamada GET básica
+            try
+            {
+                var health = await client.GetAsync("/usuarios", HttpCompletionOption.ResponseHeadersRead);
+                if (!health.IsSuccessStatusCode)
+                {
+                    var body = await health.Content.ReadAsStringAsync();
+                    mensaje = $"API no disponible: {(int)health.StatusCode} {health.ReasonPhrase}. {body}";
+                    return;
+                }
+            }
+            catch (HttpRequestException hre)
+            {
+                mensaje = "Error de conexión al API: " + hre.Message + ". Asegurese de iniciar el WebApi en http://localhost:5183";
+                Console.WriteLine("[UsuariosCrud] Health check exception: " + hre);
+                return;
+            }
+            var response = await client.DeleteAsync($"/usuarios/{Id}");
+            if (response.IsSuccessStatusCode)
+            {
+                mensaje = "Usuario borrado correctamente!";
+                Id = 0;
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                mensaje = $"Error {(int)response.StatusCode} {response.ReasonPhrase}: {error}";
+                Console.WriteLine($"[UsuariosCrud] DELETE /usuarios/{Id} responded {response.StatusCode}: {error}");
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = "Error: " + ex.Message;
+            Console.WriteLine($"[UsuariosCrud] Exception: {ex}");
+        }
+    }
+
+    private async Task ActualizarUsuario()
+    {
+        if (Id <= 0)
+        {
+            mensaje = "Error: Debe especificar un ID de persona válido";
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(nombreUsuario))
+        {
+            mensaje = "Error: El nombre de usuario es obligatorio";
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(clave))
+        {
+            mensaje = "Error: La clave es obligatoria";
+            return;
+        }
+        var usuarioDTO = new UsuarioDTO
+        {   
+            Id = Id,
+            NombreUsuario = nombreUsuario,
+            Clave = clave,
+            IdPersona = idPersona,
+            Habilitado = habilitado,
+            CambiaClave = cambiaClave
+        };
+        try
+        {
+            var client = ClientFactory.CreateClient("API");
+            // Primero comprobar que la API responde con una llamada GET básica
+            try
+            {
+                var health = await client.GetAsync("/usuarios", HttpCompletionOption.ResponseHeadersRead);
+                if (!health.IsSuccessStatusCode)
+                {
+                    var body = await health.Content.ReadAsStringAsync();
+                    mensaje = $"API no disponible: {(int)health.StatusCode} {health.ReasonPhrase}. {body}";
+                    return;
+                }
+            }
+            catch (HttpRequestException hre)
+            {
+                mensaje = "Error de conexión al API: " + hre.Message + ". Asegurese de iniciar el WebApi en http://localhost:5183";
+                Console.WriteLine("[UsuariosCrud] Health check exception: " + hre);
+                return;
+            }
+            var response = await client.PutAsJsonAsync($"/usuarios/{Id}", usuarioDTO);
+            if (response.IsSuccessStatusCode)
+            {
+                mensaje = "Usuario actualizado correctamente!";
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                mensaje = $"Error {(int)response.StatusCode} {response.ReasonPhrase}: {error}";
+                Console.WriteLine($"[UsuariosCrud] PUT /usuarios/{Id} responded {response.StatusCode}: {error}");
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = "Error: " + ex.Message;
+            Console.WriteLine($"[UsuariosCrud] Exception: {ex}");
+        }
+
+    }
+
+    private async Task BuscarPersona()
+    {
+        if (Id <= 0)
+        {
+            mensaje = "Error: Debe especificar un ID de persona válido";
+            return;
+        }
+        try
+        {
+            // prepara la api para la llamada
+            var client = ClientFactory.CreateClient("API");
+            
+            try
+            {
+                // Hace una llamada ligera para comprobar que la API responde (Solo lee las cabeceras)
+                var health = await client.GetAsync("/usuarios", HttpCompletionOption.ResponseHeadersRead);
+                if (!health.IsSuccessStatusCode)
+                {
+                    var body = await health.Content.ReadAsStringAsync();
+                    mensaje = $"API no disponible: {(int)health.StatusCode} {health.ReasonPhrase}. {body}";
+                    return;
+                }
+            }
+            catch (HttpRequestException hre)
+            {
+                mensaje = "Error de conexión al API: " + hre.Message + ". Asegurese de iniciar el WebApi en http://localhost:5183";
+                Console.WriteLine("[UsuariosCrud] Health check exception: " + hre);
+                return;
+            }
+            // Llama a la API para obtener el usuario
+            var response = await client.GetAsync($"/usuarios/{Id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var usuario = await response.Content.ReadFromJsonAsync<UsuarioDTO>();
+                if (usuario != null)
+                {
+                    Id = usuario.Id;
+                    idPersona = usuario.IdPersona;
+                    nombreUsuario = usuario.NombreUsuario;
+                    clave = usuario.Clave;
+                    habilitado = usuario.Habilitado;
+                    cambiaClave = usuario.CambiaClave;
+                    mensaje = "Usuario encontrado!";
+                }
+                else
+                {
+                    mensaje = "Usuario no encontrado.";
+                }
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                mensaje = $"Error {(int)response.StatusCode} {response.ReasonPhrase}: {error}";
+                Console.WriteLine($"[UsuariosCrud] GET /usuarios/{Id} responded {response.StatusCode}: {error}");
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = "Error: " + ex.Message;
+            Console.WriteLine($"[UsuariosCrud] Exception: {ex}");
+        }
+        StateHasChanged();
+    }
+
+
+
+
+    private async Task CrearUsuario()
+    {
+        // Validaciones básicas
+        if (string.IsNullOrWhiteSpace(nombreUsuario))
+        {
+            mensaje = "Error: El nombre de usuario es obligatorio";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(clave))
+        {
+            mensaje = "Error: La clave es obligatoria";
+            return;
+        }
+
+        if (idPersona <= 0)
+        {
+            mensaje = "Error: Debe especificar un ID de persona válido";
+            return;
+        }
+
+        var usuarioDTO = new UsuarioDTO
+        {
+            NombreUsuario = nombreUsuario,
+            Clave = clave,
+            IdPersona = idPersona,
+            Habilitado = habilitado,
+            CambiaClave = cambiaClave
+        };
+
+        try
+        {
+            var client = ClientFactory.CreateClient("API");
+
+            // Primero comprobar que la API responde con una llamada GET básica
+            try
+            {
+                // Reemplaza la llamada pesada por una que solo lea las cabeceras (no descarga el body completo)
+                var health = await client.GetAsync("/usuarios", HttpCompletionOption.ResponseHeadersRead);
+                if (!health.IsSuccessStatusCode)
+                {
+                    var body = await health.Content.ReadAsStringAsync();
+                    mensaje = $"API no disponible: {(int)health.StatusCode} {health.ReasonPhrase}. {body}";
+                    return;
+                }
+            }
+            catch (HttpRequestException hre)
+            {
+                mensaje = "Error de conexión al API: " + hre.Message + ". Asegurese de iniciar el WebApi en http://localhost:5183";
+                Console.WriteLine("[UsuariosCrud] Health check exception: " + hre);
+                return;
+            }
+
+            var response = await client.PostAsJsonAsync("/usuarios", usuarioDTO);
+
+            if (response.IsSuccessStatusCode)
+            {
+                mensaje = "Usuario creado correctamente!";
+                // Limpiar campos
+                nombreUsuario = clave = string.Empty;
+                idPersona = 0;
+                habilitado = cambiaClave = false;
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                mensaje = $"Error {(int)response.StatusCode} {response.ReasonPhrase}: {error}";
+                Console.WriteLine($"[UsuariosCrud] POST /usuarios responded {response.StatusCode}: {error}");
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = "Error: " + ex.Message;
+            Console.WriteLine($"[UsuariosCrud] Exception: {ex}");
+        }
+
+        StateHasChanged();
+    }
+
+    private void Navigate(int nuevaId)
+    {
+        var url = nuevaId == 0 ? "/UsuariosCrud" : $"/UsuariosCrud/{nuevaId}";
+        Navigation.NavigateTo(url);
+    }
+}
+
+@if (Page == null)
+{
+    <div class="text-center my-4">
+        <h2 class="mb-4">Menú CRUD</h2>
+        <div class="d-flex flex-column gap-3 w-50 mx-auto">
+            <button class="btn btn-primary btn-lg" @onclick="() => Navigate(2)">Crear</button>
+            <button class="btn btn-info btn-lg text-white" @onclick="() => Navigate(3)">Buscar</button>
+            <button class="btn btn-warning btn-lg text-white" @onclick="() => Navigate(4)">Actualizar</button>
+            <button class="btn btn-danger btn-lg" @onclick="() => Navigate(5)">Borrar</button>
+        </div>
+    </div>
+
+}
+
+@if (Page == 2)
+{
+    <div class="card shadow p-4" style="max-width: 500px; margin: auto; margin-top: 50px;">
+        <h2 class="mb-4 text-center">Crear Usuario</h2>
+
+        @if (!string.IsNullOrEmpty(mensaje))
+        {
+            <div class="alert @(mensaje.StartsWith("Error") ? "alert-danger" : "alert-success")">
+                @mensaje
+            </div>
+        }
+
+        <div class="mb-3">
+            <label for="NombreUsuario" class="form-label">Nombre de usuario</label>
+            <input @bind="nombreUsuario" id="NombreUsuario" placeholder="Nombre de usuario" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Clave" class="form-label">Clave</label>
+            <input @bind="clave" id="Clave" placeholder="Clave" type="password" class="form-control" />
+            <button type="button" class="btn btn-outline-secondary" @onclick="ToggleMostrarClave">
+                @(mostrarClave ? "🙈 Ocultar" : "👁️ Mostrar")
+            </button>
+        </div>
+
+        <div class="mb-3">
+            <label for="IdPersona" class="form-label">Id Persona</label>
+            <input @bind="idPersona" id="IdPersona" placeholder="IdPersona" type="number" class="form-control" />
+        </div>
+
+        <div class="form-check mb-2">
+            <input type="checkbox" class="form-check-input" id="Habilitado" @bind="habilitado" />
+            <label class="form-check-label" for="Habilitado">Habilitado</label>
+        </div>
+
+        <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" id="CambiaClave" @bind="cambiaClave" />
+            <label class="form-check-label" for="CambiaClave">Cambio de Clave</label>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-primary w-50" @onclick="CrearUsuario">Crear</button>
+            <button type="button" class="btn btn-secondary w-50" @onclick="() => Navigate(0)">Volver</button>
+        </div>
+    </div>
+
+}
+
+@if (Page == 3)
+{
+
+    <h2>Buscar</h2>
+    @if (!string.IsNullOrEmpty(mensaje))
+    {
+        <div class="alert @(mensaje.StartsWith("Error") ? "alert-danger" : "alert-success")">
+            @mensaje
+        </div>
+    }
+    <div class="mb-3">
+        <label for="Id" class="form-label">Id </label>
+        <input @bind="Id" id="Id" placeholder="Id" type="number" class="form-control" />
+    </div>
+    <div class="d-flex gap-2">
+        <button type="button" class="btn btn-primary w-50" @onclick="BuscarPersona">BuscarPersona</button>
+        <button type="button" class="btn btn-secondary w-50" @onclick="() => Navigate(0)">Volver</button>
+    </div>
+    @if (@nombreUsuario != null)
+    {
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Detalles de la Persona</h5>
+                <p class="card-text"><strong>Id:</strong> @Id</p>
+                <p class="card-text"><strong>Id Persona:</strong> @idPersona</p>
+                <p class="card-text"><strong>Nombre de usuario:</strong> @nombreUsuario</p>
+                <p class="card-text"><strong>Clave:</strong> @clave</p>
+                <p class="card-text"><strong>Habilitado:</strong> @(habilitado ? "Sí" : "No")</p>
+                <p class="card-text"><strong>Cambio de Clave:</strong> @(cambiaClave ? "Sí" : "No")</p>
+            </div>
+        </div>
+     }   
+}
+
+@if (Page == 4)
+{
+    <h2 class="mb-4 text-center">Actualizar Usuario</h2>
+
+    @if (!string.IsNullOrEmpty(mensaje))
+    {
+        <div class="alert @(mensaje.StartsWith("Error") ? "alert-danger" : "alert-success") text-center">
+            @mensaje
+        </div>
+    }
+
+    <div class="mb-3 d-flex gap-2 align-items-end">
+        <div class="flex-grow-1">
+            <label for="Id" class="form-label">Id </label>
+            <input @bind="Id" id="Id" placeholder="Id " type="number" class="form-control" />
+        </div>
+        <button type="button" class="btn btn-primary" @onclick="BuscarPersona">Buscar</button>
+    </div>
+
+    <div class="mb-3">
+        <label for="NombreUsuario" class="form-label">Nombre de usuario</label>
+        <input @bind="nombreUsuario" id="NombreUsuario" placeholder="Nombre de usuario" class="form-control" />
+    </div>
+    <div class="mb-3 position-relative">
+        <label for="Clave" class="form-label">Clave</label>
+        <div class="input-group">
+            <input @bind="clave" id="Clave" placeholder="Clave" type="@(mostrarClave ? "text" : "password")" class="form-control" />
+            <button type="button" class="btn btn-outline-secondary" @onclick="ToggleMostrarClave">
+                @(mostrarClave ? "🙈 Ocultar" : "👁️ Mostrar")
+            </button>
+        </div>
+    <div class="mb-3">
+        <label for="IdPersona" class="form-label">Id Persona</label>
+        <input @bind="idPersona" id="IdPersona" placeholder="Id Persona" class="form-control" />
+    </div>
+    </div>
+
+    <div class="form-check mb-2">
+        <input type="checkbox" class="form-check-input" id="Habilitado" @bind="habilitado" />
+        <label class="form-check-label" for="Habilitado">Habilitado</label>
+    </div>
+
+    <div class="form-check mb-4">
+        <input type="checkbox" class="form-check-input" id="CambiaClave" @bind="cambiaClave" />
+        <label class="form-check-label" for="CambiaClave">Cambio de Clave</label>
+    </div>
+
+    <div class="d-flex gap-3">
+        <button type="button" class="btn btn-success flex-fill" @onclick="ActualizarUsuario">Actualizar</button>
+        <button type="button" class="btn btn-secondary flex-fill" @onclick="() => Navigate(0)">Volver</button>
+    </div>
+}
+@code {
+    private bool mostrarClave = false;
+
+    private void ToggleMostrarClave()
+    {
+        mostrarClave = !mostrarClave;
+    }
+
+    
+}
+
+@if (Id == 5)
+{
+    <h2>Borrar</h2>
+    @if (!string.IsNullOrEmpty(mensaje))
+    {
+        <div class="alert @(mensaje.StartsWith("Error") ? "alert-danger" : "alert-success")">
+            @mensaje
+      </div>
+    
+    }
+
+    <div class="mb-3">
+        <label for="Id" class="form-label">Id Persona</label>
+        <input @bind="Id" id="Id" placeholder="Id Persona" type="number" class="form-control" />
+    </div>
+    <div class="d-flex gap-3">
+        <button type="button" class="btn btn-success flex-fill" @onclick="Borrar">Borrar</button>
+        <button type="button" class="btn btn-secondary flex-fill" @onclick="() => Navigate(0)">Volver</button>
+    </div>
+}

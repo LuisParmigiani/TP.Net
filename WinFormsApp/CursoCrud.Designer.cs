@@ -37,6 +37,8 @@
             LabelEliminarId = new Label();
             btnEliminarBuscar = new Button();
             PanelModificar = new Panel();
+            txtModificarDescripcion = new TextBox();
+            labelModificarDescripcion = new Label();
             txtModificarCupo = new TextBox();
             txtModificarAnioCalendario = new TextBox();
             txtModificarIdComision = new TextBox();
@@ -50,6 +52,8 @@
             labelModificarId = new Label();
             btnModificarBuscar = new Button();
             PanelBuscar = new Panel();
+            txtBuscarDescripcion = new TextBox();
+            labelBuscarDescripcion = new Label();
             txtBuscarCupo = new TextBox();
             txtBuscarAnioCalendario = new TextBox();
             txtBuscarIdComision = new TextBox();
@@ -62,6 +66,8 @@
             btnBuscarBuscarId = new Button();
             labelBuscarId = new Label();
             PanelCrear = new Panel();
+            txtCrearDescripcion = new TextBox();
+            labelCrearDescripcion = new Label();
             txtCrearCupo = new TextBox();
             txtCrearAnioCalendario = new TextBox();
             txtCrearIdComision = new TextBox();
@@ -158,6 +164,8 @@
             // 
             // PanelModificar
             // 
+            PanelModificar.Controls.Add(txtModificarDescripcion);
+            PanelModificar.Controls.Add(labelModificarDescripcion);
             PanelModificar.Controls.Add(txtModificarCupo);
             PanelModificar.Controls.Add(txtModificarAnioCalendario);
             PanelModificar.Controls.Add(txtModificarIdComision);
@@ -170,15 +178,31 @@
             PanelModificar.Controls.Add(txtModificarId);
             PanelModificar.Controls.Add(labelModificarId);
             PanelModificar.Controls.Add(btnModificarBuscar);
-            PanelModificar.Location = new Point(9, 80);
+            PanelModificar.Location = new Point(850, 339);
             PanelModificar.Name = "PanelModificar";
             PanelModificar.Size = new Size(679, 253);
             PanelModificar.TabIndex = 6;
             PanelModificar.Visible = false;
             // 
+            // txtModificarDescripcion
+            // 
+            txtModificarDescripcion.Location = new Point(115, 182);
+            txtModificarDescripcion.Name = "txtModificarDescripcion";
+            txtModificarDescripcion.Size = new Size(544, 23);
+            txtModificarDescripcion.TabIndex = 18;
+            // 
+            // labelModificarDescripcion
+            // 
+            labelModificarDescripcion.AutoSize = true;
+            labelModificarDescripcion.Location = new Point(30, 189);
+            labelModificarDescripcion.Name = "labelModificarDescripcion";
+            labelModificarDescripcion.Size = new Size(69, 15);
+            labelModificarDescripcion.TabIndex = 17;
+            labelModificarDescripcion.Text = "Descripcion";
+            // 
             // txtModificarCupo
             // 
-            txtModificarCupo.Location = new Point(115, 161);
+            txtModificarCupo.Location = new Point(115, 153);
             txtModificarCupo.Name = "txtModificarCupo";
             txtModificarCupo.Size = new Size(544, 23);
             txtModificarCupo.TabIndex = 16;
@@ -186,7 +210,7 @@
             // 
             // txtModificarAnioCalendario
             // 
-            txtModificarAnioCalendario.Location = new Point(114, 127);
+            txtModificarAnioCalendario.Location = new Point(114, 119);
             txtModificarAnioCalendario.Name = "txtModificarAnioCalendario";
             txtModificarAnioCalendario.Size = new Size(545, 23);
             txtModificarAnioCalendario.TabIndex = 15;
@@ -194,7 +218,7 @@
             // 
             // txtModificarIdComision
             // 
-            txtModificarIdComision.Location = new Point(114, 95);
+            txtModificarIdComision.Location = new Point(114, 87);
             txtModificarIdComision.Name = "txtModificarIdComision";
             txtModificarIdComision.Size = new Size(545, 23);
             txtModificarIdComision.TabIndex = 14;
@@ -202,7 +226,7 @@
             // 
             // txtModificarIdMateria
             // 
-            txtModificarIdMateria.Location = new Point(114, 60);
+            txtModificarIdMateria.Location = new Point(114, 52);
             txtModificarIdMateria.Name = "txtModificarIdMateria";
             txtModificarIdMateria.Size = new Size(545, 23);
             txtModificarIdMateria.TabIndex = 13;
@@ -211,7 +235,7 @@
             // labelModificarCupo
             // 
             labelModificarCupo.AutoSize = true;
-            labelModificarCupo.Location = new Point(34, 161);
+            labelModificarCupo.Location = new Point(30, 161);
             labelModificarCupo.Name = "labelModificarCupo";
             labelModificarCupo.Size = new Size(36, 15);
             labelModificarCupo.TabIndex = 12;
@@ -220,7 +244,7 @@
             // labelModificarAnioCalendario
             // 
             labelModificarAnioCalendario.AutoSize = true;
-            labelModificarAnioCalendario.Location = new Point(19, 127);
+            labelModificarAnioCalendario.Location = new Point(9, 127);
             labelModificarAnioCalendario.Name = "labelModificarAnioCalendario";
             labelModificarAnioCalendario.Size = new Size(89, 15);
             labelModificarAnioCalendario.TabIndex = 11;
@@ -237,7 +261,7 @@
             // 
             // btnModificarModificar
             // 
-            btnModificarModificar.Location = new Point(89, 205);
+            btnModificarModificar.Location = new Point(86, 222);
             btnModificarModificar.Name = "btnModificarModificar";
             btnModificarModificar.Size = new Size(590, 23);
             btnModificarModificar.TabIndex = 3;
@@ -283,6 +307,8 @@
             // 
             // PanelBuscar
             // 
+            PanelBuscar.Controls.Add(txtBuscarDescripcion);
+            PanelBuscar.Controls.Add(labelBuscarDescripcion);
             PanelBuscar.Controls.Add(txtBuscarCupo);
             PanelBuscar.Controls.Add(txtBuscarAnioCalendario);
             PanelBuscar.Controls.Add(txtBuscarIdComision);
@@ -294,11 +320,28 @@
             PanelBuscar.Controls.Add(txtBuscarBuscarId);
             PanelBuscar.Controls.Add(btnBuscarBuscarId);
             PanelBuscar.Controls.Add(labelBuscarId);
-            PanelBuscar.Location = new Point(12, 77);
+            PanelBuscar.Location = new Point(850, 77);
             PanelBuscar.Name = "PanelBuscar";
             PanelBuscar.Size = new Size(679, 245);
             PanelBuscar.TabIndex = 5;
             PanelBuscar.Visible = false;
+            // 
+            // txtBuscarDescripcion
+            // 
+            txtBuscarDescripcion.Location = new Point(115, 197);
+            txtBuscarDescripcion.Name = "txtBuscarDescripcion";
+            txtBuscarDescripcion.Size = new Size(544, 23);
+            txtBuscarDescripcion.TabIndex = 18;
+            // 
+            // labelBuscarDescripcion
+            // 
+            labelBuscarDescripcion.AutoSize = true;
+            labelBuscarDescripcion.Enabled = false;
+            labelBuscarDescripcion.Location = new Point(34, 197);
+            labelBuscarDescripcion.Name = "labelBuscarDescripcion";
+            labelBuscarDescripcion.Size = new Size(69, 15);
+            labelBuscarDescripcion.TabIndex = 17;
+            labelBuscarDescripcion.Text = "Descripcion";
             // 
             // txtBuscarCupo
             // 
@@ -401,6 +444,8 @@
             // 
             // PanelCrear
             // 
+            PanelCrear.Controls.Add(txtCrearDescripcion);
+            PanelCrear.Controls.Add(labelCrearDescripcion);
             PanelCrear.Controls.Add(txtCrearCupo);
             PanelCrear.Controls.Add(txtCrearAnioCalendario);
             PanelCrear.Controls.Add(txtCrearIdComision);
@@ -410,10 +455,27 @@
             PanelCrear.Controls.Add(labelCrearIdComision);
             PanelCrear.Controls.Add(labelCrearIdMateria);
             PanelCrear.Controls.Add(btnCrearCrear);
-            PanelCrear.Location = new Point(12, 77);
+            PanelCrear.Location = new Point(12, 339);
             PanelCrear.Name = "PanelCrear";
             PanelCrear.Size = new Size(679, 245);
             PanelCrear.TabIndex = 4;
+            // 
+            // txtCrearDescripcion
+            // 
+            txtCrearDescripcion.Location = new Point(106, 153);
+            txtCrearDescripcion.Name = "txtCrearDescripcion";
+            txtCrearDescripcion.Size = new Size(546, 23);
+            txtCrearDescripcion.TabIndex = 10;
+            txtCrearDescripcion.TextChanged += txtCrearDescripcion_TextChanged;
+            // 
+            // labelCrearDescripcion
+            // 
+            labelCrearDescripcion.AutoSize = true;
+            labelCrearDescripcion.Location = new Point(27, 161);
+            labelCrearDescripcion.Name = "labelCrearDescripcion";
+            labelCrearDescripcion.Size = new Size(69, 15);
+            labelCrearDescripcion.TabIndex = 9;
+            labelCrearDescripcion.Text = "Descripcion";
             // 
             // txtCrearCupo
             // 
@@ -485,7 +547,7 @@
             // 
             // btnCrearCrear
             // 
-            btnCrearCrear.Location = new Point(23, 167);
+            btnCrearCrear.Location = new Point(27, 189);
             btnCrearCrear.Name = "btnCrearCrear";
             btnCrearCrear.Size = new Size(564, 45);
             btnCrearCrear.TabIndex = 0;
@@ -495,7 +557,7 @@
             // 
             // Volver
             // 
-            Volver.Location = new Point(17, 359);
+            Volver.Location = new Point(838, 25);
             Volver.Name = "Volver";
             Volver.Size = new Size(671, 23);
             Volver.TabIndex = 8;
@@ -615,5 +677,6 @@
         private Label labelBuscarIdComision;
         private Label labelBuscarIdMateria;
         private Button Volver;
+        
     }
 }

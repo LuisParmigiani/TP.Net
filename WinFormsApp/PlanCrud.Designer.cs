@@ -37,6 +37,8 @@
             LabelEliminarId = new Label();
             btnEliminarBuscar = new Button();
             PanelModificar = new Panel();
+            txtModificarIdEspecialidad = new TextBox();
+            labelModificarIdEspecialidad = new Label();
             txtModificarDescripcion = new TextBox();
             labelModificarDescripcion = new Label();
             btnModificarModificar = new Button();
@@ -44,12 +46,16 @@
             labelModificarId = new Label();
             btnModificarBuscar = new Button();
             PanelBuscar = new Panel();
+            labelBuscarIdEspecialidad = new Label();
+            txtBuscarIdEspecialidad = new TextBox();
             txtBuscarDescripcion = new TextBox();
             labelBuscarDescripcion = new Label();
             txtBuscarBuscarId = new TextBox();
             btnBuscarBuscarId = new Button();
             labelBuscarId = new Label();
             PanelCrear = new Panel();
+            txtCrearIdEspecialidad = new TextBox();
+            labelCrearIdEspecialidad = new Label();
             labelCrearDescripcion = new Label();
             txtCrearDescripcion = new TextBox();
             btnCrearCrear = new Button();
@@ -105,7 +111,7 @@
             PanelEliminar.Controls.Add(txtEliminarId);
             PanelEliminar.Controls.Add(LabelEliminarId);
             PanelEliminar.Controls.Add(btnEliminarBuscar);
-            PanelEliminar.Location = new Point(27, 80);
+            PanelEliminar.Location = new Point(729, 80);
             PanelEliminar.Name = "PanelEliminar";
             PanelEliminar.Size = new Size(679, 245);
             PanelEliminar.TabIndex = 7;
@@ -140,17 +146,36 @@
             // 
             // PanelModificar
             // 
+            PanelModificar.Controls.Add(txtModificarIdEspecialidad);
+            PanelModificar.Controls.Add(labelModificarIdEspecialidad);
             PanelModificar.Controls.Add(txtModificarDescripcion);
             PanelModificar.Controls.Add(labelModificarDescripcion);
             PanelModificar.Controls.Add(btnModificarModificar);
             PanelModificar.Controls.Add(txtModificarId);
             PanelModificar.Controls.Add(labelModificarId);
             PanelModificar.Controls.Add(btnModificarBuscar);
-            PanelModificar.Location = new Point(27, 80);
+            PanelModificar.Location = new Point(729, 347);
             PanelModificar.Name = "PanelModificar";
             PanelModificar.Size = new Size(679, 245);
             PanelModificar.TabIndex = 6;
             PanelModificar.Visible = false;
+            // 
+            // txtModificarIdEspecialidad
+            // 
+            txtModificarIdEspecialidad.Location = new Point(121, 112);
+            txtModificarIdEspecialidad.Name = "txtModificarIdEspecialidad";
+            txtModificarIdEspecialidad.Size = new Size(346, 23);
+            txtModificarIdEspecialidad.TabIndex = 6;
+            txtModificarIdEspecialidad.TextChanged += txtModificarIdEspecialidad_TextChanged;
+            // 
+            // labelModificarIdEspecialidad
+            // 
+            labelModificarIdEspecialidad.AutoSize = true;
+            labelModificarIdEspecialidad.Location = new Point(38, 120);
+            labelModificarIdEspecialidad.Name = "labelModificarIdEspecialidad";
+            labelModificarIdEspecialidad.Size = new Size(40, 15);
+            labelModificarIdEspecialidad.TabIndex = 6;
+            labelModificarIdEspecialidad.Text = "IdEspecialidad";
             // 
             // txtModificarDescripcion
             // 
@@ -163,7 +188,7 @@
             // labelModificarDescripcion
             // 
             labelModificarDescripcion.AutoSize = true;
-            labelModificarDescripcion.Location = new Point(32, 72);
+            labelModificarDescripcion.Location = new Point(38, 67);
             labelModificarDescripcion.Name = "labelModificarDescripcion";
             labelModificarDescripcion.Size = new Size(69, 15);
             labelModificarDescripcion.TabIndex = 4;
@@ -190,7 +215,7 @@
             // labelModificarId
             // 
             labelModificarId.AutoSize = true;
-            labelModificarId.Location = new Point(27, 17);
+            labelModificarId.Location = new Point(38, 17);
             labelModificarId.Name = "labelModificarId";
             labelModificarId.Size = new Size(17, 15);
             labelModificarId.TabIndex = 1;
@@ -208,16 +233,36 @@
             // 
             // PanelBuscar
             // 
+            PanelBuscar.Controls.Add(labelBuscarIdEspecialidad);
+            PanelBuscar.Controls.Add(txtBuscarIdEspecialidad);
             PanelBuscar.Controls.Add(txtBuscarDescripcion);
             PanelBuscar.Controls.Add(labelBuscarDescripcion);
             PanelBuscar.Controls.Add(txtBuscarBuscarId);
             PanelBuscar.Controls.Add(btnBuscarBuscarId);
             PanelBuscar.Controls.Add(labelBuscarId);
-            PanelBuscar.Location = new Point(27, 80);
+            PanelBuscar.Location = new Point(27, 347);
             PanelBuscar.Name = "PanelBuscar";
             PanelBuscar.Size = new Size(679, 245);
             PanelBuscar.TabIndex = 5;
             PanelBuscar.Visible = false;
+            // 
+            // labelBuscarIdEspecialidad
+            // 
+            labelBuscarIdEspecialidad.AutoSize = true;
+            labelBuscarIdEspecialidad.Location = new Point(12, 112);
+            labelBuscarIdEspecialidad.Name = "labelBuscarIdEspecialidad";
+            labelBuscarIdEspecialidad.Size = new Size(40, 15);
+            labelBuscarIdEspecialidad.TabIndex = 7;
+            labelBuscarIdEspecialidad.Text = "IdEspecialidad";
+            // 
+            // txtBuscarIdEspecialidad
+            // 
+            txtBuscarIdEspecialidad.Location = new Point(92, 103);
+            txtBuscarIdEspecialidad.Name = "txtBuscarIdEspecialidad";
+            txtBuscarIdEspecialidad.Size = new Size(411, 23);
+            txtBuscarIdEspecialidad.TabIndex = 5;
+            txtBuscarIdEspecialidad.TextChanged += txtBuscarIdEspecialidad_TextChanged;
+            txtBuscarIdEspecialidad.Enabled = false;
             // 
             // txtBuscarDescripcion
             // 
@@ -230,7 +275,7 @@
             // labelBuscarDescripcion
             // 
             labelBuscarDescripcion.AutoSize = true;
-            labelBuscarDescripcion.Location = new Point(25, 61);
+            labelBuscarDescripcion.Location = new Point(12, 61);
             labelBuscarDescripcion.Name = "labelBuscarDescripcion";
             labelBuscarDescripcion.Size = new Size(69, 15);
             labelBuscarDescripcion.TabIndex = 3;
@@ -265,6 +310,8 @@
             // 
             // PanelCrear
             // 
+            PanelCrear.Controls.Add(txtCrearIdEspecialidad);
+            PanelCrear.Controls.Add(labelCrearIdEspecialidad);
             PanelCrear.Controls.Add(labelCrearDescripcion);
             PanelCrear.Controls.Add(txtCrearDescripcion);
             PanelCrear.Controls.Add(btnCrearCrear);
@@ -273,10 +320,27 @@
             PanelCrear.Size = new Size(679, 245);
             PanelCrear.TabIndex = 4;
             // 
+            // txtCrearIdEspecialidad
+            // 
+            txtCrearIdEspecialidad.Location = new Point(87, 79);
+            txtCrearIdEspecialidad.Name = "txtCrearIdEspecialidad";
+            txtCrearIdEspecialidad.Size = new Size(495, 23);
+            txtCrearIdEspecialidad.TabIndex = 4;
+            txtCrearIdEspecialidad.TextChanged += txtCrearIdEspecialidad_TextChanged;
+            // 
+            // labelCrearIdEspecialidad
+            // 
+            labelCrearIdEspecialidad.AutoSize = true;
+            labelCrearIdEspecialidad.Location = new Point(12, 79);
+            labelCrearIdEspecialidad.Name = "labelCrearIdEspecialidad";
+            labelCrearIdEspecialidad.Size = new Size(40, 15);
+            labelCrearIdEspecialidad.TabIndex = 3;
+            labelCrearIdEspecialidad.Text = "IdEspecialidad";
+            // 
             // labelCrearDescripcion
             // 
             labelCrearDescripcion.AutoSize = true;
-            labelCrearDescripcion.Location = new Point(3, 107);
+            labelCrearDescripcion.Location = new Point(12, 43);
             labelCrearDescripcion.Name = "labelCrearDescripcion";
             labelCrearDescripcion.Size = new Size(69, 15);
             labelCrearDescripcion.TabIndex = 2;
@@ -284,7 +348,7 @@
             // 
             // txtCrearDescripcion
             // 
-            txtCrearDescripcion.Location = new Point(92, 104);
+            txtCrearDescripcion.Location = new Point(87, 40);
             txtCrearDescripcion.Name = "txtCrearDescripcion";
             txtCrearDescripcion.Size = new Size(495, 23);
             txtCrearDescripcion.TabIndex = 1;
@@ -302,7 +366,7 @@
             // 
             // Volver
             // 
-            Volver.Location = new Point(27, 347);
+            Volver.Location = new Point(678, 25);
             Volver.Name = "Volver";
             Volver.Size = new Size(679, 23);
             Volver.TabIndex = 8;
@@ -312,7 +376,7 @@
             // 
             // PlanCrud
             // 
-            ClientSize = new Size(736, 415);
+            ClientSize = new Size(1435, 632);
             Controls.Add(Volver);
             Controls.Add(PanelEliminar);
             Controls.Add(PanelModificar);
@@ -395,5 +459,11 @@
             PanelEliminar.Visible = true;
         }
         private Button Volver;
+        private TextBox txtModificarIdEspecialidad;
+        private Label labelModificarIdEspecialidad;
+        private Label labelBuscarIdEspecialidad;
+        private TextBox txtBuscarIdEspecialidad;
+        private TextBox txtCrearIdEspecialidad;
+        private Label labelCrearIdEspecialidad;
     }
 }
