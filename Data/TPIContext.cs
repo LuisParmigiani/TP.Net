@@ -57,6 +57,14 @@ public class TPIContext : DbContext
                 .IsRequired();
             entity.ToTable("Usuarios");
         });
+
+        // Seed Usuarios (vinculados a Personas)
+        modelBuilder.Entity<Usuario>().HasData(
+            new { Id = 1, NombreUsuario = "juan.p", Clave = "pass123", Habilitado = true, CambiaClave = false, IdPersona = 1 },
+            new { Id = 2, NombreUsuario = "maria.t", Clave = "prof2023", Habilitado = true, CambiaClave = false, IdPersona = 2 },
+            new { Id = 3, NombreUsuario = "alumno.a", Clave = "alumno1", Habilitado = true, CambiaClave = false, IdPersona = 3 }
+        );
+
         modelBuilder.Entity<Especialidad>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -103,6 +111,15 @@ public class TPIContext : DbContext
             entity.ToTable("Materias");
 
         });
+
+        // Seed Materias
+        modelBuilder.Entity<Materia>().HasData(
+            new { Id = 1, Descripcion = "Programación I", HSSemanales = 4, HSTotales = 64, IDPlan = 1 },
+            new { Id = 2, Descripcion = "Algoritmos", HSSemanales = 4, HSTotales = 64, IDPlan = 1 },
+            new { Id = 3, Descripcion = "Máquinas y Mecanismos", HSSemanales = 4, HSTotales = 64, IDPlan = 2 },
+            new { Id = 4, Descripcion = "Circuitos Eléctricos", HSSemanales = 4, HSTotales = 64, IDPlan = 3 }
+        );
+
         modelBuilder.Entity<Comision>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -116,6 +133,15 @@ public class TPIContext : DbContext
             entity.ToTable("Comisiones");
 
         });
+
+        // Seed Comisiones
+        modelBuilder.Entity<Comision>().HasData(
+            new { Id = 1, Descripcion = "Comisión A", AnioEspecialidad = 1, IDPlan = 1 },
+            new { Id = 2, Descripcion = "Comisión B", AnioEspecialidad = 1, IDPlan = 1 },
+            new { Id = 3, Descripcion = "Comisión Mecánica A", AnioEspecialidad = 2, IDPlan = 2 },
+            new { Id = 4, Descripcion = "Comisión Eléctrica A", AnioEspecialidad = 3, IDPlan = 3 }
+        );
+
         modelBuilder.Entity<Curso>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -133,6 +159,15 @@ public class TPIContext : DbContext
             entity.ToTable("Cursos");
 
         });
+
+        // Seed Cursos
+        modelBuilder.Entity<Curso>().HasData(
+            new { Id = 1, Descripcion = "Curso Programación I - A", AnioCalendario = 2025, Cupo = 30, IdComision = 1, IdMateria = 1 },
+            new { Id = 2, Descripcion = "Curso Algoritmos - A", AnioCalendario = 2025, Cupo = 30, IdComision = 2, IdMateria = 2 },
+            new { Id = 3, Descripcion = "Curso Mecanismos - A", AnioCalendario = 2025, Cupo = 25, IdComision = 3, IdMateria = 3 },
+            new { Id = 4, Descripcion = "Curso Circuitos - A", AnioCalendario = 2025, Cupo = 25, IdComision = 4, IdMateria = 4 }
+        );
+
         modelBuilder.Entity<Dictado>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -148,6 +183,13 @@ public class TPIContext : DbContext
                 .IsRequired();
             entity.ToTable("Dictados");
         });
+
+        // Seed Dictados (docentes asignados a cursos)
+        modelBuilder.Entity<Dictado>().HasData(
+            new { Id = 1, Cargo = "Titular", IDCurso = 1, IDDocente = 2 },
+            new { Id = 2, Cargo = "Auxiliar", IDCurso = 2, IDDocente = 2 }
+        );
+
         modelBuilder.Entity<Inscripcion>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -164,6 +206,13 @@ public class TPIContext : DbContext
                 .IsRequired();
             entity.ToTable("Inscripciones");
         });
+
+        // Seed Inscripciones
+        modelBuilder.Entity<Inscripcion>().HasData(
+            new { Id = 1, IdAlumno = 1, IdCurso = 1, Nota = 8, Condicion = "Regular" },
+            new { Id = 2, IdAlumno = 3, IdCurso = 2, Nota = 7, Condicion = "Regular" }
+        );
+
         modelBuilder.Entity<Persona>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -185,6 +234,12 @@ public class TPIContext : DbContext
 
         });
 
+        // Seed Personas (alumnos y docentes)
+        modelBuilder.Entity<Persona>().HasData(
+            new { Id = 1, Nombre = "Juan", Apellido = "Pérez", Direccion = "Calle Falsa 123", Email = "juan.perez@example.com", Telefono = "123456789", FechaNacimiento = new DateTime(1998, 4, 10), Legajo = 2001, TipoPersona = 1, IdPlan = 1 },
+            new { Id = 2, Nombre = "María", Apellido = "González", Direccion = "Av Siempre Viva 456", Email = "maria.gonzalez@example.com", Telefono = "987654321", FechaNacimiento = new DateTime(1985, 2, 20), Legajo = 3001, TipoPersona = 2, IdPlan = 1 },
+            new { Id = 3, Nombre = "Ana", Apellido = "López", Direccion = "Calle 9 789", Email = "ana.lopez@example.com", Telefono = "555123456", FechaNacimiento = new DateTime(2000, 7, 15), Legajo = 2002, TipoPersona = 1, IdPlan = 1 }
+        );
 
     }
 }

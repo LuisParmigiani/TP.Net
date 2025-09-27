@@ -10,7 +10,7 @@
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager Navigation
 
-<h3>MenuProfesor</h3>
+<h3 style="font-family:Segoe UI, Roboto, Arial; color:#1f2937; margin-bottom:12px;">Menu Profesor</h3>
 
 @code {
 
@@ -21,8 +21,10 @@
     public string UserId { get; set; }
 
     private string? mensaje;
-    private int nota;
     private int curso;
+
+    // Almacena la nota por Id de alumno (nullable para detectar campo vacío)
+    private Dictionary<int, int?> NotasPorAlumno = new();
 
     private List<CursoDTO> CursosList = new List<CursoDTO>();
     private List<PersonaDTO> AlumnosList = new List<PersonaDTO>();
@@ -32,54 +34,60 @@
         var url =  $"/MenuProfesor/{UserId}/{sec.ToString()}";
         Navigation.NavigateTo(url);
     }
-    public async void SubirNota(int IdAlumno)
+
+    // Cambiado a async Task y usa la nota específica del alumno
+    public async Task SubirNota(int IdAlumno)
     {
-        if (nota != -1 && nota != 0 && !(nota >= 6 && nota <= 10))
+        NotasPorAlumno.TryGetValue(IdAlumno, out int? notaAlumno);
+        // Si está vacío, tomar 0 como comportamiento previo (regular)
+        var notaValor = notaAlumno ?? 0;
+
+        if (notaValor != -1 && notaValor != 0 && !(notaValor >= 6 && notaValor <= 10))
         {
             mensaje = "Nota no valida";
-            nota = 0;
+            // limpiar sólo la nota del alumno inválido
+            NotasPorAlumno[IdAlumno] = 0;
             return;
-        } 
+        }
         else
         {
             try
             {
                 InscripcionDTO inscripcionDTO;
-                if (nota == 0)
+                if (notaValor == 0)
                 {
                     inscripcionDTO = new InscripcionDTO
-                        {
-                            Id = 4,
-                            IdAlumno = IdAlumno,
-                            IdCurso = 0,
-                            Nota = 0,
-                            Condicion = "regular"
-                        };
-                       
-                        
+                    {
+                        Id = 4,
+                        IdAlumno = IdAlumno,
+                        IdCurso = 0,
+                        Nota = 0,
+                        Condicion = "regular"
+                    };
                 }
-                else if (nota == -1)
+                else if (notaValor == -1)
                 {
                     inscripcionDTO = new InscripcionDTO
-                        {
-                            Id = 4,
-                            IdAlumno = IdAlumno,
-                            Nota = 0,
-                            IdCurso = 0,
-                            Condicion = "libre"
-                        };
+                    {
+                        Id = 4,
+                        IdAlumno = IdAlumno,
+                        Nota = 0,
+                        IdCurso = 0,
+                        Condicion = "libre"
+                    };
                 }
                 else
                 {
                     inscripcionDTO = new InscripcionDTO
-                        {
-                            Id = 4,
-                            IdAlumno = IdAlumno,
-                            IdCurso = 0,
-                            Nota = nota,
-                            Condicion = "aprobado"
-                        };
+                    {
+                        Id = 4,
+                        IdAlumno = IdAlumno,
+                        IdCurso = 0,
+                        Nota = notaValor,
+                        Condicion = "aprobado"
+                    };
                 }
+
                 Console.WriteLine("--------------------------------------------------------------------------------------------------------");
                 Console.WriteLine(IdAlumno);
 
@@ -88,20 +96,20 @@
                 if (response.IsSuccessStatusCode)
                 {
                     mensaje = "Nota subida con exito";
+                    // opcional: limpiar el campo del alumno concreto después del éxito
+                    NotasPorAlumno.Remove(IdAlumno);
                 }
                 else
                 {
                     mensaje = "Error al subir la nota";
                 }
-        }
+            }
             catch (Exception ex)
             {
                 mensaje = $"Error al subir la nota: {ex.Message}";
             }
             return;
         }
-
-        nota = 0;
     }
 
     protected override async Task OnParametersSetAsync()
@@ -162,6 +170,8 @@
                 if (alumnos != null)
                 {
                     AlumnosList = alumnos;
+                    // Inicializar notas para evitar null visual si se desea (opcional)
+                    // NotasPorAlumno = AlumnosList.ToDictionary(a => a.Id, a => (int?)null);
                 }
             }
             else
@@ -174,36 +184,61 @@
             mensaje = $"Excepción al cargar los alumnos: {ex.Message}";
         }
     }
+
+    // Helpers para el input: obtener string y manejar oninput
+    private string GetNotaString(int id) =>
+        NotasPorAlumno.TryGetValue(id, out var v) && v.HasValue ? v.Value.ToString() : string.Empty;
+
+    private void OnNotaInput(int id, ChangeEventArgs e)
+    {
+        var s = e?.Value?.ToString();
+        if (int.TryParse(s, out var v))
+        {
+            // limitar rango en cliente también
+            if (v < -1) v = -1;
+            if (v > 10) v = 10;
+            NotasPorAlumno[id] = v;
+        }
+        else
+        {
+            NotasPorAlumno.Remove(id);
+        }
+    }
     
 }
 
 @if (!string.IsNullOrEmpty(mensaje))
 {
-    <div class="alert alert-success">@mensaje</div>
+    <div style="max-width:980px; margin:8px 0; padding:12px 16px; border-radius:8px; background:#ecfdf5; color:#065f46; font-family:Segoe UI, Roboto, Arial; box-shadow:0 1px 3px rgba(15,23,42,0.06);">
+        @mensaje
+    </div>
 }
 
+<div style="max-width:980px; margin:0 auto; padding:18px; font-family:Segoe UI, Roboto, Arial;">
 @if (Page == "0")
 {
-    <div>
-         <table>
+    <div style="background:#ffffff; border-radius:10px; padding:16px; box-shadow:0 6px 18px rgba(15,23,42,0.06);">
+         <table style="width:100%; border-collapse:collapse; min-width:360px; table-layout:fixed;">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Curso</th>
-                    <th>AnioCalendario</th>
-                    <th>Comision</th>
+                    <th style="text-align:left; padding:10px; color:#374151; font-weight:600; border-bottom:1px solid #e6e6e6;">Id</th>
+                    <th style="text-align:left; padding:10px; color:#374151; font-weight:600; border-bottom:1px solid #e6e6e6;">Curso</th>
+                    <th style="text-align:left; padding:10px; color:#374151; font-weight:600; border-bottom:1px solid #e6e6e6;">Año</th>
+                    <th style="text-align:left; padding:10px; color:#374151; font-weight:600; border-bottom:1px solid #e6e6e6;">Comisión</th>
+                    <th style="text-align:center; padding:10px; color:#374151; font-weight:600; border-bottom:1px solid #e6e6e6;">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var cur in CursosList)
                 {
-                    <tr>
-                        <td> @cur.Id </td>
-                        <td> @cur.Descripcion</td>
-                        <td> @cur.AnioCalendario</td>
-                        <td> @cur.IdComision</td>
-                        <td>
-                            <button @onclick="() => {curso = cur.Id ; Sec(1);}">Ver Alumnos</button>
+                    <tr style="border-bottom:1px solid #f3f4f6;">
+                        <td style="padding:12px; color:#111827; width:60px;"> @cur.Id </td>
+                        <td style="padding:12px; color:#111827; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"> @cur.Descripcion</td>
+                        <td style="padding:12px; color:#111827; width:90px;"> @cur.AnioCalendario</td>
+                        <td style="padding:12px; color:#111827; width:110px;"> @cur.IdComision</td>
+                        <td style="padding:12px; text-align:center; width:150px;">
+                            <button style="background:#2563eb; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;"
+                                    @onclick="() => {curso = cur.Id ; Sec(1);}">Ver Alumnos</button>
                         </td>
                     </tr>
                  }
@@ -211,39 +246,50 @@
         </table>
     </div>
 }
-
 else if (Page == "1")
 {
-    <div>
-        <h3>Listado de alumnos </h3>
-        <table>
+    <div style="background:#ffffff; border-radius:10px; padding:16px; box-shadow:0 6px 18px rgba(15,23,42,0.06);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <h4 style="margin:0; color:#111827;">Listado de alumnos</h4>
+            <button style="background:#ef4444; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;"
+                    @onclick="() => Sec(0)">Volver</button>
+        </div>
+        <table style="width:100%; border-collapse:collapse; min-width:360px; table-layout:fixed;">
             <thead>
                 <tr>
-                    <th>Leg</th>
-                    <th>Nombre y Apellido</th>
-                    <th>Nota (-1 Es libre y 0 es regular miestras que de 6 a 10 es la nota  )</th>
+                    <th style="text-align:left; padding:10px; color:#374151; font-weight:600; border-bottom:1px solid #e6e6e6; width:90px;">Leg</th>
+                    <th style="text-align:left; padding:10px; color:#374151; font-weight:600; border-bottom:1px solid #e6e6e6;">Nombre y Apellido</th>
+                    <th style="text-align:left; padding:10px; color:#374151; font-weight:600; border-bottom:1px solid #e6e6e6; width:260px;">Nota (-1 libre, 0 regular, 6-10 aprobado)</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var al in AlumnosList)               
                    {
-                    <tr>
-                        <td> @al.Legajo</td>
-                        <td> @al.Nombre @al.Apellido</td>
-                        <td>
-                            <input @bind="nota" name="name" placeholder="Nota del alumno" />
-                            <button @onclick="() => SubirNota(al.Id)">Guardar</button>
+                    <tr style="border-bottom:1px solid #f3f4f6;">
+                        <td style="padding:12px; color:#111827; vertical-align:middle;"> @al.Legajo</td>
+                        <td style="padding:12px; color:#111827; vertical-align:middle;"> @al.Nombre @al.Apellido</td>
+                        <td style="padding:12px; color:#111827; vertical-align:middle;">
+                            <div style="display:flex; gap:8px; align-items:center;">
+                                <input type="number" min="-1" max="10" step="1"
+                                       value="@GetNotaString(al.Id)"
+                                       @oninput="e => OnNotaInput(al.Id, e)"
+                                       style="width:120px; padding:8px; border-radius:8px; border:1px solid #e5e7eb; outline:none; font-size:14px; color:#111827;"
+                                       placeholder="Nota" />
+                                <button style="background:#10b981; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;"
+                                        @onclick="async () => await SubirNota(al.Id)">Guardar</button>
+                            </div>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-        <button @onclick="() => Sec(0)">Volver</button>
     </div>
 }
 else
 {
-    <div>
-        <button @onclick="() => Sec(0)">Volver</button>
+    <div style="background:#ffffff; border-radius:10px; padding:16px; box-shadow:0 6px 18px rgba(15,23,42,0.06); display:flex; justify-content:flex-start;">
+        <button style="background:#2563eb; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;"
+                @onclick="() => Sec(0)">Volver</button>
     </div>
 }
+</div>

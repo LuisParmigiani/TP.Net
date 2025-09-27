@@ -60,9 +60,7 @@ namespace WinFormsApp
 
         private void Volver_Click(object sender, EventArgs e)
         {
-            MenuAlumno menuAlumno = new MenuAlumno();
-            menuAlumno.Show();
-            this.Hide();
+          
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

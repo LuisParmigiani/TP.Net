@@ -10,35 +10,47 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Web de alumnado</h1>
-<div class="text-center">
-    <img src="images/Students.png" alt="Students" />
-    <div>
-        <h3>Bienvenido a la web de alumnado</h3>
-        <div>
-            <label for="user">Usuario:</label>
-            <input @bind="user" id="user" placeholder="Usuario" />
-        </div>
-        <div>
-            <label for="password">Contraseña:</label>
-            <input @bind="password" id="password" placeholder="Contraseña" type="password" />
-        </div>
-        <div>
-            <button @onclick="Login" disabled="@isLoading">
-                @if (isLoading)
+<div style="max-width:720px;margin:32px auto;padding:20px;background:#ffffff;border-radius:12px;box-shadow:0 8px 30px rgba(13,38,59,0.08);font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;color:#243041;">
+    <h1 style="text-align:center;margin:0 0 12px;color:#1f2937;font-size:1.9rem;">Web de alumnado</h1>
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <img src="/utn1.gif" alt="Students" style="width:120px;height:auto;display:block;border-radius:8px;box-shadow:0 6px 18px rgba(16,24,40,0.06);" />
+
+        <div style="width:100%;max-width:480px;margin-top:6px;">
+            <h3 style="margin:10px 0 14px;text-align:center;color:#2b6cb0;font-weight:600;">Bienvenido a la web de alumnado</h3>
+
+            <div style="display:flex;flex-direction:column;gap:10px;">
+                <div>
+                    <label for="user" style="display:block;font-size:0.95rem;font-weight:600;margin-bottom:6px;color:#334155;">Usuario:</label>
+                    <input @bind="user" id="user" placeholder="Usuario" style="width:100%;padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;outline:none;box-sizing:border-box;font-size:0.95rem;" />
+                </div>
+
+                <div>
+                    <label for="password" style="display:block;font-size:0.95rem;font-weight:600;margin-bottom:6px;color:#334155;">Contraseña:</label>
+                    <input @bind="password" id="password" placeholder="Contraseña" type="password" style="width:100%;padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;outline:none;box-sizing:border-box;font-size:0.95rem;" />
+                </div>
+
+                <div>
+                    <button @onclick="Login" disabled="@isLoading" style="width:100%;display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;background:linear-gradient(90deg,#2563eb,#06b6d4);color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(37,99,235,0.18);">
+                        @if (isLoading)
+                        {
+                            <span>Cargando...</span>
+                        }
+                        else
+                        {
+                            <span>Login</span>
+                        }
+                    </button>
+                </div>
+
+                @if (!string.IsNullOrEmpty(mensaje))
                 {
-                    <span>Cargando...</span>
+                    <div class="alert" style="margin-top:6px;padding:10px 12px;border-radius:8px;background:#eef6ff;border-left:4px solid #60a5fa;color:#083344;">
+                        @mensaje
+                    </div>
                 }
-                else
-                {
-                    <span>Login</span>
-                }
-            </button>
+            </div>
         </div>
-        @if (!string.IsNullOrEmpty(mensaje))
-        {
-            <div class="alert alert-info">@mensaje</div>
-        }
     </div>
 </div>
 

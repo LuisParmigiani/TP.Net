@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             registrarse = new Button();
-            mail = new TextBox();
+            usuario = new TextBox();
             password = new TextBox();
-            mailLabel = new Label();
+            usuarioLabel = new Label();
             passLabel = new Label();
             LogIni = new Button();
             Cruds = new Button();
@@ -47,13 +47,13 @@
             registrarse.UseVisualStyleBackColor = true;
             registrarse.Click += registrarse_Click;
             // 
-            // mail
+            // usuario
             // 
-            mail.Location = new Point(129, 142);
-            mail.Name = "mail";
-            mail.Size = new Size(538, 23);
-            mail.TabIndex = 1;
-            mail.TextChanged += mail_TextChanged;
+            usuario.Location = new Point(129, 142);
+            usuario.Name = "usuario";
+            usuario.Size = new Size(538, 23);
+            usuario.TabIndex = 1;
+            usuario.TextChanged += usuario_TextChanged;
             // 
             // password
             // 
@@ -63,15 +63,15 @@
             password.TabIndex = 2;
             password.TextChanged += password_TextChanged;
             // 
-            // mailLabel
+            // usuarioLabel
             // 
-            mailLabel.AutoSize = true;
-            mailLabel.Location = new Point(129, 124);
-            mailLabel.Name = "mailLabel";
-            mailLabel.Size = new Size(30, 15);
-            mailLabel.TabIndex = 5;
-            mailLabel.Text = "Mail";
-            mailLabel.Click += mailLabel_Click;
+            usuarioLabel.AutoSize = true;
+            usuarioLabel.Location = new Point(129, 124);
+            usuarioLabel.Name = "usuarioLabel";
+            usuarioLabel.Size = new Size(30, 15);
+            usuarioLabel.TabIndex = 5;
+            usuarioLabel.Text = "usuario";
+            usuarioLabel.Click += usuarioLabel_Click;
             // 
             // passLabel
             // 
@@ -111,9 +111,9 @@
             Controls.Add(Cruds);
             Controls.Add(LogIni);
             Controls.Add(passLabel);
-            Controls.Add(mailLabel);
+            Controls.Add(usuarioLabel);
             Controls.Add(password);
-            Controls.Add(mail);
+            Controls.Add(usuario);
             Controls.Add(registrarse);
             Name = "Login";
             Text = "Iniciar sesion";
@@ -125,9 +125,9 @@
 
         private Button login;
         private Button registrarse;
-        private TextBox mail;
+        private TextBox usuario;
         private TextBox password;
-        private Label mailLabel;
+        private Label usuarioLabel;
         private Label passLabel;
         private Button LogIni;
         private Button Cruds;
