@@ -1,5 +1,13 @@
-﻿@page "/MenuProfesor/{PPPPPP:int?}"
+﻿@page "/MenuProfesor/{UserId}/{Page}"
 
+@rendermode InteractiveServer
+@using Domain.Model
+@using Microsoft.AspNetCore.Components
+@using System.Net.Http.Json
+@using DTOs
+
+
+@inject IHttpClientFactory ClientFactory
 @inject NavigationManager Navigation
 
 <h3>MenuProfesor</h3>
@@ -7,28 +15,166 @@
 @code {
 
     [Parameter]
-    public int? PPPPPP { get; set; } = 1;
+    public string Page { get; set; }
+
+    [Parameter]
+    public string UserId { get; set; }
+
     private string? mensaje;
     private int nota;
+    private int curso;
+
+    private List<CursoDTO> CursosList = new List<CursoDTO>();
+    private List<PersonaDTO> AlumnosList = new List<PersonaDTO>();
+
     private void Sec(int sec)
     {
-        var url = sec == 0 ? "/MenuProfesor" : $"/MenuProfesor/{sec}";
+        var url =  $"/MenuProfesor/{UserId}/{sec.ToString()}";
         Navigation.NavigateTo(url);
     }
-    public void SubirNota(int id)
+    public async void SubirNota(int IdAlumno)
     {
-        if(id != -1 || id != 0 || (id >= 6 && id <= 10))
+        if (nota != -1 && nota != 0 && !(nota >= 6 && nota <= 10))
         {
             mensaje = "Nota no valida";
+            nota = 0;
             return;
-        } else
+        } 
+        else
         {
-            mensaje = "Error al guardar la nota";
+            try
+            {
+                InscripcionDTO inscripcionDTO;
+                if (nota == 0)
+                {
+                    inscripcionDTO = new InscripcionDTO
+                        {
+                            Id = 4,
+                            IdAlumno = IdAlumno,
+                            IdCurso = 0,
+                            Nota = 0,
+                            Condicion = "regular"
+                        };
+                       
+                        
+                }
+                else if (nota == -1)
+                {
+                    inscripcionDTO = new InscripcionDTO
+                        {
+                            Id = 4,
+                            IdAlumno = IdAlumno,
+                            Nota = 0,
+                            IdCurso = 0,
+                            Condicion = "libre"
+                        };
+                }
+                else
+                {
+                    inscripcionDTO = new InscripcionDTO
+                        {
+                            Id = 4,
+                            IdAlumno = IdAlumno,
+                            IdCurso = 0,
+                            Nota = nota,
+                            Condicion = "aprobado"
+                        };
+                }
+                Console.WriteLine("--------------------------------------------------------------------------------------------------------");
+                Console.WriteLine(IdAlumno);
+
+                var client = ClientFactory.CreateClient("API");
+                var response = await client.PutAsJsonAsync($"/inscripciones/{6}", inscripcionDTO);
+                if (response.IsSuccessStatusCode)
+                {
+                    mensaje = "Nota subida con exito";
+                }
+                else
+                {
+                    mensaje = "Error al subir la nota";
+                }
+        }
+            catch (Exception ex)
+            {
+                mensaje = $"Error al subir la nota: {ex.Message}";
+            }
             return;
         }
-        mensaje = "Nota guardada correctamente";
+
+        nota = 0;
     }
 
+    protected override async Task OnParametersSetAsync()
+    {
+
+        if (Page == "0")
+        {
+            await CargarCursos();
+        }
+        else if (Page == "1")
+        {
+
+            await CargarAlumnos(curso);
+        }
+        else if (Page == "2")
+        {
+
+
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+    async Task CargarCursos()
+    {
+        try
+        {
+            var client = ClientFactory.CreateClient("API");
+            var response = await client.GetAsync($"cursos");
+            if (response.IsSuccessStatusCode)
+            {
+                var cursos = await response.Content.ReadFromJsonAsync<List<CursoDTO>>();
+                if (cursos != null)
+                {
+                    CursosList = cursos;
+                }
+            }
+            else
+            {
+                mensaje = "Error al cargar los cursos.";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = $"Excepción al cargar los cursos: {ex.Message}";
+        }
+    }
+
+    async Task CargarAlumnos(int curso)
+    {
+        try
+        {
+            var client = ClientFactory.CreateClient("API");
+            var response = await client.GetAsync($"personas");
+            if (response.IsSuccessStatusCode)
+            {
+                var alumnos = await response.Content.ReadFromJsonAsync<List<PersonaDTO>>();
+                if (alumnos != null)
+                {
+                    AlumnosList = alumnos;
+                }
+            }
+            else
+            {
+                mensaje = "Error al cargar los alumnos.";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = $"Excepción al cargar los alumnos: {ex.Message}";
+        }
+    }
+    
 }
 
 @if (!string.IsNullOrEmpty(mensaje))
@@ -36,40 +182,37 @@
     <div class="alert alert-success">@mensaje</div>
 }
 
-@if (PPPPPP == 0)
+@if (Page == "0")
 {
     <div>
-        <button @onclick="() => Sec(1)">Listado de Cursos </button>
-    </div>
-}
-else if (PPPPPP == 1)
-{
-    <div>
-        <h3>Listado de materias</h3>
-        <table>
+         <table>
             <thead>
                 <tr>
-                    <th>Materias</th>
-                    <th>Listados</th>
+                    <th>Id</th>
+                    <th>Curso</th>
+                    <th>AnioCalendario</th>
+                    <th>Comision</th>
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < 5; i++)
+                @foreach (var cur in CursosList)
                 {
                     <tr>
-                        <td> Materia {i}</td>
+                        <td> @cur.Id </td>
+                        <td> @cur.Descripcion</td>
+                        <td> @cur.AnioCalendario</td>
+                        <td> @cur.IdComision</td>
                         <td>
-                            <button @onclick="() => Sec(2)">Listado de alumnos</button>
+                            <button @onclick="() => {curso = cur.Id ; Sec(1);}">Ver Alumnos</button>
                         </td>
                     </tr>
-                }
+                 }
             </tbody>
         </table>
-
-        <button @onclick="() => Sec(0)">Volver</button>
     </div>
 }
-else if (PPPPPP == 2)
+
+else if (Page == "1")
 {
     <div>
         <h3>Listado de alumnos </h3>
@@ -82,45 +225,20 @@ else if (PPPPPP == 2)
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < 5; i++)
-                {
+                @foreach (var al in AlumnosList)               
+                   {
                     <tr>
-                        <td> Leg</td>
-                        <td> Nombre y Apellido</td>
+                        <td> @al.Legajo</td>
+                        <td> @al.Nombre @al.Apellido</td>
                         <td>
                             <input @bind="nota" name="name" placeholder="Nota del alumno" />
-                            <button @onclick="() => SubirNota(i)">Guardar</button>
+                            <button @onclick="() => SubirNota(al.Id)">Guardar</button>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-        <button @onclick="() => Sec(1)">Volver</button>
-    </div>
-}
-else if (PPPPPP == 3)
-{
-    <div>
-        <h3>Estado Academico</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Materias</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < 5; i++)
-                {
-                    <tr>
-                        <td> Materia {i}</td>
-                        <td> Esatdo: --- si aprobada nota :  {i}</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
         <button @onclick="() => Sec(0)">Volver</button>
-
     </div>
 }
 else

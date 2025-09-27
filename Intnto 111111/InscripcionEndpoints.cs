@@ -45,7 +45,7 @@ public static class InscripcionEndpoints
                 .Produces<List<InscripcionDTO>>(StatusCodes.Status200OK)
                 .WithOpenApi();
 
-                app.MapGet("/inscripciones/estadoOfAlumno", (int idAlumno) =>
+                app.MapGet("/inscripciones/estadoOfAlumno/{idAlumno}", (int idAlumno) =>
                     {
                         InscripcionService InscService = new InscripcionService();
                         try

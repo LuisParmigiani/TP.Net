@@ -3,12 +3,35 @@
   "WorkspaceRootPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net2.0\\tp.net\\winformsapp\\usuariocrud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\usuariocrud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C93C43C9-3667-47D7-B8BE-8205CC433ACE}|WebApp\\WebApp.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net2.0\\tp.net\\webapp\\components\\pages\\menualumno.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C93C43C9-3667-47D7-B8BE-8205CC433ACE}|WebApp\\WebApp.csproj|solutionrelative:webapp\\components\\pages\\menualumno.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net2.0\\tp.net\\winformsapp\\usuariocrud.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\usuariocrud.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C93C43C9-3667-47D7-B8BE-8205CC433ACE}|WebApp\\WebApp.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net2.0\\tp.net\\webapp\\components\\pages\\menuprofesor.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C93C43C9-3667-47D7-B8BE-8205CC433ACE}|WebApp\\WebApp.csproj|solutionrelative:webapp\\components\\pages\\menuprofesor.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F254384-48C5-4AC6-B705-C74F5A6FCBD5}|Intnto 111111\\WebApi.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net2.0\\tp.net\\intnto 111111\\inscripcionendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F254384-48C5-4AC6-B705-C74F5A6FCBD5}|Intnto 111111\\WebApi.csproj|solutionrelative:intnto 111111\\inscripcionendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42D40B78-08DB-4DBE-9293-C60B93CA88AC}|DTOs\\DTOs.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net2.0\\tp.net\\dtos\\estadoacedemico.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{42D40B78-08DB-4DBE-9293-C60B93CA88AC}|DTOs\\DTOs.csproj|solutionrelative:dtos\\estadoacedemico.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F254384-48C5-4AC6-B705-C74F5A6FCBD5}|Intnto 111111\\WebApi.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net2.0\\tp.net\\intnto 111111\\personaendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F254384-48C5-4AC6-B705-C74F5A6FCBD5}|Intnto 111111\\WebApi.csproj|solutionrelative:intnto 111111\\personaendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{682D08A1-1E31-4F76-A1FD-AC57EF73E15B}|Data\\Data.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net2.0\\tp.net\\data\\inscripcionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{682D08A1-1E31-4F76-A1FD-AC57EF73E15B}|Data\\Data.csproj|solutionrelative:data\\inscripcionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7F43E45-14D0-44E0-9AD3-6BC75AEC0E68}|Domain.Model\\Domain.Model.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net2.0\\tp.net\\domain.model\\inscripcion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7F43E45-14D0-44E0-9AD3-6BC75AEC0E68}|Domain.Model\\Domain.Model.csproj|solutionrelative:domain.model\\inscripcion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +41,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,28 +53,128 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Microsoft.Common.CurrentVersion.targets",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ViewState": "AgIAALATAAAAAAAAAAAuwOQTAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2025-09-27T21:02:07.267Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UsuarioCrud.cs",
-              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\WinFormsApp\\UsuarioCrud.cs",
-              "RelativeDocumentMoniker": "WinFormsApp\\UsuarioCrud.cs",
-              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\WinFormsApp\\UsuarioCrud.cs",
-              "RelativeToolTip": "WinFormsApp\\UsuarioCrud.cs",
-              "ViewState": "AgIAAAQBAAAAAAAAAAAQwAoBAABGAAAAAAAAAA==",
+              "Title": "MenuAlumno.razor",
+              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\WebApp\\Components\\Pages\\MenuAlumno.razor",
+              "RelativeDocumentMoniker": "WebApp\\Components\\Pages\\MenuAlumno.razor",
+              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\WebApp\\Components\\Pages\\MenuAlumno.razor",
+              "RelativeToolTip": "WebApp\\Components\\Pages\\MenuAlumno.razor",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAADcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-27T20:51:10.344Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PersonaEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Intnto 111111\\PersonaEndpoints.cs",
+              "RelativeDocumentMoniker": "Intnto 111111\\PersonaEndpoints.cs",
+              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Intnto 111111\\PersonaEndpoints.cs",
+              "RelativeToolTip": "Intnto 111111\\PersonaEndpoints.cs",
+              "ViewState": "AgIAAIgAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-24T14:25:06Z",
+              "WhenOpened": "2025-09-27T20:50:22.886Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Inscripcion.cs",
+              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Model\\Inscripcion.cs",
+              "RelativeDocumentMoniker": "Domain.Model\\Inscripcion.cs",
+              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Model\\Inscripcion.cs",
+              "RelativeToolTip": "Domain.Model\\Inscripcion.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAWwCoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-27T20:43:14.939Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "InscripcionRepository.cs",
+              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Data\\InscripcionRepository.cs",
+              "RelativeDocumentMoniker": "Data\\InscripcionRepository.cs",
+              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Data\\InscripcionRepository.cs",
+              "RelativeToolTip": "Data\\InscripcionRepository.cs",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAWwHUAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-27T20:43:04.17Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "InscripcionEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Intnto 111111\\InscripcionEndpoints.cs",
+              "RelativeDocumentMoniker": "Intnto 111111\\InscripcionEndpoints.cs",
+              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Intnto 111111\\InscripcionEndpoints.cs",
+              "RelativeToolTip": "Intnto 111111\\InscripcionEndpoints.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAmwDYAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-27T20:42:29.387Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UsuarioCrud.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\WinFormsApp\\UsuarioCrud.Designer.cs",
-              "RelativeDocumentMoniker": "WinFormsApp\\UsuarioCrud.Designer.cs",
-              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\WinFormsApp\\UsuarioCrud.Designer.cs",
-              "RelativeToolTip": "WinFormsApp\\UsuarioCrud.Designer.cs",
-              "ViewState": "AgIAAEwCAAAAAAAAAAAowGMCAAA2AAAAAAAAAA==",
+              "Title": "MenuProfesor.razor",
+              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\WebApp\\Components\\Pages\\MenuProfesor.razor",
+              "RelativeDocumentMoniker": "WebApp\\Components\\Pages\\MenuProfesor.razor",
+              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\WebApp\\Components\\Pages\\MenuProfesor.razor",
+              "RelativeToolTip": "WebApp\\Components\\Pages\\MenuProfesor.razor",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAADUAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-27T20:38:41.387Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "83bfab87-5060-4618-bb86-cd0309247eb3",
+        "Display": 2,
+        "X": 346,
+        "Y": 149,
+        "Width": 1422,
+        "Height": 701,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EstadoAcedemico.cs",
+              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\DTOs\\EstadoAcedemico.cs",
+              "RelativeDocumentMoniker": "DTOs\\EstadoAcedemico.cs",
+              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\DTOs\\EstadoAcedemico.cs",
+              "RelativeToolTip": "DTOs\\EstadoAcedemico.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-24T14:01:24.378Z"
+              "WhenOpened": "2025-09-27T20:50:14.158Z",
+              "EditorCaption": ""
             }
           ]
         }

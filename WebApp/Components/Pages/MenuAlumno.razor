@@ -1,87 +1,362 @@
-﻿
+﻿@page "/MenuAlumno/{AlumnoId}/{Page?}"
 
-@page "/MenuAlumno/{Page?}"
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components
+@using System.Net.Http.Json
+@using DTOs
 
+
+@inject IHttpClientFactory ClientFactory
 @inject NavigationManager Navigation
 
-<h3>MenuAlumno</h3>
+
+<h3 style="font-family:Segoe UI, Roboto, Arial; color:#2c3e50; background:linear-gradient(90deg,#eef2f6,#ffffff); padding:12px 16px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.08); margin-bottom:12px; text-align:center;">MenuAlumno</h3>
 
 @code {
     [Parameter]
-    public string? Page { get; set; } = "1";
+    public string AlumnoId { get; set; }
+
+    [Parameter]
+    public string? Page { get; set; }
+
+    private int materiaId;
+
+    public string mensaje;
+
+    private List<EstadoAcedemico>? estadoAcedemicos;
+
+    private List<MateriaDTO>? materiasList;
+
+    private List<CursoDTO>? cursosList;
+
+    // Estado de carga para la inscripción de curso (id del curso que está cargando)
+    private int? loadingCursoId;
+
     private void Sec(int sec)
     {
-        var url = sec == 0 ? "/MenuAlumno" : $"/MenuAlumno/{sec}";
+        Console.WriteLine($"Navegando a la sección {sec} para el alumno {AlumnoId}");
+        var url = $"/MenuAlumno/{AlumnoId}/{sec}";
         Navigation.NavigateTo(url);
     }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        
+        if (Page == "2")
+        {
+            
+                await EstadoAcademico();
+            
+        } else if (Page == "1")
+        {
+           
+                await InscripcionMaterias();
+            
+        } else if (Page == "3")
+        {
+        
+                await AnotarmeMateria(materiaId);
+            
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+   
+        private async Task EstadoAcademico()
+        {
+            try
+            {
+                var client = ClientFactory.CreateClient("API");
+                if (int.TryParse(AlumnoId, out int id))
+                {
+                    // Llamada corregida: se agrega el parámetro como parte de la URL
+                var estado = await client.GetFromJsonAsync<List<EstadoAcedemico>>($"/inscripciones/estadoOfAlumno/{id}");
+                if (estado != null)
+                    {
+                    Console.WriteLine(estado.Count);
+                    estadoAcedemicos = estado;
+                    Console.WriteLine(estadoAcedemicos.Count);
+                    }
+                    else
+                    {
+                        Console.WriteLine("No se devolvieron materias desde la API.");
+                    estadoAcedemicos = new List<EstadoAcedemico>();
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Excepción al obtener las materias: {ex.Message}");
+            estadoAcedemicos = new List<EstadoAcedemico>();
+            }
+
+            StateHasChanged();
+        }
+
+      
+
+
+    private async Task InscripcionMaterias()
+    {
+        try
+        {
+            var client = ClientFactory.CreateClient("API");
+            var materias = await client.GetFromJsonAsync<List<MateriaDTO>>("/materias");
+            if (materias != null)
+            {
+                materiasList = materias;
+            }
+            else
+            {
+                mensaje = ("No se devolvieron materias desde la API.");
+                materiasList = new List<MateriaDTO>();
+            }
+
+        }catch  (Exception ex)
+        {
+            mensaje =  ( $"Excepción al obtener las materias: {ex.Message}");
+            materiasList = new List<MateriaDTO>();
+        }
+    }
+
+    public async Task  AnotarmeMateria(int materiaId)
+    {
+        try
+        {
+            var client = ClientFactory.CreateClient("API");
+            var cursos = await client.GetFromJsonAsync<List<CursoDTO>>("/cursos");
+            if (cursos != null)
+            {
+             
+                cursosList = cursos;
+          
+
+            }
+            else
+            {
+                mensaje = ("No se devolvieron materias desde la API.");
+                cursosList = new List<CursoDTO>();
+
+            }
+
+        }
+        catch (Exception ex)
+        {
+            mensaje = ($"Excepción al obtener las materias: {ex.Message}");
+            cursosList = new List<CursoDTO>();
+        }
+        
+        
+    }
+
+    // Cambiado a Task y agregado manejo de loadingCursoId para mostrar estado de carga en el botón
+    public async Task AnotarmeCurso(int cursoId)
+    {
+        try
+        {
+            loadingCursoId = cursoId;
+            StateHasChanged();
+
+            var client = ClientFactory.CreateClient("API");
+            var inscripcion = new InscripcionDTO
+            {
+                IdAlumno = int.Parse(AlumnoId),
+                IdCurso = cursoId,
+                Condicion= "cursando"
+            };
+            var response = await client.PostAsJsonAsync("/inscripciones", inscripcion);
+            if (response.IsSuccessStatusCode)
+            {
+                mensaje = ("Inscripción realizada con éxito.");
+                Sec(0);
+            }
+            else
+            {
+                mensaje = ($"Error al inscribirse: {(int)response.StatusCode} {response.ReasonPhrase}");
+                Sec(3);
+            }
+            
+
+        }
+        catch (Exception ex)
+        {
+            mensaje = ($"Excepción al obtener las materias: {ex.Message}");
+          
+        }
+        finally
+        {
+            loadingCursoId = null;
+            StateHasChanged();
+        }
+        
+        
+    }
+}
+
+
+
+@if (!string.IsNullOrEmpty(mensaje))
+{
+    <div class="alert @(mensaje.StartsWith("Error") ? "alert-danger" : "alert-success")"
+         style="background-color:@(mensaje.StartsWith("Error") ? "#f8d7da" : "#d4edda"); color:@(mensaje.StartsWith("Error") ? "#721c24" : "#155724"); padding:10px 14px; border-radius:6px; margin-bottom:14px; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
+        @mensaje
+    </div>
 }
 @if (Page == "0")
 {
-    <div>
-        <button @onclick="() => Sec(1)">Inscripcion materias</button>
-        <button @onclick="() => Sec(2)">Ver notas</button>
-        <button @onclick="() => Sec(3)">Estado Academico</button>
+    <div style="display:flex; gap:12px; justify-content:center; margin-top:8px;">
+        <button @onclick="() => Sec(1)" style="background:#3182ce; color:white; border:none; padding:10px 14px; border-radius:6px; cursor:pointer; font-weight:600; box-shadow:0 2px 6px rgba(49,130,206,0.18);">Inscripcion materias</button>
+        <button @onclick="() => Sec(2)" style="background:#38a169; color:white; border:none; padding:10px 14px; border-radius:6px; cursor:pointer; font-weight:600; box-shadow:0 2px 6px rgba(56,161,105,0.18);">Estado Academico</button>
+
     </div>
 }
 else if(Page == "1")
 {
-    <div>
-        <h3>Inscripcion materias</h3>
-        <button @onclick="() => Sec(0)">Volver</button>
+    <div style="max-width:900px; margin:14px auto; font-family:Segoe UI, Roboto, Arial;">
+        <h3 style="color:#2c3e50; margin-bottom:10px;">Inscripcion materias</h3>
+        @if (materiasList == null)
+        {
+            <p style="color:#6b7280;">Cargando Inscripcione...</p>
+        }
+        else if (materiasList.Count == 0)
+        {
+            <p style="color:#6b7280;">No se encontraron materias para poder inscribirse.</p>
+        }
+        else
+        {
+            <table style="width:100%; border-collapse:collapse; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                <thead>
+                    <tr style="background:#f7fafc;">
+                        <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Materias</th>
+                        <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Inscribirme</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var mat in materiasList)
+                    {
+                        <tr style="background:white;">
+                            <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">@mat.Descripcion</td>
+                            <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">
+                                <button @onclick=" () => {materiaId = mat.Id; Sec(3); }"
+                                        style="background:#ff7b00; color:white; border:none; padding:8px 10px; border-radius:6px; cursor:pointer;">Anotarme</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        <div style="margin-top:12px;">
+            <button @onclick="() => Sec(0)" style="background:#e2e8f0; color:#1f2937; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Volver</button>
+        </div>
     </div>
 }
 else if(Page == "2")
 {
-    <div>
-        <h3>Ver notas</h3>
-        <table>          
-             <thead>        
-                <tr>         
-                  <th>Materias</th> 
-                  <th>Notas</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (int i = 0; i < 5; i++)
-                {
-                    <tr>
-                        <td> Materia {i}</td>
-                        <td> Nota {i}</td>
+    <div style="max-width:900px; margin:14px auto; font-family:Segoe UI, Roboto, Arial;">
+        <h3 style="color:#2c3e50; margin-bottom:10px;">Estado Academico</h3>
+        @if (estadoAcedemicos == null)
+        {
+            <p style="color:#6b7280;">Cargando materias...</p>
+        }
+        else if (estadoAcedemicos.Count == 0)
+        {
+            <p style="color:#6b7280;">No se encontraron materias.</p>
+        }
+        else
+        {
+            <table style="width:100%; border-collapse:collapse; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                <thead>
+                    <tr style="background:#f7fafc;">
+                        <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Materia</th>
+                        <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Condicion</th>
+                        <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Comision</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-        <button @onclick="() => Sec(0)">Volver</button>
-    </div>
-}
-else if(Page == "3")
-{
-    <div>
-        <h3>Estado Academico</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Materias</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < 5; i++)
-                {
-                    <tr>
-                        <td> Materia {i}</td>
-                        <td> Esatdo: --- si aprobada nota :  {i}</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <button @onclick="() => Sec(0)">Volver</button>
+                </thead>
+                <tbody>
+                    @foreach (var est in estadoAcedemicos)
+                    {
+                        <tr style="background:white;">
+                            <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">@est.Descripcion_Materia</td>
+                            @if (est.Nota != 0)
+                            {
+                                <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">Nota final: @est.Nota</td>
+                            } else {
+                                <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">@est.Condicion</td>
+                            }
+                            <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;"> @est.Id_Comision</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <div style="margin-top:12px;">
+            <button @onclick="() => Sec(0)" style="background:#e2e8f0; color:#1f2937; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Volver</button>
+        </div>
          
     </div>
 }
-else
+else if (Page == "3") {
+    <div style="max-width:900px; margin:14px auto; font-family:Segoe UI, Roboto, Arial;">
+        <h3 style="color:#2c3e50; margin-bottom:10px;">Inscripcion Curso</h3>
+        @if (cursosList == null)
+        {
+            <p style="color:#6b7280;">Cargando materias...</p>
+        }
+        else if (cursosList.Count == 0)
+        {
+            <p style="color:#6b7280;">No se encontraron materias.</p>
+        }
+        else
+        {
+            <table style="width:100%; border-collapse:collapse; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                <thead>
+                    <tr style="background:#f7fafc;">
+                        <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Curso</th>
+                        <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Descripcion</th>
+                        <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Anotarme</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cur in cursosList)
+                    {
+                        <tr style="background:white;">
+                            <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">@cur.Id</td>
+                            <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">@cur.Descripcion</td>
+                            <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">
+                                <button @onclick="() => AnotarmeCurso(cur.Id)"
+                                        disabled="@(loadingCursoId == cur.Id)"
+                                        style="background:@(loadingCursoId == cur.Id ? "#1e40af" : "#2b6cb0"); color:white; border:none; padding:8px 10px; border-radius:6px; cursor:@(loadingCursoId == cur.Id ? "not-allowed" : "pointer"); min-width:110px;">
+                                    @if (loadingCursoId == cur.Id)
+                                    {
+                                        <span style="display:inline-flex; align-items:center; gap:8px;">
+                                            <span>⏳</span>
+                                            <span>Inscribiendo...</span>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span>Anotarme</span>
+                                    }
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <div style="margin-top:12px;">
+            <button @onclick="() => Sec(1)" style="background:#e2e8f0; color:#1f2937; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Volver</button>
+        </div>
+         
+    </div>
+}else
 {
-    <div>
-        <button @onclick="() => Sec(0)">Volver</button>
+    <div style="text-align:center; margin-top:12px;">
+        <button @onclick="() => Sec(0)" style="background:#e2e8f0; color:#1f2937; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Volver</button>
     </div>
 }

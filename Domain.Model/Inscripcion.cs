@@ -40,6 +40,7 @@ public class Inscripcion : BusinessEntity
         {
             IdCurso = idCurso;
         }
+
         else
         {
             throw new ArgumentException("El ID de Curso debe ser positivo");
@@ -60,7 +61,7 @@ public class Inscripcion : BusinessEntity
 
     public void SetCondicion(string condicion)
     {
-        string[] condiciones = ["aprobado", "regular", "libre"];
+        string[] condiciones = ["aprobado", "regular", "libre", "cursando"];
         //La condición puede ser aprobada, regular o libre
         if (string.IsNullOrEmpty(condicion))
         {

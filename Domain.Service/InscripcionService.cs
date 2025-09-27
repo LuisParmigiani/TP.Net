@@ -80,7 +80,7 @@ namespace Domain.Service
         {
             var inscRepo = new InscripcionRepository();
             try{
-                Inscripcion inscripcion = new Inscripcion(0,insc.IdAlumno,insc.IdCurso,insc.Nota,insc.Condicion);
+                Inscripcion inscripcion = new Inscripcion(insc.Id,insc.IdAlumno,insc.IdCurso,insc.Nota,insc.Condicion);
                 return inscRepo.Update(inscripcion);
             }
             catch (Exception ex)
