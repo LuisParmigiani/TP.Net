@@ -52,10 +52,35 @@ public static class UsuarioEndpoints
                     var dtos = usuarios.Select(p => new UsuarioDTO(p.Id,p.NombreUsuario,p.Clave,p.Habilitado,p.IdPersona,p.CambiaClave)).ToList();
                     return Results.Ok(dtos);
                 })
-                .WithName("GetAllusuarios")
+                .WithName("GetAllUsuarios")
                 .WithTags("Usuarios")
                 .Produces<List<UsuarioDTO>>(StatusCodes.Status200OK)
                 .WithOpenApi();
+                app.MapGet("/alumnos/{idCurso}", (int idCurso) =>
+                    {
+                        UsuarioService userService = new UsuarioService();
+                        try
+                        {
+                            var usuariosYinsc = userService.GetAlumnosByIdCurso(idCurso);
+                            return  usuariosYinsc.Select(aluInsc => new AlumnoInscripcion(
+                                aluInsc.IdALumno,
+                                aluInsc.LegajoAlumno,
+                                aluInsc.NombreAlumno,
+                                aluInsc.ApellidoAlumno,
+                                aluInsc.IdInscripcion
+                            )).ToList();
+
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
+                        }
+                    })
+                    .WithName("GetAlumnosByCurso")
+                    .WithTags("Alumnos")
+                    .Produces<List<AlumnoInscripcion>>(StatusCodes.Status200OK)
+                    .Produces(StatusCodes.Status404NotFound)
+                    .WithOpenApi();
 
                 app.MapPost("/usuarios", (UsuarioDTO user) =>
                 {
@@ -124,5 +149,5 @@ public static class UsuarioEndpoints
                 .Produces(StatusCodes.Status204NoContent)
                 .Produces(StatusCodes.Status404NotFound)
                 .WithOpenApi();
-    }
+                }
 }

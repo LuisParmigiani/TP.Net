@@ -4,6 +4,7 @@ using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Linq;
+using DTOs;
 
 namespace Data
 {
@@ -113,5 +114,42 @@ namespace Data
                 throw new Exception($"Hubo un error: {ex.Message}");
             }
         }
+        public IEnumerable<CursoWithEstado> GetCursosByMatId(int idMateria)
+        {
+            using var context = CreateContext();
+            try
+            {
+                var matExists =  context.Materias.Any(m => m.Id == idMateria);
+                if (!matExists) {
+                    throw new ArgumentException("La materia ingresada no existe");
+                }
+
+                int yearNow = DateTime.Now.Year;
+                var cursos = 
+                 context.Cursos
+                    .Where(c => c.IdMateria == idMateria && c.AnioCalendario == yearNow)
+                    .ToList();
+                List<CursoWithEstado> cursosWithEstados = new List<CursoWithEstado>();
+                cursos.ForEach(c =>
+                {
+                    var cantInscripciones = context.Inscripciones.Where(i => i.IdCurso == c.Id).ToList().Count();
+                    if (cantInscripciones == c.Cupo)
+                    {
+                        cursosWithEstados.Add(new CursoWithEstado(c, false));
+                    }
+                    else
+                    {
+                        cursosWithEstados.Add(new CursoWithEstado(c, true));
+                    }
+                });
+                return cursosWithEstados;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Hubo un error: {ex.Message}");
+            }
+        }
+        
     }
 }
