@@ -1,38 +1,33 @@
 namespace DTOs;
 
-public class EstadoAcedemico
+public class EstadoAcademico
 {
-    public int Id_Inscripcion { get; set; }
-    public int Id_Alumno { get; set; }
-    public string Condicion { get; set; }
-    public int Nota { get; set; }
-    //Curso
-    public int Id_Curso { get; set; }
-    public int AnioCalendario { get; set; }
-    //COmision
-    public int Id_Comision { get; set; }
-    public string Descripcion_Comision { get; set; }
-    //Materia
-    public int Id_Materia { get; set; }
-    public string Descripcion_Materia { get; set; }
+    public int IdMateria { get; set; }
 
-    public EstadoAcedemico()
+    public string DescMateria { get; set; }
+    public string? Condicion { get; set; }
+    public int? Nota { get; set; }
+    public int? AnioCalendarioCursado { get; set; }
+    public int? IdComCursada { get; set; }
+    public string? DescComisionCursada { get; set; }
+    public int? AnioEspecialidadCursada { get; set; }
+    
+
+    public EstadoAcademico()
     {
         
     }
 
-    public EstadoAcedemico(int idInsc, int idAlumno, string cond, int nota, int IdCurso, int nioCalendario, int id_Comision, string descripcionComision, int IdMateria, string descripcionMateria)
+    public EstadoAcademico(int idMat,string descMat,string? cond,int? nota, int? anioCal,int idCom,string? comDesc,int? anioEsp)
     {
-        Id_Inscripcion = idInsc;
-        Id_Alumno = idAlumno;
+        IdMateria = idMat;
+        DescMateria = descMat;
         Condicion = cond;
         Nota = nota;
-        Id_Curso = IdCurso;
-        AnioCalendario = nioCalendario;
-        Id_Comision = id_Comision;  
-        Descripcion_Comision = descripcionComision;
-        Id_Materia = IdMateria;
-        Descripcion_Materia = descripcionMateria;
+        AnioCalendarioCursado = anioCal;
+        IdComCursada = idCom;
+        DescComisionCursada = comDesc;
+        AnioEspecialidadCursada = anioEsp;
     }
     
     

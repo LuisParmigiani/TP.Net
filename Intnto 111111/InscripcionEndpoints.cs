@@ -51,20 +51,7 @@ public static class InscripcionEndpoints
                         try
                         {
                             var estados = InscService.GetEstadoAcademicoOfAlumno(idAlumno);
-                            var dtos = estados.Select(p => new EstadoAcedemico(
-                                    p.Id_Inscripcion,
-                                    p.Id_Alumno,
-                                    p.Condicion,
-                                    p.Nota,
-                                    p.Id_Curso,
-                                    p.AnioCalendario,
-                                    p.Id_Comision,
-                                    p.Descripcion_Comision,
-                                    p.Id_Materia,
-                                    p.Descripcion_Materia
-                                )
-                            ).ToList();
-                            return Results.Ok(dtos);
+                            return Results.Ok(estados);
                         }
                         catch (Exception ex)
                         {
@@ -73,7 +60,7 @@ public static class InscripcionEndpoints
                     })
                     .WithName("GetEstadoAcademicoOfAlumno")
                     .WithTags("Inscripciones")
-                    .Produces<List<EstadoAcedemico>>(StatusCodes.Status200OK)
+                    .Produces<List<EstadoAcademico>>(StatusCodes.Status200OK)
                     .Produces(StatusCodes.Status404NotFound)
                     .WithOpenApi();
                 app.MapPost("/inscripciones", (InscripcionDTO insc) =>

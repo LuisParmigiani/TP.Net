@@ -22,16 +22,17 @@
 
     private string? mensaje;
     private int curso;
+    private int IdInscripcion;
 
     // Almacena la nota por Id de alumno (nullable para detectar campo vacío)
     private Dictionary<int, int?> NotasPorAlumno = new();
 
     private List<CursoDTO> CursosList = new List<CursoDTO>();
-    private List<PersonaDTO> AlumnosList = new List<PersonaDTO>();
+    private List<AlumnoInscripcion> AlumnosList = new List<AlumnoInscripcion>();
 
   
     // Cambiado a async Task y usa la nota específica del alumno
-    public async Task SubirNota(int IdAlumno)
+    public async Task SubirNota(int IdAlumno, int IdInscripcion)
     {
         NotasPorAlumno.TryGetValue(IdAlumno, out int? notaAlumno);
         // Si está vacío, tomar 0 como comportamiento previo (regular)
@@ -53,10 +54,10 @@
                 {
                     inscripcionDTO = new InscripcionDTO
                     {
-                        Id = 4,
+                        Id = IdInscripcion,
                         IdAlumno = IdAlumno,
                         IdCurso = 0,
-                        Nota = 0,
+                        Nota = curso,
                         Condicion = "regular"
                     };
                 }
@@ -64,10 +65,10 @@
                 {
                     inscripcionDTO = new InscripcionDTO
                     {
-                        Id = 4,
+                        Id = IdInscripcion,
                         IdAlumno = IdAlumno,
                         Nota = 0,
-                        IdCurso = 0,
+                        IdCurso = curso,
                         Condicion = "libre"
                     };
                 }
@@ -75,9 +76,9 @@
                 {
                     inscripcionDTO = new InscripcionDTO
                     {
-                        Id = 4,
+                        Id = IdInscripcion,
                         IdAlumno = IdAlumno,
-                        IdCurso = 0,
+                        IdCurso = curso,
                         Nota = notaValor,
                         Condicion = "aprobado"
                     };
@@ -85,7 +86,7 @@
 
 
                 var client = ClientFactory.CreateClient("API");
-                var response = await client.PutAsJsonAsync($"/inscripciones/{6}", inscripcionDTO);
+                var response = await client.PutAsJsonAsync($"/inscripciones/{IdInscripcion}", inscripcionDTO);
                 if (response.IsSuccessStatusCode)
                 {
                     mensaje = "Nota subida con exito";
@@ -139,12 +140,10 @@
             var response = await client.GetAsync($"/alumnos/{curso}");
             if (response.IsSuccessStatusCode)
             {
-                var alumnos = await response.Content.ReadFromJsonAsync<List<PersonaDTO>>();
+                var alumnos = await response.Content.ReadFromJsonAsync<List<AlumnoInscripcion>>();
                 if (alumnos != null)
                 {
                     AlumnosList = alumnos;
-                    // Inicializar notas para evitar null visual si se desea (opcional)
-                    // NotasPorAlumno = AlumnosList.ToDictionary(a => a.Id, a => (int?)null);
                 }
             }
             else
@@ -158,9 +157,8 @@
         }
     }
 
-    // Helpers para el input: obtener string y manejar oninput
-    private string GetNotaString(int id) =>
-        NotasPorAlumno.TryGetValue(id, out var v) && v.HasValue ? v.Value.ToString() : string.Empty;
+
+
 
     private void OnNotaInput(int id, ChangeEventArgs e)
     {
@@ -243,17 +241,30 @@
                 @foreach (var al in AlumnosList)               
                    {
                     <tr style="border-bottom:1px solid #f3f4f6;">
-                        <td style="padding:12px; color:#111827; vertical-align:middle;"> @al.Legajo</td>
-                        <td style="padding:12px; color:#111827; vertical-align:middle;"> @al.Nombre @al.Apellido</td>
+                            <td style="padding:12px; color:#111827; vertical-align:middle;"> @al.LegajoAlumno</td>
+                            <td style="padding:12px; color:#111827; vertical-align:middle;"> @al.NombreAlumno @al.ApellidoAlumno</td>
                         <td style="padding:12px; color:#111827; vertical-align:middle;">
                             <div style="display:flex; gap:8px; align-items:center;">
                                 <input type="number" min="-1" max="10" step="1"
-                                       value="@GetNotaString(al.Id)"
-                                       @oninput="e => OnNotaInput(al.Id, e)"
+                                           value="@al.Nota"
+                                           @oninput="e => OnNotaInput(al.IdALumno, e)"
                                        style="width:120px; padding:8px; border-radius:8px; border:1px solid #e5e7eb; outline:none; font-size:14px; color:#111827;"
                                        placeholder="Nota" />
-                                <button style="background:#10b981; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;"
-                                        @onclick="async () => await SubirNota(al.Id)">Guardar</button>
+                                    @if (al.Nota != 0 )
+                                    {
+                                        <button style="background:#10b981; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;"
+                                            @onclick="async () => await SubirNota(al.IdALumno, al.IdInscripcion)">
+                                        Cambiar 
+                                    </button>
+                                    }
+                                    else
+                                    {
+
+                                        <button style="background:#92b981; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;"
+                                                       @onclick="async () => await SubirNota(al.IdALumno, al.IdInscripcion)">
+                                            Guardar
+                                        </button>
+                                    }
                             </div>
                         </td>
                     </tr>

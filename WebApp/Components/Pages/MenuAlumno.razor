@@ -23,9 +23,9 @@
 
     public string mensaje;
 
-    private List<EstadoAcedemico>? estadoAcedemicos;
+    private List<EstadoAcademico>? estadoAcedemicos;
 
-    private List<MateriaDTO>? materiasList;
+    private List<EstadoAcademico>? materiasList;
 
     private List<CursoWithEstado>? cursosList;
 
@@ -42,17 +42,15 @@
             if (int.TryParse(AlumnoId, out int id))
             {
                 // Llamada corregida: se agrega el parámetro como parte de la URL
-                var estado = await client.GetFromJsonAsync<List<EstadoAcedemico>>($"/inscripciones/estadoOfAlumno/{id}");
+                var estado = await client.GetFromJsonAsync<List<EstadoAcademico>>($"/inscripciones/estadoOfAlumno/{id}");
                 if (estado != null)
                 {
-                    Console.WriteLine(estado.Count);
                     estadoAcedemicos = estado;
-                    Console.WriteLine(estadoAcedemicos.Count);
                 }
                 else
                 {
                     Console.WriteLine("No se devolvieron materias desde la API.");
-                    estadoAcedemicos = new List<EstadoAcedemico>();
+                    estadoAcedemicos = new List<EstadoAcademico>();
                 }
             }
             
@@ -60,7 +58,7 @@
         catch (Exception ex)
         {
             Console.WriteLine($"Excepción al obtener las materias: {ex.Message}");
-            estadoAcedemicos = new List<EstadoAcedemico>();
+            estadoAcedemicos = new List<EstadoAcademico>();
         }
 
         StateHasChanged();
@@ -71,7 +69,7 @@
         try
         {
             var client = ClientFactory.CreateClient("API");
-            var materias = await client.GetFromJsonAsync<List<MateriaDTO>>("/materias");
+            var materias = await client.GetFromJsonAsync<List<EstadoAcademico>>($"/inscripciones/estadoOfAlumno/{AlumnoId}");
             if (materias != null)
             {
                 materiasList = materias;
@@ -79,13 +77,13 @@
             else
             {
                 mensaje = ("No se devolvieron materias desde la API.");
-                materiasList = new List<MateriaDTO>();
+                materiasList = new List<EstadoAcademico>();
             }
 
         }catch  (Exception ex)
         {
             mensaje =  ( $"Excepción al obtener las materias: {ex.Message}");
-            materiasList = new List<MateriaDTO>();
+            materiasList = new List<EstadoAcademico>();
         }
     }
 
@@ -205,13 +203,19 @@ else if(Page == "1")
                 <tbody>
                     @foreach (var mat in materiasList)
                     {
-                        <tr style="background:white;">
-                            <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">@mat.Descripcion</td>
-                            <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">
-                                <button @onclick=' async () => {await AnotarmeMateria(materiaId);materiaId = mat.Id ; Page = "3"; }'
-                                        style="background:#ff7b00; color:white; border:none; padding:8px 10px; border-radius:6px; cursor:pointer;">Anotarme</button>
-                            </td>
-                        </tr>
+                        @if (mat.Nota == null)
+                        {
+
+                            <tr style="background:white;">
+                                <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">@mat.DescMateria</td>
+                                <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">
+                                    <button @onclick=' async () => {await AnotarmeMateria(materiaId);materiaId = mat.IdMateria ; Page = "3"; }'
+                                            style="background:#ff7b00; color:white; border:none; padding:8px 10px; border-radius:6px; cursor:pointer;">
+                                        Anotarme
+                                    </button>
+                                </td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
@@ -241,20 +245,34 @@ else if(Page == "2")
                         <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Materia</th>
                         <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Condicion</th>
                         <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Comision</th>
+                        <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Año especialidad</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var est in estadoAcedemicos)
                     {
                         <tr style="background:white;">
-                            <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">@est.Descripcion_Materia</td>
-                            @if (est.Nota != 0)
+                            <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">@est.DescMateria</td>
+                            @if(est.Nota != null)
                             {
-                                <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">Nota final: @est.Nota</td>
-                            } else {
-                                <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">@est.Condicion</td>
+                                @if (est.Nota != 0)
+                                {
+                                    <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">Nota final: @est.Nota</td>
+                                }
+                                else
+                                {
+                                    <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">@est.Condicion</td>
+                                }
+                                <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;"> @est.IdComCursada</td>
+                                <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;"> @est.AnioEspecialidadCursada</td>
+                            }else
+                            {
+                                <td> No cursada  </td>
+                                <td> -- </td>
+                                <td> -- </td>
                             }
-                            <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;"> @est.Id_Comision</td>
+
 
                         </tr>
                     }

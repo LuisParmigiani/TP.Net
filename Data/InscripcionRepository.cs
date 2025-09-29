@@ -61,39 +61,50 @@ namespace Data
             return context.Inscripciones.ToList();
         }
 
-        public IEnumerable<EstadoAcedemico> GetEstadoAcademicoOfAlumno(int idAlumno)
+        public IEnumerable<EstadoAcademico> GetEstadoAcademicoOfAlumno(int idAlumno)
         {
             using var context = CreateContext();
             var alumnExists = context.Personas.Any(a => a.Id == idAlumno && a.TipoPersona == 2);
             if (alumnExists)
             {
                 try
-                {
-                    var alumno = context.Personas.Find(idAlumno);
-                    var listado = (from insc in context.Inscripciones
-                        join curso in context.Cursos
-                            on insc.IdCurso equals curso.Id
-                        join materia in context.Materias
-                            on curso.IdMateria equals materia.Id
-                        join comision in context.Comisiones
-                            on curso.IdComision equals comision.Id
-                            where insc.IdAlumno == idAlumno
-                        select new EstadoAcedemico
-                        {
-                            Id_Inscripcion = insc.Id,
-                            Id_Alumno = insc.IdAlumno,
-                            Condicion = insc.Condicion,
-                            Nota = insc.Nota,
-                            Id_Curso = curso.Id,
-                            AnioCalendario = curso.AnioCalendario,
-                            Id_Comision = comision.Id,
-                            Descripcion_Comision = comision.Descripcion,
-                            Id_Materia = materia.Id,
-                            Descripcion_Materia = materia.Descripcion
-                        }).ToList();
+                {   
+                    var listado = context.Database
+                        .SqlQuery<EstadoAcademico>($@"
+                WITH mat_cursadas AS (
+                    SELECT 
+                        per.nombre AS nombre,
+                        per.apellido AS apellido,
+                        mat.Id AS Id_mat_cursada, 
+                        mat.descripcion AS materia, 
+                        insc.condicion AS condicion, 
+                        insc.Nota AS nota,
+                        cur.AnioCalendario, 
+                        com.id AS comId, 
+                        com.descripcion AS comDesc, 
+                        com.AnioEspecialidad AS AnioEsp,
+                        per.IdPlan 
+                    FROM Inscripciones insc
+                    INNER JOIN cursos cur ON insc.IdCurso = cur.Id 
+                    INNER JOIN Comisiones com ON cur.IdComision = com.Id
+                    INNER JOIN Materias mat ON cur.IdMateria = mat.Id
+                    INNER JOIN Personas per ON per.Id = insc.IdAlumno
+                    WHERE per.Id = {idAlumno}
+                ) 
+                SELECT 
+                    mat.Id as IdMateria,
+                    mat.Descripcion as DescMateria,
+                    mat_cursadas.condicion AS Condicion,
+                    mat_cursadas.nota AS Nota,
+                    mat_cursadas.AnioCalendario as AnioCalendarioCursado,
+
+                    mat_cursadas.comId as IdComCursada, 
+                    mat_cursadas.comDesc as DescComisionCursada, 
+                    mat_cursadas.AnioEsp as AnioEspecialidadCursada
+                FROM Materias mat
+                LEFT JOIN mat_cursadas ON mat.Id = mat_cursadas.Id_mat_cursada")
+                        .ToList();
                     return listado;
-
-
                 }
                 catch (Exception e)
                 {
