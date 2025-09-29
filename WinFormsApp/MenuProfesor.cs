@@ -307,5 +307,10 @@ namespace WinFormsApp
             _msgTimer.Interval = milliseconds;
             _msgTimer.Start();
         }
+
+        private void dgvListaCursos_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

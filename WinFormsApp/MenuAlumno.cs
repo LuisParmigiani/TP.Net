@@ -1,39 +1,43 @@
-Ôªøusing System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DTOs;
+
 namespace WinFormsApp
 {
     public partial class MenuAlumno : Form
     {
-        private readonly HttpClient _httpClient;
-        private readonly int _alumnoId;
+        private readonly HttpClient client;
+        private int alumnoId;
+        private int selectedMateriaId;
 
-        private List<MateriaDTO> _materias = new();
-        private List<CursoDTO> _cursos = new();
-        private List<EstadoAcedemico> _estado = new();
-        private int _selectedMateriaId;
+        // Datos cargados desde la API
+        private List<DTOs.EstadoAcademico> materiasList = new List<DTOs.EstadoAcademico>();
+        private List<DTOs.CursoWithEstado> cursosList = new List<DTOs.CursoWithEstado>();
+        private List<DTOs.EstadoAcademico> estadoAcedemicos = new List<DTOs.EstadoAcademico>();
+
+        private string mensaje = string.Empty;
 
         public MenuAlumno(int IdAlumno)
         {
             InitializeComponent();
 
-            _alumnoId = IdAlumno;
-            // Ajusta la BaseAddress si tu API est√° en otra URL
-            _httpClient = new HttpClient { BaseAddress = new Uri("http://localhost:5183") };
+            alumnoId = IdAlumno;
+            client = new HttpClient { BaseAddress = new Uri("http://localhost:5183") };
 
-            // Asegurar paneles al inicio
             ShowPanelMenu();
 
-            // Suscribir eventos no ligados por el dise√±ador
-            VolverMaterias.Click += VolverMaterias_Click;
-            VolverCursos.Click += VolverCursos_Click;
-            GridCurso.CellContentClick += GridCurso_CellContentClick;
-            // Los botones principales ya est√°n ligados en el dise√±ador a inscr_Click y EstadoAcademico_Click
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            VolverMaterias.Click += VolverMateriasClick;
+            VolverCursos.Click += VolverCursosClick;
+            VolverEstadoAcademico.Click += VolverEstadoAcademicoClick;
+
+            dataGridView1.CellContentClick += dataGridView1CellContentClick;
+            GridCurso.CellContentClick += GridCursoCellContentClick;
+            GridEstadoAcademico.CellContentClick += GridEstadoAcademico_CellContentClick;
         }
 
         private void ShowPanelMenu()
@@ -68,64 +72,68 @@ namespace WinFormsApp
             panelEsatdoAcademico.Visible = true;
         }
 
-        // Click desde dise√±ador: abrir listado de materias para inscribirse
-        private async void inscr_Click(object sender, EventArgs e)
+        // Click desde diseÒador: abrir listado de materias para inscribirse
+        private async void inscrClick(object sender, EventArgs e)
         {
             await LoadMateriasAsync();
             ShowPanelMaterias();
         }
 
-        // Click desde dise√±ador: ver estado acad√©mico
-        private async void EstadoAcademico_Click(object sender, EventArgs e)
+        // Click desde diseÒador: ver estado acadÈmico
+        private async void EstadoAcademicoClick(object sender, EventArgs e)
         {
             await LoadEstadoAcademicoAsync();
             ShowPanelEstado();
         }
 
-        private async void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private async void dataGridView1CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            var btnCol = dataGridView1.Columns["Inscribirme"];
-            if (btnCol != null && e.ColumnIndex == btnCol.Index)
-            {
-                var row = dataGridView1.Rows[e.RowIndex];
-                if (row.Tag is int mid)
-                {
-                    _selectedMateriaId = mid;
-                }
-                else
-                {
-                    var desc = row.Cells["Materia"].Value?.ToString();
-                    var m = _materias.Find(x => x.Descripcion == desc);
-                    _selectedMateriaId = m?.Id ?? 0;
-                }
+            var col = dataGridView1.Columns[e.ColumnIndex];
+            bool isButton = col is DataGridViewButtonColumn || col.Name == "Inscribirme";
+            if (!isButton) return;
 
-                if (_selectedMateriaId > 0)
-                {
-                    await LoadCursosAsync(_selectedMateriaId);
-                    ShowPanelCursos();
-                }
+            var row = dataGridView1.Rows[e.RowIndex];
+            int materiaId = 0;
+            if (row.Tag is int mid) materiaId = mid;
+            else if (int.TryParse(row.Cells[0].Value?.ToString(), out int parsed)) materiaId = parsed;
+
+            if (materiaId > 0)
+            {
+                selectedMateriaId = materiaId;
+                await LoadCursosAsync(materiaId);
+                ShowPanelCursos();
             }
         }
 
-        private async void GridCurso_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private async void GridCursoCellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            var btnCol = GridCurso.Columns["Anotarme"];
-            if (btnCol != null && e.ColumnIndex == btnCol.Index)
-            {
-                var row = GridCurso.Rows[e.RowIndex];
-                int cursoId = 0;
-                if (row.Tag is int cid) cursoId = cid;
-                else if (int.TryParse(row.Cells["Curso"].Value?.ToString(), out int parsed)) cursoId = parsed;
+            var col = GridCurso.Columns[e.ColumnIndex];
+            bool isButton = col is DataGridViewButtonColumn || col.Name == "Anotarme";
+            if (!isButton) return;
 
-                if (cursoId > 0)
-                {
-                    await AnotarmeCursoAsync(cursoId);
-                }
+            var row = GridCurso.Rows[e.RowIndex];
+            int cursoId = 0;
+            if (row.Tag is int cid) cursoId = cid;
+            else if (int.TryParse(row.Cells[0].Value?.ToString(), out int parsed)) cursoId = parsed;
+
+            if (cursoId <= 0)
+            {
+                MostrarAviso("Id de curso inv·lido");
+                return;
             }
+
+            var curso = cursosList.FirstOrDefault(c => c.Id == cursoId);
+            if (curso != null && !curso.Estado)
+            {
+                MostrarAviso("No hay m·s cupo en el curso seleccionado.");
+                return;
+            }
+
+            await AnotarmeCursoAsync(cursoId);
         }
 
         private async Task LoadMateriasAsync()
@@ -133,29 +141,27 @@ namespace WinFormsApp
             try
             {
                 dataGridView1.Rows.Clear();
-                var materias = await _httpClient.GetFromJsonAsync<List<MateriaDTO>>("/materias");
-                _materias = materias ?? new List<MateriaDTO>();
 
-                foreach (var m in _materias)
+                var materias = await client.GetFromJsonAsync<List<DTOs.EstadoAcademico>>($"/inscripciones/estadoOfAlumno/{alumnoId}");
+                materiasList = materias ?? new List<DTOs.EstadoAcademico>();
+
+                foreach (var mat in materiasList)
                 {
-                    // A√±ade una fila: la columna Materia mostrar√° la descripci√≥n; la columna Inscribirme es bot√≥n
-                    dataGridView1.Rows.Add(m.Descripcion);
-                    var idx = dataGridView1.Rows.Count - 1;
-                    dataGridView1.Rows[idx].Tag = m.Id;
+                    if (mat.Nota == null)
+                    {
+                        int idx = dataGridView1.Rows.Add(mat.DescMateria, "Inscribirme");
+                        dataGridView1.Rows[idx].Tag = mat.IdMateria;
+                    }
                 }
 
-                if (_materias.Count == 0)
+                if (!materiasList.Any())
                 {
-                    MessageBox.Show("No se encontraron materias disponibles.");
+                    MostrarAviso("No se encontraron materias para poder inscribirse.");
                 }
-            }
-            catch (HttpRequestException ex)
-            {
-                MessageBox.Show("No se pudo conectar con la API de materias: " + ex.Message);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al obtener materias: " + ex.Message);
+                MostrarAviso($"ExcepciÛn al obtener las materias: {ex.Message}");
             }
         }
 
@@ -164,29 +170,24 @@ namespace WinFormsApp
             try
             {
                 GridCurso.Rows.Clear();
-                var cursos = await _httpClient.GetFromJsonAsync<List<CursoDTO>>("/cursos");
-                cursos ??= new List<CursoDTO>();
-                _cursos = cursos.FindAll(c => c.IdMateria == materiaId);
 
-                foreach (var c in _cursos)
+                var cursos = await client.GetFromJsonAsync<List<DTOs.CursoWithEstado>>($"/cursos/ByMateria/{materiaId}");
+                cursosList = cursos ?? new List<DTOs.CursoWithEstado>();
+
+                foreach (var cur in cursosList)
                 {
-                    GridCurso.Rows.Add(c.Id, c.Descripcion);
-                    var idx = GridCurso.Rows.Count - 1;
-                    GridCurso.Rows[idx].Tag = c.Id;
+                    int idx = GridCurso.Rows.Add(cur.Id, cur.Descripcion, cur.Estado ? "Anotarme" : "Sin cupo");
+                    GridCurso.Rows[idx].Tag = cur.Id;
                 }
 
-                if (_cursos.Count == 0)
+                if (!cursosList.Any())
                 {
-                    MessageBox.Show("No se encontraron cursos para la materia seleccionada.");
+                    MostrarAviso("No se encontraron cursos para la materia seleccionada.");
                 }
-            }
-            catch (HttpRequestException ex)
-            {
-                MessageBox.Show("No se pudo conectar con la API de cursos: " + ex.Message);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al obtener cursos: " + ex.Message);
+                MostrarAviso($"ExcepciÛn al obtener los cursos: {ex.Message}");
             }
         }
 
@@ -194,34 +195,23 @@ namespace WinFormsApp
         {
             try
             {
-                var inscripcion = new InscripcionDTO
+                var inscripcion = new { IdAlumno = alumnoId, IdCurso = cursoId, Condicion = "cursando" };
+                var response = await client.PostAsJsonAsync("/inscripciones", inscripcion);
+                if (response.IsSuccessStatusCode)
                 {
-                    IdAlumno = _alumnoId,
-                    IdCurso = cursoId,
-                    Condicion = "cursando"
-                };
-
-                var resp = await _httpClient.PostAsJsonAsync("/inscripciones", inscripcion);
-                if (resp.IsSuccessStatusCode)
-                {
-                    MessageBox.Show("Inscripci√≥n realizada con √©xito.");
-                    // Mostrar estado acad√©mico actualizado
-                    await LoadEstadoAcademicoAsync();
-                    ShowPanelEstado();
+                    MostrarAviso("InscripciÛn realizada con Èxito.");
+                    await LoadMateriasAsync();
+                    ShowPanelMaterias();
                 }
                 else
                 {
-                    var err = await resp.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Error al inscribirse: {(int)resp.StatusCode} {resp.ReasonPhrase}\n{err}");
+                    var txt = await response.Content.ReadAsStringAsync();
+                    MostrarAviso($"Error al inscribirse: {(int)response.StatusCode} {response.ReasonPhrase} - {txt}");
                 }
-            }
-            catch (HttpRequestException ex)
-            {
-                MessageBox.Show("No se pudo conectar con la API de inscripciones: " + ex.Message);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al inscribirse: " + ex.Message);
+                MostrarAviso($"ExcepciÛn al inscribirse: {ex.Message}");
             }
         }
 
@@ -230,43 +220,52 @@ namespace WinFormsApp
             try
             {
                 GridEstadoAcademico.Rows.Clear();
-                var lista = await _httpClient.GetFromJsonAsync<List<EstadoAcedemico>>($"/inscripciones/estadoOfAlumno/{_alumnoId}");
-                _estado = lista ?? new List<EstadoAcedemico>();
 
-                foreach (var eac in _estado)
+                var estado = await client.GetFromJsonAsync<List<DTOs.EstadoAcademico>>($"/inscripciones/estadoOfAlumno/{alumnoId}");
+                estadoAcedemicos = estado ?? new List<DTOs.EstadoAcademico>();
+
+                foreach (var est in estadoAcedemicos)
                 {
-                    string condicionText = eac.Nota != 0 ? $"Nota final: {eac.Nota}" : eac.Condicion;
-                    GridEstadoAcademico.Rows.Add(eac.Descripcion_Materia, condicionText, eac.Id_Comision);
+                    string condicion = est.Nota != null ? (est.Nota != 0 ? $"Nota final: {est.Nota}" : (est.Condicion ?? string.Empty)) : "No cursada";
+                    GridEstadoAcademico.Rows.Add(est.DescMateria, condicion, est.IdComCursada ?? 0, est.AnioEspecialidadCursada ?? 0);
                 }
 
-                if (_estado.Count == 0)
+                if (!estadoAcedemicos.Any())
                 {
-                    MessageBox.Show("No hay registros en el estado acad√©mico.");
+                    MostrarAviso("No se encontraron materias en el estado acadÈmico.");
                 }
-            }
-            catch (HttpRequestException ex)
-            {
-                MessageBox.Show("No se pudo conectar con la API de estado acad√©mico: " + ex.Message);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al obtener estado acad√©mico: " + ex.Message);
+                MostrarAviso($"ExcepciÛn al obtener el estado acadÈmico: {ex.Message}");
             }
         }
 
-        private void VolverMaterias_Click(object sender, EventArgs e)
+        private void VolverMateriasClick(object sender, EventArgs e)
         {
             ShowPanelMenu();
         }
 
-        private void VolverCursos_Click(object sender, EventArgs e)
+        private void VolverCursosClick(object sender, EventArgs e)
         {
             ShowPanelMaterias();
         }
 
-        private void VolverEstadoAcademico_Click(object sender, EventArgs e)
+        private void VolverEstadoAcademicoClick(object sender, EventArgs e)
         {
             ShowPanelMenu();
+        }
+
+        private void GridEstadoAcademico_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // no-op
+        }
+
+        // Simple helper to show messages (centralizado)
+        private void MostrarAviso(string texto)
+        {
+            if (string.IsNullOrEmpty(texto)) return;
+            MessageBox.Show(texto, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

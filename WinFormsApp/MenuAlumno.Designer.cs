@@ -53,6 +53,7 @@
             EsatdoAcademicoMateria = new DataGridViewTextBoxColumn();
             Condicion = new DataGridViewTextBoxColumn();
             ComisionEsatdoAcademico = new DataGridViewTextBoxColumn();
+            AnioEspecialidadCursada = new DataGridViewTextBoxColumn();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             panelMenuAlumno.SuspendLayout();
             panelMaterias.SuspendLayout();
@@ -78,7 +79,7 @@
             inscr.TabIndex = 0;
             inscr.Text = "Inscripciones a materias";
             inscr.UseVisualStyleBackColor = false;
-            inscr.Click += inscr_Click;
+            inscr.Click += inscrClick;
             // 
             // EstadoAcademico
             // 
@@ -95,7 +96,7 @@
             EstadoAcademico.TabIndex = 1;
             EstadoAcademico.Text = "Estado académico";
             EstadoAcademico.UseVisualStyleBackColor = false;
-            EstadoAcademico.Click += EstadoAcademico_Click;
+            EstadoAcademico.Click += EstadoAcademicoClick;
             // 
             // panelMenuAlumno
             // 
@@ -106,7 +107,7 @@
             panelMenuAlumno.Controls.Add(EstadoAcademico);
             panelMenuAlumno.Location = new Point(31, 31);
             panelMenuAlumno.Name = "panelMenuAlumno";
-            panelMenuAlumno.Size = new Size(530, 140);
+            panelMenuAlumno.Size = new Size(538, 226);
             panelMenuAlumno.TabIndex = 2;
             // 
             // panelMaterias
@@ -116,9 +117,9 @@
             panelMaterias.BorderStyle = BorderStyle.FixedSingle;
             panelMaterias.Controls.Add(dataGridView1);
             panelMaterias.Controls.Add(VolverMaterias);
-            panelMaterias.Location = new Point(32, 31);
+            panelMaterias.Location = new Point(605, 31);
             panelMaterias.Name = "panelMaterias";
-            panelMaterias.Size = new Size(530, 226);
+            panelMaterias.Size = new Size(560, 226);
             panelMaterias.TabIndex = 3;
             // 
             // dataGridView1
@@ -147,7 +148,7 @@
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(515, 175);
             dataGridView1.TabIndex = 2;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dataGridView1.CellContentClick += dataGridView1CellContentClick;
             // 
             // Materia
             // 
@@ -182,9 +183,9 @@
             panelCursos.BorderStyle = BorderStyle.FixedSingle;
             panelCursos.Controls.Add(VolverCursos);
             panelCursos.Controls.Add(GridCurso);
-            panelCursos.Location = new Point(31, 31);
+            panelCursos.Location = new Point(586, 281);
             panelCursos.Name = "panelCursos";
-            panelCursos.Size = new Size(530, 226);
+            panelCursos.Size = new Size(538, 226);
             panelCursos.TabIndex = 4;
             // 
             // VolverCursos
@@ -251,9 +252,9 @@
             panelEsatdoAcademico.BorderStyle = BorderStyle.FixedSingle;
             panelEsatdoAcademico.Controls.Add(VolverEstadoAcademico);
             panelEsatdoAcademico.Controls.Add(GridEstadoAcademico);
-            panelEsatdoAcademico.Location = new Point(32, 31);
+            panelEsatdoAcademico.Location = new Point(12, 281);
             panelEsatdoAcademico.Name = "panelEsatdoAcademico";
-            panelEsatdoAcademico.Size = new Size(530, 226);
+            panelEsatdoAcademico.Size = new Size(557, 226);
             panelEsatdoAcademico.TabIndex = 5;
             // 
             // VolverEstadoAcademico
@@ -269,7 +270,7 @@
             VolverEstadoAcademico.TabIndex = 2;
             VolverEstadoAcademico.Text = "Volver";
             VolverEstadoAcademico.UseVisualStyleBackColor = false;
-            VolverEstadoAcademico.Click += VolverEstadoAcademico_Click;
+            VolverEstadoAcademico.Click += VolverEstadoAcademicoClick;
             // 
             // GridEstadoAcademico
             // 
@@ -288,7 +289,7 @@
             dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
             GridEstadoAcademico.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             GridEstadoAcademico.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            GridEstadoAcademico.Columns.AddRange(new DataGridViewColumn[] { EsatdoAcademicoMateria, Condicion, ComisionEsatdoAcademico });
+            GridEstadoAcademico.Columns.AddRange(new DataGridViewColumn[] { EsatdoAcademicoMateria, Condicion, ComisionEsatdoAcademico, AnioEspecialidadCursada });
             GridEstadoAcademico.EnableHeadersVisualStyles = false;
             GridEstadoAcademico.GridColor = Color.FromArgb(230, 230, 230);
             GridEstadoAcademico.Location = new Point(0, 0);
@@ -298,6 +299,7 @@
             GridEstadoAcademico.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             GridEstadoAcademico.Size = new Size(523, 188);
             GridEstadoAcademico.TabIndex = 0;
+            GridEstadoAcademico.CellContentClick += GridEstadoAcademico_CellContentClick;
             // 
             // EsatdoAcademicoMateria
             // 
@@ -317,12 +319,18 @@
             ComisionEsatdoAcademico.Name = "ComisionEsatdoAcademico";
             ComisionEsatdoAcademico.ReadOnly = true;
             // 
+            // AnioEspecialidadCursada
+            // 
+            AnioEspecialidadCursada.HeaderText = "Año especialidad";
+            AnioEspecialidadCursada.Name = "AnioEspecialidadCursada";
+            AnioEspecialidadCursada.ReadOnly = true;
+            // 
             // MenuAlumno
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(250, 250, 250);
-            ClientSize = new Size(592, 291);
+            ClientSize = new Size(1286, 558);
             Controls.Add(panelEsatdoAcademico);
             Controls.Add(panelCursos);
             Controls.Add(panelMaterias);
@@ -360,6 +368,7 @@
         private DataGridViewTextBoxColumn EsatdoAcademicoMateria;
         private DataGridViewTextBoxColumn Condicion;
         private DataGridViewTextBoxColumn ComisionEsatdoAcademico;
+        private DataGridViewTextBoxColumn AnioEspecialidadCursada;
         private DataGridView dataGridView1;
         private Button VolverEstadoAcademico;
         private DataGridViewTextBoxColumn Materia;
