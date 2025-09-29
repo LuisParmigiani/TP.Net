@@ -63,7 +63,7 @@ namespace Domain.Service
             )).ToList();
         }
 
-        public IEnumerable<EstadoAcedemico> GetEstadoAcademicoOfAlumno(int idAlumno)
+        public IEnumerable<EstadoAcademico> GetEstadoAcademicoOfAlumno(int idAlumno)
         {
             var inscRepo = new InscripcionRepository();
             try
