@@ -84,6 +84,18 @@ namespace Domain.Service
                 throw new Exception(ex.Message);
             }
         }
+        public IEnumerable<CursoWithEstado> GetByMateriaId(int idMateria)
+        {
+            var curRepo = new CursoRepository();
+            try
+            {
+                return curRepo.GetCursosByMatId(idMateria);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         public bool Update(CursoDTO cur)
         {

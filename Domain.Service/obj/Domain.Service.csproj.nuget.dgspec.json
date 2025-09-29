@@ -275,7 +275,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "/Users/agus/Facultad/NET/TP.Net/Domain.Model/Domain.Model.csproj": {
+                "projectPath": "/Users/agus/Facultad/NET/TP.Net/Domain.Model/Domain.Model.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

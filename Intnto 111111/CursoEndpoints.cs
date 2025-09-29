@@ -80,6 +80,47 @@ public static class CursoEndpoints
                 .WithTags("Cursos")
                 .Produces<List<CursoDTO>>(StatusCodes.Status200OK)
                 .WithOpenApi();
+                app.MapGet("/cursos/ByMateria/{matId}", (int matId) =>
+                    {
+                        CursoService cursoService = new CursoService();
+                        try
+                        {
+                            var cursos = cursoService.GetByMateriaId(matId);
+                            if (!cursos.Any())
+                            {
+                                return Results.NotFound(new { error = "No courses found for this materia" });
+                            }
+
+                            var dtos = cursos.Select(c => new CursoWithEstado
+                            {
+                                Id = c.Id,
+                                AnioCalendario = c.AnioCalendario,
+                                Cupo = c.Cupo,
+                                Descripcion = c.Descripcion,
+                                IdComision = c.IdComision,
+                                IdMateria = c.IdMateria,
+                                Estado = c.Estado
+                            }).ToList();
+
+                            return Results.Ok(dtos);
+                        }
+                        catch (ArgumentException ex)
+                        {
+                            return Results.BadRequest(new { error = ex.Message });
+                        }
+                        catch (Exception ex)
+                        {
+                            return TypedResults.Problem(ex.Message);
+                        }
+                    })
+                    .WithName("GetCursosByMatId")
+                    .WithTags("Cursos")
+                    .Produces<List<CursoWithEstado>>(StatusCodes.Status200OK)
+                    .Produces(StatusCodes.Status400BadRequest)
+                    .Produces(StatusCodes.Status404NotFound)
+                    .Produces(StatusCodes.Status500InternalServerError)
+                    .WithOpenApi();
+
 
                 app.MapPost("/cursos", (CursoDTO dto) =>
                 {
