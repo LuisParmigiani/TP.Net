@@ -1,4 +1,4 @@
-﻿@page "/MenuAlumno/{AlumnoId}/{Page?}"
+﻿@page "/MenuAlumno/{AlumnoId}"
 
 @rendermode InteractiveServer
 @using Microsoft.AspNetCore.Components
@@ -27,76 +27,44 @@
 
     private List<MateriaDTO>? materiasList;
 
-    private List<CursoDTO>? cursosList;
+    private List<CursoWithEstado>? cursosList;
 
     // Estado de carga para la inscripción de curso (id del curso que está cargando)
     private int? loadingCursoId;
 
-    private void Sec(int sec)
+    
+
+    private async Task EstadoAcademico()
     {
-        Console.WriteLine($"Navegando a la sección {sec} para el alumno {AlumnoId}");
-        var url = $"/MenuAlumno/{AlumnoId}/{sec}";
-        Navigation.NavigateTo(url);
-    }
-
-    protected override async Task OnParametersSetAsync()
-    {
-        
-        if (Page == "2")
+        try
         {
-            
-                await EstadoAcademico();
-            
-        } else if (Page == "1")
-        {
-           
-                await InscripcionMaterias();
-            
-        } else if (Page == "3")
-        {
-        
-                await AnotarmeMateria(materiaId);
-            
-        }
-
-        await base.OnParametersSetAsync();
-    }
-
-   
-        private async Task EstadoAcademico()
-        {
-            try
+            var client = ClientFactory.CreateClient("API");
+            if (int.TryParse(AlumnoId, out int id))
             {
-                var client = ClientFactory.CreateClient("API");
-                if (int.TryParse(AlumnoId, out int id))
-                {
-                    // Llamada corregida: se agrega el parámetro como parte de la URL
+                // Llamada corregida: se agrega el parámetro como parte de la URL
                 var estado = await client.GetFromJsonAsync<List<EstadoAcedemico>>($"/inscripciones/estadoOfAlumno/{id}");
                 if (estado != null)
-                    {
+                {
                     Console.WriteLine(estado.Count);
                     estadoAcedemicos = estado;
                     Console.WriteLine(estadoAcedemicos.Count);
-                    }
-                    else
-                    {
-                        Console.WriteLine("No se devolvieron materias desde la API.");
-                    estadoAcedemicos = new List<EstadoAcedemico>();
-                    }
                 }
-                
+                else
+                {
+                    Console.WriteLine("No se devolvieron materias desde la API.");
+                    estadoAcedemicos = new List<EstadoAcedemico>();
+                }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Excepción al obtener las materias: {ex.Message}");
+            
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Excepción al obtener las materias: {ex.Message}");
             estadoAcedemicos = new List<EstadoAcedemico>();
-            }
-
-            StateHasChanged();
         }
 
-      
-
+        StateHasChanged();
+    }
 
     private async Task InscripcionMaterias()
     {
@@ -126,7 +94,7 @@
         try
         {
             var client = ClientFactory.CreateClient("API");
-            var cursos = await client.GetFromJsonAsync<List<CursoDTO>>("/cursos");
+            var cursos = await client.GetFromJsonAsync<List<CursoWithEstado>>($"/cursos/ByMateria/{materiaId}");
             if (cursos != null)
             {
              
@@ -137,7 +105,7 @@
             else
             {
                 mensaje = ("No se devolvieron materias desde la API.");
-                cursosList = new List<CursoDTO>();
+                cursosList = new List<CursoWithEstado>();
 
             }
 
@@ -145,7 +113,7 @@
         catch (Exception ex)
         {
             mensaje = ($"Excepción al obtener las materias: {ex.Message}");
-            cursosList = new List<CursoDTO>();
+            cursosList = new List<CursoWithEstado>();
         }
         
         
@@ -175,7 +143,7 @@
             else
             {
                 mensaje = ($"Error al inscribirse: {(int)response.StatusCode} {response.ReasonPhrase}");
-                Sec(3);
+                Page = "3";
             }
             
 
@@ -204,13 +172,14 @@
         @mensaje
     </div>
 }
-@if (Page == "0")
+@if (Page == "0"|| Page == null)
 {
-    <div style="display:flex; gap:12px; justify-content:center; margin-top:8px;">
-        <button @onclick="() => Sec(1)" style="background:#3182ce; color:white; border:none; padding:10px 14px; border-radius:6px; cursor:pointer; font-weight:600; box-shadow:0 2px 6px rgba(49,130,206,0.18);">Inscripcion materias</button>
-        <button @onclick="() => Sec(2)" style="background:#38a169; color:white; border:none; padding:10px 14px; border-radius:6px; cursor:pointer; font-weight:600; box-shadow:0 2px 6px rgba(56,161,105,0.18);">Estado Academico</button>
-
-    </div>
+    
+        <div style="display:flex; gap:12px; justify-content:center; margin-top:8px;">
+            <button @onclick='async () => { await InscripcionMaterias(); Page = "1"; }' style="background:#3182ce; color:white; border:none; padding:10px 14px; border-radius:6px; cursor:pointer; font-weight:600; box-shadow:0 2px 6px rgba(49,130,206,0.18);">Inscripcion materias</button>
+            <button @onclick='async () =>{await EstadoAcademico()  ;  Page = "2" ; }' style="background:#38a169; color:white; border:none; padding:10px 14px; border-radius:6px; cursor:pointer; font-weight:600; box-shadow:0 2px 6px rgba(56,161,105,0.18);">Estado Academico</button>
+        </div>
+    
 }
 else if(Page == "1")
 {
@@ -239,7 +208,7 @@ else if(Page == "1")
                         <tr style="background:white;">
                             <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">@mat.Descripcion</td>
                             <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">
-                                <button @onclick=" () => {materiaId = mat.Id; Sec(3); }"
+                                <button @onclick=' async () => {await AnotarmeMateria(materiaId);materiaId = mat.Id ; Page = "3"; }'
                                         style="background:#ff7b00; color:white; border:none; padding:8px 10px; border-radius:6px; cursor:pointer;">Anotarme</button>
                             </td>
                         </tr>
@@ -248,7 +217,7 @@ else if(Page == "1")
             </table>
         }
         <div style="margin-top:12px;">
-            <button @onclick="() => Sec(0)" style="background:#e2e8f0; color:#1f2937; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Volver</button>
+            <button @onclick='() => Page = "0" ' style="background:#e2e8f0; color:#1f2937; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Volver</button>
         </div>
     </div>
 }
@@ -294,7 +263,7 @@ else if(Page == "2")
         }
 
         <div style="margin-top:12px;">
-            <button @onclick="() => Sec(0)" style="background:#e2e8f0; color:#1f2937; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Volver</button>
+            <button @onclick='() => Page = "0" ' style="background:#e2e8f0; color:#1f2937; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Volver</button>
         </div>
          
     </div>
@@ -327,21 +296,26 @@ else if (Page == "3") {
                             <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">@cur.Id</td>
                             <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">@cur.Descripcion</td>
                             <td style="padding:10px 12px; border-bottom:1px solid #f1f1f1;">
+                                    @if (cur.Estado)
+                                    {
                                 <button @onclick="() => AnotarmeCurso(cur.Id)"
                                         disabled="@(loadingCursoId == cur.Id)"
                                         style="background:@(loadingCursoId == cur.Id ? "#1e40af" : "#2b6cb0"); color:white; border:none; padding:8px 10px; border-radius:6px; cursor:@(loadingCursoId == cur.Id ? "not-allowed" : "pointer"); min-width:110px;">
-                                    @if (loadingCursoId == cur.Id)
-                                    {
-                                        <span style="display:inline-flex; align-items:center; gap:8px;">
-                                            <span>⏳</span>
-                                            <span>Inscribiendo...</span>
-                                        </span>
-                                    }
-                                    else
-                                    {
-                                        <span>Anotarme</span>
-                                    }
+                                        @if (loadingCursoId == cur.Id)
+                                        {
+                                            <span style="display:inline-flex; align-items:center; gap:8px;">
+                                                <span>⏳</span>
+                                                <span>Inscribiendo...</span>
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span>Anotarme</span>
+                                        }
                                 </button>
+                                    }else {
+                                        <span>No hay mas cupo</span>
+                                    }
                             </td>
                         </tr>
                     }
@@ -350,13 +324,13 @@ else if (Page == "3") {
         }
 
         <div style="margin-top:12px;">
-            <button @onclick="() => Sec(1)" style="background:#e2e8f0; color:#1f2937; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Volver</button>
+            <button @onclick='async () =>{await InscripcionMaterias()  ;  Page = "1" ; }' style="background:#e2e8f0; color:#1f2937; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Volver</button>
         </div>
          
     </div>
 }else
 {
     <div style="text-align:center; margin-top:12px;">
-        <button @onclick="() => Sec(0)" style="background:#e2e8f0; color:#1f2937; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Volver</button>
+        <button @onclick='() => Page = "1" ' style="background:#e2e8f0; color:#1f2937; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Volver</button>
     </div>
 }

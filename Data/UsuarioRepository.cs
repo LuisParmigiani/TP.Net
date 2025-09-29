@@ -4,6 +4,8 @@ using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Linq;
+using DTOs;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace Data
 {
@@ -43,6 +45,37 @@ namespace Data
             var usuario = context.Usuarios.Find(id);
             return usuario;
         }
+
+        public IEnumerable<AlumnoInscripcion> GetAlumnosByIdCurso(int idCurso)
+        {
+            using var context = CreateContext();
+            try
+            {
+                var cursoExists = context.Cursos.Find(idCurso);
+                if (cursoExists == null)
+                {
+                    throw new Exception("El curso con el id ingresado no existe");
+                }
+                var alumnosYinsc = (from insc in context.Inscripciones
+                    join persona in context.Personas
+                        on insc.IdAlumno equals persona.Id
+                    where insc.IdCurso == idCurso
+                    select new AlumnoInscripcion(
+                        persona.Id,
+                        persona.Legajo,
+                        persona.Nombre,
+                        persona.Apellido,
+                        insc.Id,
+                        insc.Nota
+                    )).ToList();
+                return alumnosYinsc;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            
+        }
         public IEnumerable<Usuario> GetAll()
         {
             using var context = CreateContext();
@@ -57,7 +90,7 @@ namespace Data
                 userExist.SetNombre(usuario.NombreUsuario);
                 if (context.Personas.Any(p => p.Id == usuario.IdPersona) != true)
                 {
-                    throw new Exception("No se encontró una persona con el ID ingresado");
+                    throw new Exception("No se encontró un alumno con el ID ingresado");
                 }
                 userExist.SetIdPersona(usuario.IdPersona);
                 userExist.SetCambiaClave(usuario.CambiaClave);

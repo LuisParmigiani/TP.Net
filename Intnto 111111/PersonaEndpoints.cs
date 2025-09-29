@@ -44,6 +44,8 @@ public static class PersonaEndpoints
 
                     return Results.Ok(dtos);
                 })
+
+
                 .WithName("GetAllPersonas")
                 .WithTags("Personas")
                 .Produces<List<PersonaDTO>>(StatusCodes.Status200OK)
@@ -80,27 +82,59 @@ public static class PersonaEndpoints
                     
                     .WithOpenApi();
 
-                app.MapPost("/personas", (PersonaDTO dto) =>
+
+
+
+                app.MapGet("/alumnos/{idCurso}", (int idCurso) =>
                 {
+                    UsuarioService userService = new UsuarioService();
                     try
                     {
-                        PersonaService personaService = new PersonaService();
-                        PersonaDTO persona = new PersonaDTO(dto.Id,dto.Nombre, dto.Apellido, dto.Direccion, 
-                            dto.Email, dto.Telefono, dto.FechaNacimiento, dto.Legajo, 
-                            dto.TipoPersona, dto.IdPlan);
-                        personaService.Add(persona);
+                        var usuariosYinsc = userService.GetAlumnosByIdCurso(idCurso);
+                        return usuariosYinsc.Select(aluInsc => new AlumnoInscripcion(
+                            aluInsc.IdALumno,
+                            aluInsc.LegajoAlumno,
+                            aluInsc.NombreAlumno,
+                            aluInsc.ApellidoAlumno,
+                            aluInsc.IdInscripcion,
+                            aluInsc.Nota
+                        )).ToList();
 
-                        var dtoResultado = new PersonaDTO(persona.Id, persona.Nombre, persona.Apellido, persona.Direccion,
-                            persona.Email,
-                            persona.Telefono, persona.FechaNacimiento, persona.Legajo, persona.TipoPersona, persona.IdPlan);
-
-                        return Results.Created($"/personas/{dtoResultado.Id}", dtoResultado);
                     }
-                    catch (ArgumentException ex)
+                    catch (Exception ex)
                     {
-                        return Results.BadRequest(new { error = ex.Message });
+                        throw new Exception(ex.Message);
                     }
                 })
+                            .WithName("GetAlumnosByCurso")
+                            .WithTags("Alumnos")
+                            .Produces<List<AlumnoInscripcion>>(StatusCodes.Status200OK)
+                            .Produces(StatusCodes.Status404NotFound)
+                            .WithOpenApi();
+
+
+
+                app.MapPost("/personas", (PersonaDTO dto) =>
+                    {
+                        try
+                        {
+                            PersonaService personaService = new PersonaService();
+                            PersonaDTO persona = new PersonaDTO(dto.Id,dto.Nombre, dto.Apellido, dto.Direccion, 
+                                dto.Email, dto.Telefono, dto.FechaNacimiento, dto.Legajo, 
+                                dto.TipoPersona, dto.IdPlan);
+                            personaService.Add(persona);
+
+                            var dtoResultado = new PersonaDTO(persona.Id, persona.Nombre, persona.Apellido, persona.Direccion,
+                                persona.Email,
+                                persona.Telefono, persona.FechaNacimiento, persona.Legajo, persona.TipoPersona, persona.IdPlan);
+
+                            return Results.Created($"/personas/{dtoResultado.Id}", dtoResultado);
+                        }
+                        catch (ArgumentException ex)
+                        {
+                            return Results.BadRequest(new { error = ex.Message });
+                        }
+                    })
                 .WithName("AddPersona")
                 .WithTags("Personas")
                 .Produces<PersonaDTO>(StatusCodes.Status201Created)

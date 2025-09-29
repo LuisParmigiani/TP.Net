@@ -27,6 +27,12 @@ namespace Data
             {
                 throw new Exception("No se encontró un curso con el ID ingresado");
             }
+            Curso cur = context.Cursos.Find(insc.IdCurso);
+            int cantInscripciones = context.Inscripciones.Where(i => i.IdCurso == insc.IdCurso).ToList().Count();
+            if (cantInscripciones == cur.Cupo)
+            {
+                throw new Exception("No hay más cupos para el curso al que se trata de ingresar");
+            }
             context.Inscripciones.Add(insc);
             context.SaveChanges();
         }
@@ -63,6 +69,7 @@ namespace Data
             {
                 try
                 {
+                    var alumno = context.Personas.Find(idAlumno);
                     var listado = (from insc in context.Inscripciones
                         join curso in context.Cursos
                             on insc.IdCurso equals curso.Id
@@ -70,6 +77,7 @@ namespace Data
                             on curso.IdMateria equals materia.Id
                         join comision in context.Comisiones
                             on curso.IdComision equals comision.Id
+                            where insc.IdAlumno == idAlumno
                         select new EstadoAcedemico
                         {
                             Id_Inscripcion = insc.Id,

@@ -64,6 +64,27 @@ namespace Domain.Service
                 usuario.CambiaClave
             )).ToList();
         }
+        
+        public IEnumerable<AlumnoInscripcion> GetAlumnosByIdCurso( int idCurso)
+        {
+            var usRepo = new UsuarioRepository();
+            try
+            {
+                return usRepo.GetAlumnosByIdCurso(idCurso).Select(aluInsc => new AlumnoInscripcion(
+                    aluInsc.IdALumno,
+                    aluInsc.LegajoAlumno,
+                    aluInsc.NombreAlumno,
+                    aluInsc.ApellidoAlumno,
+                    aluInsc.IdInscripcion,
+                    aluInsc.Nota
+                )).ToList();
+            }
+            catch (Exception ex)
+                {
+                    throw new Exception($"Hubo un error: {ex.Message}");
+                }
+            }
+                
 
         public bool Update(UsuarioDTO usuario)
         {

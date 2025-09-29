@@ -75,6 +75,7 @@ namespace Domain.Service
                 throw new Exception(e.Message);
             }
         }
+        
 
         public bool Update(InscripcionDTO insc)
         {

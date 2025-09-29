@@ -52,10 +52,11 @@ public static class UsuarioEndpoints
                     var dtos = usuarios.Select(p => new UsuarioDTO(p.Id,p.NombreUsuario,p.Clave,p.Habilitado,p.IdPersona,p.CambiaClave)).ToList();
                     return Results.Ok(dtos);
                 })
-                .WithName("GetAllusuarios")
+                .WithName("GetAllUsuarios")
                 .WithTags("Usuarios")
                 .Produces<List<UsuarioDTO>>(StatusCodes.Status200OK)
                 .WithOpenApi();
+                
 
                 app.MapPost("/usuarios", (UsuarioDTO user) =>
                 {
@@ -124,5 +125,5 @@ public static class UsuarioEndpoints
                 .Produces(StatusCodes.Status204NoContent)
                 .Produces(StatusCodes.Status404NotFound)
                 .WithOpenApi();
-    }
+                }
 }
