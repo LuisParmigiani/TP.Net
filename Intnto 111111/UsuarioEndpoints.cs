@@ -58,53 +58,45 @@ public static class UsuarioEndpoints
                 .WithOpenApi();
                 
 
+
                 app.MapPost("/usuarios", (UsuarioDTO user) =>
-                {
-                    try
                     {
-                        UsuarioService userService = new UsuarioService();
-                        UsuarioDTO usuario = new UsuarioDTO(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
-                        userService.Add(usuario);
+                        try
+                        {
+                            UsuarioService userService = new UsuarioService();
+                            UsuarioDTO usuario = new UsuarioDTO(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
+                            userService.Add(usuario);
 
-                        var dtoResultado = new UsuarioDTO(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
+                            var dtoResultado = new UsuarioDTO(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
 
-                        return Results.Created($"/usuarios/{dtoResultado.Id}", dtoResultado);
-                    }
-                    catch (ArgumentException ex)
-                    {
-                        return Results.BadRequest(new { error = ex.Message });
-                    }
-                })
-                .WithName("AddUsuario")
-                .WithTags("Usuarios")
-                .Produces<UsuarioDTO>(StatusCodes.Status201Created)
-                .Produces(StatusCodes.Status400BadRequest)
-                .WithOpenApi();
-
-                app.MapPut("/usuarios/{id}", (int id, UsuarioDTO user) =>
+                            return Results.Created($"/usuarios/{dtoResultado.Id}", dtoResultado);
+                        }
+                        catch (ArgumentException ex)
+                        {
+                            return Results.BadRequest(new { error = ex.Message });
+                        }
+                    })
+                    .WithName("AddUsuario")
+                    .WithTags("Usuarios")
+                    .Produces<UsuarioDTO>(StatusCodes.Status201Created)
+                    .Produces(StatusCodes.Status400BadRequest)
+                    .WithOpenApi();
+                app.MapGet("/alumnos/Reporte/{idCurso}", (int idCurso) =>
                 {
                     try
                     {
                         UsuarioService usuarioService = new UsuarioService();
-                        UsuarioDTO usuario = new UsuarioDTO(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
-
-                        var found = usuarioService.Update(usuario);
-                        if (!found)
-                        {
-                            return Results.NotFound();
-                        }
-
-                        return Results.NoContent();
+                        byte[] pdfBytes = usuarioService.ReporteAlumnosPorCur(idCurso);
+                        return Results.File(pdfBytes, "application/pdf");
+                        
                     }
-                    catch (ArgumentException ex)
+                    catch (Exception ex)
                     {
                         return Results.BadRequest(new { error = ex.Message });
                     }
                 })
-                .WithName("UpdateUsuario") 
+                .WithName("ReporteAlumnos") 
                 .WithTags("Usuarios")
-                .Produces(StatusCodes.Status204NoContent)
-                .Produces(StatusCodes.Status404NotFound)
                 .Produces(StatusCodes.Status400BadRequest)
                 .WithOpenApi();
 
