@@ -153,7 +153,7 @@ namespace Domain.Service
                                 table.Cell().Element(container => DataCellStyle(container, isEven)).Text(i.LegajoAlumno.ToString());
                                 table.Cell().Element(container => DataCellStyle(container, isEven)).Text(i.NombreAlumno ?? "-");
                                 table.Cell().Element(container => DataCellStyle(container, isEven)).Text(i.ApellidoAlumno ?? "-");
-                                table.Cell().Element(container => DataCellStyle(container, isEven)).Text(i.Nota.ToString());
+                                table.Cell().Element(container => DataCellStyle(container, isEven)).Text(i.Nota == 0 ? "" : i.Nota.ToString());
                             }
                         });                        page.Footer().AlignRight().Text($"Reporte generado el: {DateTime.Now:g}");
                     });
