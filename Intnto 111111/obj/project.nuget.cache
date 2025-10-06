@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "RLnBsizl528=",
+  "dgSpecHash": "cCx8FXo3FwY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Intnto 111111\\WebApi.csproj",
+  "projectFilePath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Intnto 111111\\WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\parmi\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.18\\microsoft.aspnetcore.openapi.7.0.18.nupkg.sha512",
     "C:\\Users\\parmi\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.0\\microsoft.entityframeworkcore.9.0.0.nupkg.sha512",

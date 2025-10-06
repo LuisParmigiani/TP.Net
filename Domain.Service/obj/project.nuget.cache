@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MnuC6FczJdA=",
+  "dgSpecHash": "jPFmNSJVeKw=",
   "success": true,
-  "projectFilePath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Service\\Domain.Service.csproj",
+  "projectFilePath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Service\\Domain.Service.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\parmi\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.0\\microsoft.entityframeworkcore.9.0.0.nupkg.sha512",
     "C:\\Users\\parmi\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.0\\microsoft.entityframeworkcore.abstractions.9.0.0.nupkg.sha512",

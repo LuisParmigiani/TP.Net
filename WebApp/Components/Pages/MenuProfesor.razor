@@ -56,8 +56,8 @@
                     {
                         Id = IdInscripcion,
                         IdAlumno = IdAlumno,
-                        IdCurso = 0,
-                        Nota = curso,
+                        IdCurso = curso,
+                        Nota = 0,
                         Condicion = "regular"
                     };
                 }
@@ -96,6 +96,7 @@
                 else
                 {
                     mensaje = "Error al subir la nota";
+
                 }
             }
             catch (Exception ex)

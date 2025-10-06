@@ -22,6 +22,14 @@ namespace WinFormsApp
 
         private string mensaje = string.Empty;
 
+        // Flags para evitar cargas concurrentes
+        private bool _isLoadingMaterias = false;
+        private bool _isLoadingCursos = false;
+        private bool _isLoadingEstado = false;
+
+        // Id de curso en proceso de inscripción (para deshabilitar temporalmente)
+        private int? loadingCursoId = null;
+
         public MenuAlumno(int IdAlumno)
         {
             InitializeComponent();
@@ -35,8 +43,14 @@ namespace WinFormsApp
             VolverCursos.Click += VolverCursosClick;
             VolverEstadoAcademico.Click += VolverEstadoAcademicoClick;
 
+            // Asegurar que no haya suscripciones duplicadas
+            dataGridView1.CellContentClick -= dataGridView1CellContentClick;
             dataGridView1.CellContentClick += dataGridView1CellContentClick;
+
+            GridCurso.CellContentClick -= GridCursoCellContentClick;
             GridCurso.CellContentClick += GridCursoCellContentClick;
+
+            GridEstadoAcademico.CellContentClick -= GridEstadoAcademico_CellContentClick;
             GridEstadoAcademico.CellContentClick += GridEstadoAcademico_CellContentClick;
         }
 
@@ -126,6 +140,7 @@ namespace WinFormsApp
                 return;
             }
 
+            // Buscar el curso en la lista y comprobar disponibilidad
             var curso = cursosList.FirstOrDefault(c => c.Id == cursoId);
             if (curso != null && !curso.Estado)
             {
@@ -138,6 +153,9 @@ namespace WinFormsApp
 
         private async Task LoadMateriasAsync()
         {
+            if (_isLoadingMaterias) return;
+            _isLoadingMaterias = true;
+
             try
             {
                 dataGridView1.Rows.Clear();
@@ -145,7 +163,10 @@ namespace WinFormsApp
                 var materias = await client.GetFromJsonAsync<List<DTOs.EstadoAcademico>>($"/inscripciones/estadoOfAlumno/{alumnoId}");
                 materiasList = materias ?? new List<DTOs.EstadoAcademico>();
 
-                foreach (var mat in materiasList)
+                // Deduplicar por IdMateria por si acaso
+                var distinct = materiasList.GroupBy(m => m.IdMateria).Select(g => g.First()).ToList();
+
+                foreach (var mat in distinct)
                 {
                     if (mat.Nota == null)
                     {
@@ -154,7 +175,7 @@ namespace WinFormsApp
                     }
                 }
 
-                if (!materiasList.Any())
+                if (!distinct.Any())
                 {
                     MostrarAviso("No se encontraron materias para poder inscribirse.");
                 }
@@ -163,10 +184,17 @@ namespace WinFormsApp
             {
                 MostrarAviso($"Excepción al obtener las materias: {ex.Message}");
             }
+            finally
+            {
+                _isLoadingMaterias = false;
+            }
         }
 
         private async Task LoadCursosAsync(int materiaId)
         {
+            if (_isLoadingCursos) return;
+            _isLoadingCursos = true;
+
             try
             {
                 GridCurso.Rows.Clear();
@@ -174,13 +202,16 @@ namespace WinFormsApp
                 var cursos = await client.GetFromJsonAsync<List<DTOs.CursoWithEstado>>($"/cursos/ByMateria/{materiaId}");
                 cursosList = cursos ?? new List<DTOs.CursoWithEstado>();
 
-                foreach (var cur in cursosList)
+                // Deduplicar por Id
+                var distinct = cursosList.GroupBy(c => c.Id).Select(g => g.First()).ToList();
+
+                foreach (var cur in distinct)
                 {
                     int idx = GridCurso.Rows.Add(cur.Id, cur.Descripcion, cur.Estado ? "Anotarme" : "Sin cupo");
                     GridCurso.Rows[idx].Tag = cur.Id;
                 }
 
-                if (!cursosList.Any())
+                if (!distinct.Any())
                 {
                     MostrarAviso("No se encontraron cursos para la materia seleccionada.");
                 }
@@ -189,17 +220,27 @@ namespace WinFormsApp
             {
                 MostrarAviso($"Excepción al obtener los cursos: {ex.Message}");
             }
+            finally
+            {
+                _isLoadingCursos = false;
+            }
         }
 
         private async Task AnotarmeCursoAsync(int cursoId)
         {
             try
             {
-                var inscripcion = new { IdAlumno = alumnoId, IdCurso = cursoId, Condicion = "cursando" };
+                // Marcar loading para evitar acciones duplicadas
+                loadingCursoId = cursoId;
+                // Deshabilitar grid mientras se inscribe
+                GridCurso.Enabled = false;
+
+                var inscripcion = new InscripcionDTO { IdAlumno = alumnoId, IdCurso = cursoId, Condicion = "cursando" };
                 var response = await client.PostAsJsonAsync("/inscripciones", inscripcion);
                 if (response.IsSuccessStatusCode)
                 {
                     MostrarAviso("Inscripción realizada con éxito.");
+                    // Recargar materias para actualizar estado
                     await LoadMateriasAsync();
                     ShowPanelMaterias();
                 }
@@ -213,10 +254,18 @@ namespace WinFormsApp
             {
                 MostrarAviso($"Excepción al inscribirse: {ex.Message}");
             }
+            finally
+            {
+                loadingCursoId = null;
+                GridCurso.Enabled = true;
+            }
         }
 
         private async Task LoadEstadoAcademicoAsync()
         {
+            if (_isLoadingEstado) return;
+            _isLoadingEstado = true;
+
             try
             {
                 GridEstadoAcademico.Rows.Clear();
@@ -224,6 +273,7 @@ namespace WinFormsApp
                 var estado = await client.GetFromJsonAsync<List<DTOs.EstadoAcademico>>($"/inscripciones/estadoOfAlumno/{alumnoId}");
                 estadoAcedemicos = estado ?? new List<DTOs.EstadoAcademico>();
 
+                // Mostrar cada registro
                 foreach (var est in estadoAcedemicos)
                 {
                     string condicion = est.Nota != null ? (est.Nota != 0 ? $"Nota final: {est.Nota}" : (est.Condicion ?? string.Empty)) : "No cursada";
@@ -238,6 +288,10 @@ namespace WinFormsApp
             catch (Exception ex)
             {
                 MostrarAviso($"Excepción al obtener el estado académico: {ex.Message}");
+            }
+            finally
+            {
+                _isLoadingEstado = false;
             }
         }
 

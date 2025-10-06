@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Service\\Domain.Service.csproj": {}
+    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Service\\Domain.Service.csproj": {}
   },
   "projects": {
-    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Data\\Data.csproj": {
+    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Data\\Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Data\\Data.csproj",
+        "projectUniqueName": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Data\\Data.csproj",
         "projectName": "Data",
-        "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Data\\Data.csproj",
+        "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Data\\Data.csproj",
         "packagesPath": "C:\\Users\\parmi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Data\\obj\\",
+        "outputPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,11 +33,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
-                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Model\\Domain.Model.csproj"
+              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
+                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj"
               },
-              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\DTOs\\DTOs.csproj": {
-                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\DTOs\\DTOs.csproj"
+              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\DTOs.csproj": {
+                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\DTOs.csproj"
               }
             }
           }
@@ -99,14 +99,14 @@
         }
       }
     },
-    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
+    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Model\\Domain.Model.csproj",
+        "projectUniqueName": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj",
         "projectName": "Domain.Model",
-        "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Model\\Domain.Model.csproj",
+        "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj",
         "packagesPath": "C:\\Users\\parmi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Model\\obj\\",
+        "outputPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -165,14 +165,14 @@
         }
       }
     },
-    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Service\\Domain.Service.csproj": {
+    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Service\\Domain.Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Service\\Domain.Service.csproj",
+        "projectUniqueName": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Service\\Domain.Service.csproj",
         "projectName": "Domain.Service",
-        "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Service\\Domain.Service.csproj",
+        "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Service\\Domain.Service.csproj",
         "packagesPath": "C:\\Users\\parmi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Service\\obj\\",
+        "outputPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Service\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -194,14 +194,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Data\\Data.csproj": {
-                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Data\\Data.csproj"
+              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Data\\Data.csproj": {
+                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Data\\Data.csproj"
               },
-              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
-                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Model\\Domain.Model.csproj"
+              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
+                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj"
               },
-              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\DTOs\\DTOs.csproj": {
-                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\DTOs\\DTOs.csproj"
+              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\DTOs.csproj": {
+                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\DTOs.csproj"
               }
             }
           }
@@ -241,14 +241,14 @@
         }
       }
     },
-    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\DTOs\\DTOs.csproj": {
+    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\DTOs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\DTOs\\DTOs.csproj",
+        "projectUniqueName": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\DTOs.csproj",
         "projectName": "DTOs",
-        "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\DTOs\\DTOs.csproj",
+        "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\DTOs.csproj",
         "packagesPath": "C:\\Users\\parmi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\DTOs\\obj\\",
+        "outputPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -270,8 +270,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
-                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net2.0\\TP.Net\\Domain.Model\\Domain.Model.csproj"
+              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
+                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj"
               }
             }
           }
