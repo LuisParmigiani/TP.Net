@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PtBTxwDjiqU=",
+  "dgSpecHash": "mrvoJ+QlI9M=",
   "success": true,
   "projectFilePath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Service\\Domain.Service.csproj",
   "expectedPackageFiles": [
@@ -48,6 +48,7 @@
     "C:\\Users\\parmi\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\parmi\\.nuget\\packages\\mysqlconnector\\2.4.0\\mysqlconnector.2.4.0.nupkg.sha512",
     "C:\\Users\\parmi\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\9.0.0\\pomelo.entityframeworkcore.mysql.9.0.0.nupkg.sha512",
+    "C:\\Users\\parmi\\.nuget\\packages\\questpdf\\2025.12.0-alpha1\\questpdf.2025.12.0-alpha1.nupkg.sha512",
     "C:\\Users\\parmi\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\parmi\\.nuget\\packages\\system.componentmodel.annotations\\4.5.0\\system.componentmodel.annotations.4.5.0.nupkg.sha512",
     "C:\\Users\\parmi\\.nuget\\packages\\system.diagnostics.diagnosticsource\\9.0.0\\system.diagnostics.diagnosticsource.9.0.0.nupkg.sha512",

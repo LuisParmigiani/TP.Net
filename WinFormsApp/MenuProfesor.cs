@@ -19,7 +19,6 @@ namespace WinFormsApp
         private readonly HttpClient _httpClient;
         private readonly int profesorId;
 
-        // Diccionario que puede almacenar notas temporales por Id de alumno
         private Dictionary<int, int?> notasPorAlumno = new();
         private List<CursoDTO> ListaCursos = new();
         private List<AlumnoInscripcion> ListaAlumnos = new();
@@ -29,7 +28,6 @@ namespace WinFormsApp
         private bool _isLoadingCursos = false;
         private bool _isLoadingAlumnos = false;
 
-        // helper para almacenar ids por fila
         private record RowIds(int AlumnoId, int InscripcionId);
 
 
@@ -44,12 +42,9 @@ namespace WinFormsApp
             profesorId = IdProfesor;
             _httpClient = new HttpClient { BaseAddress = new Uri("http://localhost:5183") };
 
-            // No suscribimos CellClick para evitar llamadas duplicadas.
-            // El diseñador ya asoció dgvListaCursos.CellContentClick a dgvListaCursos_CellContentClick_1.
             if (dgvListaAlumnos != null)
             {
-                // Suscribir sólo a CellContentClick para manejar clicks sobre el botón "Guardar"
-                dgvListaAlumnos.CellContentClick -= DgvListaAlumnos_CellContentClick; // quitar por si acaso
+                dgvListaAlumnos.CellContentClick -= DgvListaAlumnos_CellContentClick; 
                 dgvListaAlumnos.CellContentClick += DgvListaAlumnos_CellContentClick;
             }
 
@@ -92,7 +87,6 @@ namespace WinFormsApp
             if (pnlCambioContrasena != null) pnlCambioContrasena.Visible = true;
             if (lblAviso != null) lblAviso.Visible = false;
             
-            // Limpiar los campos
             if (txtNuevaContrasena != null) txtNuevaContrasena.Text = string.Empty;
             if (txtConfirmarContrasena != null) txtConfirmarContrasena.Text = string.Empty;
             if (txtNuevaContrasena != null) txtNuevaContrasena.Focus();
@@ -146,13 +140,11 @@ namespace WinFormsApp
                 var alumnos = await _httpClient.GetFromJsonAsync<List<AlumnoInscripcion>>($"/alumnos/{cursoId}");
                 ListaAlumnos = alumnos ?? new List<AlumnoInscripcion>();
 
-                // Deduplicar por IdInscripcion (evita filas repetidas si el endpoint devuelve duplicados)
                 var distinctAlumnos = ListaAlumnos
                     .GroupBy(a => a.IdInscripcion)
                     .Select(g => g.First())
                     .ToList();
 
-                // Evitar que se procese accidentalmente un click mientras añadimos filas
                 dgvListaAlumnos.CellContentClick -= DgvListaAlumnos_CellContentClick;
 
                 foreach (var a in distinctAlumnos)
@@ -162,12 +154,10 @@ namespace WinFormsApp
                     var idx = dgvListaAlumnos?.Rows.Count - 1 ?? -1;
                     if (idx >= 0)
                     {
-                        // Asignar siempre Tag con los ids reales
                         dgvListaAlumnos.Rows[idx].Tag = new RowIds(a.IdALumno, a.IdInscripcion);
                     }
                 }
 
-                // Reasignar handler (si aún existe el control)
                 if (dgvListaAlumnos != null)
                 {
                     dgvListaAlumnos.CellContentClick -= DgvListaAlumnos_CellContentClick;
@@ -179,7 +169,6 @@ namespace WinFormsApp
                     MostrarAviso("No se encontraron alumnos.");
                 }
 
-                // Forzar refresh para asegurar visual correcto
                 dgvListaAlumnos?.Refresh();
             }
             catch (HttpRequestException ex)
@@ -206,7 +195,6 @@ namespace WinFormsApp
 
             bool isButtonClick = false;
 
-            // Intentar localizar columna por nombre (según el Designer el botón se llama "btnVer")
             var botonCol = dgvListaCursos.Columns.Cast<DataGridViewColumn>().FirstOrDefault(c => c.Name == "btnVer");
             if (botonCol != null)
             {
@@ -214,7 +202,6 @@ namespace WinFormsApp
             }
             else
             {
-                // Fallback: si la columna clickeada es de tipo botón, considerarlo
                 isButtonClick = dgvListaCursos.Columns[e.ColumnIndex] is DataGridViewButtonColumn;
             }
 
@@ -228,13 +215,12 @@ namespace WinFormsApp
             if (cursoId > 0)
             {
                 ListaCursoseleccionadoId = cursoId;
-                // Cargar alumnos y mostrar panel (await para evitar llamadas concurrentes)
+                // Cargar alumnos y mostrar panel 
                 await CargarAlumnosAsync(cursoId);
                 MostrarPanelAlumnos();
             }
         }
 
-        // Método generado por el diseñador — reusa el handler con la lógica real
         private async void dgvListaCursos_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
             DgvListaCursos_CellContentClick(sender, e);
@@ -264,7 +250,6 @@ namespace WinFormsApp
 
             var row = dgvListaAlumnos.Rows[e.RowIndex];
 
-            // recuperar ids desde Tag preferentemente
             int alumnoId = 0;
             int idInscripcion = 0;
             if (row.Tag is RowIds rid)
@@ -274,7 +259,6 @@ namespace WinFormsApp
             }
             else if (e.RowIndex >= 0 && e.RowIndex < ListaAlumnos.Count)
             {
-                // fallback: usar la lista cargada por índice (más fiable que devolver Legajo)
                 var a = ListaAlumnos[e.RowIndex];
                 alumnoId = a.IdALumno;
                 idInscripcion = a.IdInscripcion;
@@ -288,7 +272,6 @@ namespace WinFormsApp
             var notaStr = row.Cells[2].Value?.ToString(); // columna 2 = Nota
             if (!int.TryParse(notaStr, out int notaVal))
             {
-                // si vacío, tomar 0 (regular)
                 notaVal = 0;
             }
 
@@ -304,7 +287,6 @@ namespace WinFormsApp
 
         private async Task SubirNotaAsync(int idAlumno, int idInscripcion, int notaValor)
         {
-            // Validación local de la nota
             if (notaValor != -1 && notaValor != 0 && !(notaValor >= 6 && notaValor <= 10))
             {
                 MostrarAviso("Nota no válida");
@@ -385,7 +367,6 @@ namespace WinFormsApp
 
         private void btnGuardarContrasena_Click(object sender, EventArgs e)
         {
-            // Validar que los campos no estén vacíos
             if (string.IsNullOrWhiteSpace(txtNuevaContrasena.Text))
             {
                 MostrarAviso("Por favor ingrese la nueva contraseña.");
@@ -400,7 +381,6 @@ namespace WinFormsApp
                 return;
             }
 
-            // Validar que las contraseñas coincidan
             if (txtNuevaContrasena.Text != txtConfirmarContrasena.Text)
             {
                 MostrarAviso("Las contraseñas no coinciden.");
@@ -408,7 +388,6 @@ namespace WinFormsApp
                 return;
             }
 
-            // Validar longitud mínima
             if (txtNuevaContrasena.Text.Length < 6)
             {
                 MostrarAviso("La contraseña debe tener al menos 6 caracteres.");
@@ -416,7 +395,6 @@ namespace WinFormsApp
                 return;
             }
 
-            // Cambiar contraseña
             _ = CambiarContrasenaAsync(txtNuevaContrasena.Text);
         }
 
@@ -429,7 +407,6 @@ namespace WinFormsApp
         {
             try
             {
-                // Deshabilitar botones mientras se procesa
                 btnGuardarContrasena.Enabled = false;
                 btnCancelarCambio.Enabled = false;
 
@@ -452,7 +429,6 @@ namespace WinFormsApp
             }
             finally
             {
-                // Rehabilitar botones
                 btnGuardarContrasena.Enabled = true;
                 btnCancelarCambio.Enabled = true;
             }

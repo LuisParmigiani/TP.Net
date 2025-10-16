@@ -29,13 +29,7 @@ namespace WinFormsApp
             
         }
 
-        private void registrarse_Click(object sender, EventArgs e)
-        {
-         
-            Registro registroForm = new Registro();
-            registroForm.Show();
-            this.Hide(); 
-        }
+        
 
        
 
@@ -70,7 +64,6 @@ namespace WinFormsApp
                     return;
                 }
 
-                // Codificar valores y pedir /Users/{user}/{password} (misma ruta usada en Home.razor)
                 var encodedUser = Uri.EscapeDataString(correo);
                 var encodedPassword = Uri.EscapeDataString(clave);
 
@@ -88,7 +81,6 @@ namespace WinFormsApp
                     return;
                 }
 
-                // Obtener persona asociada
                 var idPersona = User.IdPersona;
                 using var respPersona = await _httpClient.GetAsync($"/personas/{Uri.EscapeDataString(idPersona.ToString())}");
                 if (!respPersona.IsSuccessStatusCode)
@@ -147,12 +139,7 @@ namespace WinFormsApp
 
         }
 
-        private void Cruds_Click(object sender, EventArgs e)
-        {
-            menuCrud menuCrud = new menuCrud();
-            menuCrud.Show();
-            this.Hide();
-        }
+        
     }
     }
 

@@ -15,19 +15,16 @@ namespace WinFormsApp
         private int alumnoId;
         private int selectedMateriaId;
 
-        // Datos cargados desde la API
         private List<DTOs.EstadoAcademico> materiasList = new List<DTOs.EstadoAcademico>();
         private List<DTOs.CursoWithEstado> cursosList = new List<DTOs.CursoWithEstado>();
         private List<DTOs.EstadoAcademico> estadoAcedemicos = new List<DTOs.EstadoAcademico>();
 
         private string mensaje = string.Empty;
 
-        // Flags para evitar cargas concurrentes
         private bool _isLoadingMaterias = false;
         private bool _isLoadingCursos = false;
         private bool _isLoadingEstado = false;
 
-        // Id de curso en proceso de inscripción (para deshabilitar temporalmente)
         private int? loadingCursoId = null;
 
         public MenuAlumno(int IdAlumno)
@@ -43,7 +40,6 @@ namespace WinFormsApp
             VolverCursos.Click += VolverCursosClick;
             VolverEstadoAcademico.Click += VolverEstadoAcademicoClick;
 
-            // Asegurar que no haya suscripciones duplicadas
             dataGridView1.CellContentClick -= dataGridView1CellContentClick;
             dataGridView1.CellContentClick += dataGridView1CellContentClick;
 
@@ -98,20 +94,17 @@ namespace WinFormsApp
             panelEsatdoAcademico.Visible = false;
             panelCambioContrasena.Visible = true;
             
-            // Limpiar los campos
             txtNuevaContrasena.Text = string.Empty;
             txtConfirmarContrasena.Text = string.Empty;
             txtNuevaContrasena.Focus();
         }
 
-        // Click desde diseñador: abrir listado de materias para inscribirse
         private async void inscrClick(object sender, EventArgs e)
         {
             await LoadMateriasAsync();
             ShowPanelMaterias();
         }
 
-        // Click desde diseñador: ver estado académico
         private async void EstadoAcademicoClick(object sender, EventArgs e)
         {
             await LoadEstadoAcademicoAsync();
@@ -158,7 +151,6 @@ namespace WinFormsApp
                 return;
             }
 
-            // Buscar el curso en la lista y comprobar disponibilidad
             var curso = cursosList.FirstOrDefault(c => c.Id == cursoId);
             if (curso != null && !curso.Estado)
             {
@@ -181,7 +173,6 @@ namespace WinFormsApp
                 var materias = await client.GetFromJsonAsync<List<DTOs.EstadoAcademico>>($"/inscripciones/estadoOfAlumno/{alumnoId}");
                 materiasList = materias ?? new List<DTOs.EstadoAcademico>();
 
-                // Deduplicar por IdMateria por si acaso
                 var distinct = materiasList.GroupBy(m => m.IdMateria).Select(g => g.First()).ToList();
 
                 foreach (var mat in distinct)
@@ -220,7 +211,6 @@ namespace WinFormsApp
                 var cursos = await client.GetFromJsonAsync<List<DTOs.CursoWithEstado>>($"/cursos/ByMateria/{materiaId}");
                 cursosList = cursos ?? new List<DTOs.CursoWithEstado>();
 
-                // Deduplicar por Id
                 var distinct = cursosList.GroupBy(c => c.Id).Select(g => g.First()).ToList();
 
                 foreach (var cur in distinct)
@@ -248,9 +238,7 @@ namespace WinFormsApp
         {
             try
             {
-                // Marcar loading para evitar acciones duplicadas
                 loadingCursoId = cursoId;
-                // Deshabilitar grid mientras se inscribe
                 GridCurso.Enabled = false;
 
                 var inscripcion = new InscripcionDTO { IdAlumno = alumnoId, IdCurso = cursoId, Condicion = "cursando" };
@@ -291,7 +279,6 @@ namespace WinFormsApp
                 var estado = await client.GetFromJsonAsync<List<DTOs.EstadoAcademico>>($"/inscripciones/estadoOfAlumno/{alumnoId}");
                 estadoAcedemicos = estado ?? new List<DTOs.EstadoAcademico>();
 
-                // Mostrar cada registro
                 foreach (var est in estadoAcedemicos)
                 {
                     string condicion = est.Nota != null ? (est.Nota != 0 ? $"Nota final: {est.Nota}" : (est.Condicion ?? string.Empty)) : "No cursada";
@@ -330,10 +317,8 @@ namespace WinFormsApp
 
         private void GridEstadoAcademico_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // no-op
         }
 
-        // Simple helper to show messages (centralizado)
         private void MostrarAviso(string texto)
         {
             if (string.IsNullOrEmpty(texto)) return;
@@ -352,7 +337,6 @@ namespace WinFormsApp
 
         private void btnGuardarContrasena_Click(object sender, EventArgs e)
         {
-            // Validar que los campos no estén vacíos
             if (string.IsNullOrWhiteSpace(txtNuevaContrasena.Text))
             {
                 MostrarAviso("Por favor ingrese la nueva contraseña.");
@@ -367,7 +351,6 @@ namespace WinFormsApp
                 return;
             }
 
-            // Validar que las contraseñas coincidan
             if (txtNuevaContrasena.Text != txtConfirmarContrasena.Text)
             {
                 MostrarAviso("Las contraseñas no coinciden.");
@@ -375,7 +358,6 @@ namespace WinFormsApp
                 return;
             }
 
-            // Validar longitud mínima
             if (txtNuevaContrasena.Text.Length < 6)
             {
                 MostrarAviso("La contraseña debe tener al menos 6 caracteres.");
@@ -383,7 +365,6 @@ namespace WinFormsApp
                 return;
             }
 
-            // Cambiar contraseña
             CambiarContrasenaAsync(txtNuevaContrasena.Text);
         }
 
@@ -396,7 +377,6 @@ namespace WinFormsApp
         {
             try
             {
-                // Deshabilitar botones mientras se procesa
                 btnGuardarContrasena.Enabled = false;
                 btnCancelarCambio.Enabled = false;
 
@@ -420,7 +400,6 @@ namespace WinFormsApp
             }
             finally
             {
-                // Rehabilitar botones
                 btnGuardarContrasena.Enabled = true;
                 btnCancelarCambio.Enabled = true;
             }
