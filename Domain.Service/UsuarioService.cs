@@ -102,6 +102,19 @@ namespace Domain.Service
             
         }
 
+        public bool CambiarClave(int idPersona, string newPassword)
+        {
+            var usRepo = new UsuarioRepository();
+            try
+            {
+                return usRepo.ChangePassword(idPersona, newPassword);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public UsuarioDTO Login(string username, string password)
         {
             var usRepo = new UsuarioRepository();

@@ -1,4 +1,4 @@
-Ôªø@page "/MenuAlumno/{AlumnoId}"
+@page "/MenuAlumno/{AlumnoId}"
 
 @rendermode InteractiveServer
 @using Microsoft.AspNetCore.Components
@@ -29,10 +29,11 @@
 
     private List<CursoWithEstado>? cursosList;
 
-    // Estado de carga para la inscripci√≥n de curso (id del curso que est√° cargando)
     private int? loadingCursoId;
 
-    
+    private string nuevaContrasena = string.Empty;
+    private string confirmarContrasena = string.Empty;
+    private bool isChangingPassword = false;
 
     private async Task EstadoAcademico()
     {
@@ -41,7 +42,6 @@
             var client = ClientFactory.CreateClient("API");
             if (int.TryParse(AlumnoId, out int id))
             {
-                // Llamada corregida: se agrega el par√°metro como parte de la URL
                 var estado = await client.GetFromJsonAsync<List<EstadoAcademico>>($"/inscripciones/estadoOfAlumno/{id}");
                 if (estado != null)
                 {
@@ -57,7 +57,7 @@
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Excepci√≥n al obtener las materias: {ex.Message}");
+            Console.WriteLine($"ExcepciÛn al obtener las materias: {ex.Message}");
             estadoAcedemicos = new List<EstadoAcademico>();
         }
 
@@ -82,7 +82,7 @@
 
         }catch  (Exception ex)
         {
-            mensaje =  ( $"Excepci√≥n al obtener las materias: {ex.Message}");
+            mensaje =  ( $"ExcepciÛn al obtener las materias: {ex.Message}");
             materiasList = new List<EstadoAcademico>();
         }
     }
@@ -110,14 +110,13 @@
         }
         catch (Exception ex)
         {
-            mensaje = ($"Excepci√≥n al obtener las materias: {ex.Message}");
+            mensaje = ($"ExcepciÛn al obtener las materias: {ex.Message}");
             cursosList = new List<CursoWithEstado>();
         }
         
         
     }
 
-    // Cambiado a Task y agregado manejo de loadingCursoId para mostrar estado de carga en el bot√≥n
     public async Task AnotarmeCurso(int cursoId)
     {
         try
@@ -135,7 +134,7 @@
             var response = await client.PostAsJsonAsync("/inscripciones", inscripcion);
             if (response.IsSuccessStatusCode)
             {
-                mensaje = ("Inscripci√≥n realizada con √©xito.");
+                mensaje = ("InscripciÛn realizada con Èxito.");
                 
             }
             else
@@ -148,7 +147,7 @@
         }
         catch (Exception ex)
         {
-            mensaje = ($"Excepci√≥n al obtener las materias: {ex.Message}");
+            mensaje = ($"ExcepciÛn al obtener las materias: {ex.Message}");
           
         }
         finally
@@ -159,9 +158,62 @@
         
         
     }
+
+    private async Task CambiarContrasenaAsync()
+    {
+        if (string.IsNullOrWhiteSpace(nuevaContrasena))
+        {
+            mensaje = "Por favor ingrese la nueva contraseÒa.";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(confirmarContrasena))
+        {
+            mensaje = "Por favor confirme la nueva contraseÒa.";
+            return;
+        }
+
+        if (nuevaContrasena != confirmarContrasena)
+        {
+            mensaje = "Las contraseÒas no coinciden.";
+            return;
+        }
+
+        if (nuevaContrasena.Length < 6)
+        {
+            mensaje = "La contraseÒa debe tener al menos 6 caracteres.";
+            return;
+        }
+
+        try
+        {
+            isChangingPassword = true;
+            var client = ClientFactory.CreateClient("API");
+            var response = await client.PutAsync($"/usuarios/cambioPass?idPersona={AlumnoId}&nuevaClave={Uri.EscapeDataString(nuevaContrasena)}", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                mensaje = "ContraseÒa cambiada exitosamente.";
+                Page = "0"; // Volver al men˙ principal
+                nuevaContrasena = string.Empty;
+                confirmarContrasena = string.Empty;
+            }
+            else
+            {
+                var errorText = await response.Content.ReadAsStringAsync();
+                mensaje = $"Error al cambiar contraseÒa: {errorText}";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = $"Error al cambiar contraseÒa: {ex.Message}";
+        }
+        finally
+        {
+            isChangingPassword = false;
+        }
+    }
 }
-
-
 
 @if (!string.IsNullOrEmpty(mensaje))
 {
@@ -173,9 +225,10 @@
 @if (Page == "0"|| Page == null)
 {
     
-        <div style="display:flex; gap:12px; justify-content:center; margin-top:8px;">
+        <div style="display:flex; gap:12px; justify-content:center; margin-top:8px; flex-wrap:wrap;">
             <button @onclick='async () => { await InscripcionMaterias(); Page = "1"; }' style="background:#3182ce; color:white; border:none; padding:10px 14px; border-radius:6px; cursor:pointer; font-weight:600; box-shadow:0 2px 6px rgba(49,130,206,0.18);">Inscripcion materias</button>
             <button @onclick='async () =>{await EstadoAcademico()  ;  Page = "2" ; }' style="background:#38a169; color:white; border:none; padding:10px 14px; border-radius:6px; cursor:pointer; font-weight:600; box-shadow:0 2px 6px rgba(56,161,105,0.18);">Estado Academico</button>
+            <button @onclick='() => Page = "4"' style="background:#ff9800; color:white; border:none; padding:10px 14px; border-radius:6px; cursor:pointer; font-weight:600; box-shadow:0 2px 6px rgba(255,152,0,0.18);">Cambiar ContraseÒa</button>
         </div>
     
 }
@@ -245,7 +298,7 @@ else if(Page == "2")
                         <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Materia</th>
                         <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Condicion</th>
                         <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">Comision</th>
-                        <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">A√±o especialidad</th>
+                        <th style="text-align:left; padding:10px 12px; border-bottom:1px solid #e6e6e6;">AÒo especialidad</th>
 
                     </tr>
                 </thead>
@@ -322,7 +375,7 @@ else if (Page == "3") {
                                         @if (loadingCursoId == cur.Id)
                                         {
                                             <span style="display:inline-flex; align-items:center; gap:8px;">
-                                                <span>‚è≥</span>
+                                                <span>?</span>
                                                 <span>Inscribiendo...</span>
                                             </span>
                                         }
@@ -346,9 +399,48 @@ else if (Page == "3") {
         </div>
          
     </div>
-}else
+}
+else if (Page == "4")
+{
+    <div style="max-width:500px; margin:40px auto; font-family:Segoe UI, Roboto, Arial;">
+        <div style="background:#ffffff; border-radius:10px; padding:32px; box-shadow:0 6px 18px rgba(15,23,42,0.06);">
+            <h3 style="margin:0 0 24px 0; color:#2c3e50; text-align:center; font-size:20px; font-weight:600;">Cambiar ContraseÒa</h3>
+            
+            <div style="margin-bottom:16px;">
+                <label style="display:block; margin-bottom:6px; color:#374151; font-weight:500; font-size:14px;">Nueva ContraseÒa:</label>
+                <input type="password" @bind="nuevaContrasena" 
+                       style="width:100%; padding:12px; border-radius:8px; border:1px solid #e5e7eb; outline:none; font-size:14px; box-sizing:border-box;" 
+                       placeholder="Ingrese nueva contraseÒa" />
+            </div>
+            
+            <div style="margin-bottom:24px;">
+                <label style="display:block; margin-bottom:6px; color:#374151; font-weight:500; font-size:14px;">Confirmar ContraseÒa:</label>
+                <input type="password" @bind="confirmarContrasena" 
+                       style="width:100%; padding:12px; border-radius:8px; border:1px solid #e5e7eb; outline:none; font-size:14px; box-sizing:border-box;" 
+                       placeholder="Confirme nueva contraseÒa" />
+            </div>
+            
+            <div style="display:flex; gap:12px; justify-content:center;">
+                <button style="background:#38a169; color:#fff; border:none; padding:12px 24px; border-radius:8px; cursor:pointer; font-weight:600; font-size:14px;"
+                        @onclick="CambiarContrasenaAsync" disabled="@isChangingPassword">
+                    @if (isChangingPassword)
+                    {
+                        <span>Guardando...</span>
+                    }
+                    else
+                    {
+                        <span>Guardar</span>
+                    }
+                </button>
+                <button style="background:#6b7280; color:#fff; border:none; padding:12px 24px; border-radius:8px; cursor:pointer; font-weight:600; font-size:14px;"
+                        @onclick='() => Page = "0"' disabled="@isChangingPassword">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+else
 {
     <div style="text-align:center; margin-top:12px;">
-        <button @onclick='() => Page = "1" ' style="background:#e2e8f0; color:#1f2937; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Volver</button>
+        <button @onclick='() => Page = "0" ' style="background:#e2e8f0; color:#1f2937; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Volver</button>
     </div>
 }

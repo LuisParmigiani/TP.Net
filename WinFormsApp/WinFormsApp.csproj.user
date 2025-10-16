@@ -1,52 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Compile Update="AlumnoInscripcionCrud.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="ComisionCrud.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="CursoCrud.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="DocenteCursoCrud.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="EspecialidadCrud.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="EstadoAcademico.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="MateriaCrud.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="MenuAlumno.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="menuCrud.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="MenuProfesor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="ModuloCrud.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="PersonaCrud.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="PlanCrud.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Registro.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="Login.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="UsuarioCrud.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

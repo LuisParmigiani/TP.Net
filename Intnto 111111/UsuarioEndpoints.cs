@@ -1,19 +1,22 @@
+using Domain.Model;
+using Domain.Service;
+using DTOs;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.Service;
-using DTOs;
-using Domain.Model;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 
 namespace WebApi;
 
 public static class UsuarioEndpoints
 {
 
+
     public static void MapUsuarioEndpoints(this WebApplication app)
     {
+            
                 app.MapGet("/usuarios/{id}", (int id) =>
                 { 
                     UsuarioService userService = new UsuarioService();
@@ -36,8 +39,19 @@ public static class UsuarioEndpoints
                 app.MapGet("/usuarios/{username}/{password}", (string username, string password) =>
                     { 
                         UsuarioService userService = new UsuarioService();
-                        var user = userService.Login(username, password);
-                        return Results.Ok(user);
+                        try
+                        {
+                            var user = userService.Login(username, password);
+                            return Results.Ok(user);
+                        }
+                        catch (Exception ex)
+                        {
+                            if (ex.Message.Contains("No se encontró"))
+                                return Results.NotFound(new { error = ex.Message });
+                            if (ex.Message.Contains("Contraseña incorrecta"))
+                                return Results.Unauthorized();
+                            return Results.BadRequest(new { error = ex.Message });
+                        }
                     })
                     .WithName("LoginUsuario")
                     .WithTags("Usuarios")
@@ -63,10 +77,11 @@ public static class UsuarioEndpoints
                     try
                     {
                         UsuarioService userService = new UsuarioService();
-                        UsuarioDTO usuario = new UsuarioDTO(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
+                        
+                        UsuarioDTO usuario = new UsuarioDTO(user.Id,user.NombreUsuario, user.Clave, user.Habilitado,user.IdPersona, user.CambiaClave);
                         userService.Add(usuario);
 
-                        var dtoResultado = new UsuarioDTO(user.Id,user.NombreUsuario,user.Clave,user.Habilitado,user.IdPersona,user.CambiaClave);
+                        var dtoResultado = new UsuarioDTO(user.Id,user.NombreUsuario,"***",user.Habilitado,user.IdPersona,user.CambiaClave);
 
                         return Results.Created($"/usuarios/{dtoResultado.Id}", dtoResultado);
                     }
@@ -74,7 +89,7 @@ public static class UsuarioEndpoints
                     {
                         return Results.BadRequest(new { error = ex.Message });
                     }
-                })
+                }) 
                 .WithName("AddUsuario")
                 .WithTags("Usuarios")
                 .Produces<UsuarioDTO>(StatusCodes.Status201Created)
@@ -108,22 +123,46 @@ public static class UsuarioEndpoints
                 .Produces(StatusCodes.Status400BadRequest)
                 .WithOpenApi();
 
-                app.MapDelete("/usuarios/{id}", (int id) =>
+        app.MapPut("/usuarios/cambioPass", (int idPersona, string nuevaClave) =>
+        {
+            try
+            {
+                UsuarioService usuarioService = new UsuarioService();
+                var updated = usuarioService.CambiarClave(idPersona, nuevaClave);
+                if (!updated)
                 {
-                    UsuarioService usuarioService = new UsuarioService();
-                    var deleted = usuarioService.Delete(id);
-
-                    if (!deleted)
-                    {
-                        return Results.NotFound();
-                    }
-
-                    return Results.NoContent();
-                })
-                .WithName("DeleteUsuario")
-                .WithTags("Usuarios")
-                .Produces(StatusCodes.Status204NoContent)
-                .Produces(StatusCodes.Status404NotFound)
-                .WithOpenApi();
+                    return Results.NotFound();
                 }
+                return Results.NoContent();
+            }
+            catch (ArgumentException ex)
+            {
+                return Results.BadRequest(new { error = ex.Message });
+            }
+        }).WithName("CambiarClave")
+        .WithTags("Usuarios")
+        .Produces(StatusCodes.Status204NoContent)
+        .Produces(StatusCodes.Status404NotFound)
+        .Produces(StatusCodes.Status400BadRequest)
+        .WithOpenApi();
+           
+
+        app.MapDelete("/usuarios/{id}", (int id) =>
+        {
+            UsuarioService usuarioService = new UsuarioService();
+            var deleted = usuarioService.Delete(id);
+
+            if (!deleted)
+            {
+                return Results.NotFound();
+            }
+
+            return Results.NoContent();
+        })
+        .WithName("DeleteUsuario")
+        .WithTags("Usuarios")
+        .Produces(StatusCodes.Status204NoContent)
+        .Produces(StatusCodes.Status404NotFound)
+        .WithOpenApi();
+        }
 }

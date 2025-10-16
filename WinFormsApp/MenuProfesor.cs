@@ -67,6 +67,7 @@ namespace WinFormsApp
         {
             if (pnlCursos != null) pnlCursos.Visible = true;
             if (pnlAlumnos != null) pnlAlumnos.Visible = false;
+            if (pnlCambioContrasena != null) pnlCambioContrasena.Visible = false;
             if (lblAviso != null) lblAviso.Visible = false;
         }
 
@@ -77,7 +78,24 @@ namespace WinFormsApp
         {
             if (pnlCursos != null) pnlCursos.Visible = false;
             if (pnlAlumnos != null) pnlAlumnos.Visible = true;
+            if (pnlCambioContrasena != null) pnlCambioContrasena.Visible = false;
             if (lblAviso != null) lblAviso.Visible = false;
+        }
+
+        /// <summary>
+        /// Muestra el panel de cambio de contraseña y oculta otros paneles.
+        /// </summary>
+        private void MostrarPanelCambioContrasena()
+        {
+            if (pnlCursos != null) pnlCursos.Visible = false;
+            if (pnlAlumnos != null) pnlAlumnos.Visible = false;
+            if (pnlCambioContrasena != null) pnlCambioContrasena.Visible = true;
+            if (lblAviso != null) lblAviso.Visible = false;
+            
+            // Limpiar los campos
+            if (txtNuevaContrasena != null) txtNuevaContrasena.Text = string.Empty;
+            if (txtConfirmarContrasena != null) txtConfirmarContrasena.Text = string.Empty;
+            if (txtNuevaContrasena != null) txtNuevaContrasena.Focus();
         }
 
         private async Task CargarCursosAsync()
@@ -358,6 +376,86 @@ namespace WinFormsApp
         private void BtnVolver_Click(object sender, EventArgs e)
         {
             MostrarPanelCursos();
+        }
+
+        private void btnCambiarContrasena_Click(object sender, EventArgs e)
+        {
+            MostrarPanelCambioContrasena();
+        }
+
+        private void btnGuardarContrasena_Click(object sender, EventArgs e)
+        {
+            // Validar que los campos no estén vacíos
+            if (string.IsNullOrWhiteSpace(txtNuevaContrasena.Text))
+            {
+                MostrarAviso("Por favor ingrese la nueva contraseña.");
+                txtNuevaContrasena.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtConfirmarContrasena.Text))
+            {
+                MostrarAviso("Por favor confirme la nueva contraseña.");
+                txtConfirmarContrasena.Focus();
+                return;
+            }
+
+            // Validar que las contraseñas coincidan
+            if (txtNuevaContrasena.Text != txtConfirmarContrasena.Text)
+            {
+                MostrarAviso("Las contraseñas no coinciden.");
+                txtConfirmarContrasena.Focus();
+                return;
+            }
+
+            // Validar longitud mínima
+            if (txtNuevaContrasena.Text.Length < 6)
+            {
+                MostrarAviso("La contraseña debe tener al menos 6 caracteres.");
+                txtNuevaContrasena.Focus();
+                return;
+            }
+
+            // Cambiar contraseña
+            _ = CambiarContrasenaAsync(txtNuevaContrasena.Text);
+        }
+
+        private void btnCancelarCambio_Click(object sender, EventArgs e)
+        {
+            MostrarPanelCursos();
+        }
+
+        private async Task CambiarContrasenaAsync(string nuevaContrasena)
+        {
+            try
+            {
+                // Deshabilitar botones mientras se procesa
+                btnGuardarContrasena.Enabled = false;
+                btnCancelarCambio.Enabled = false;
+
+                var response = await _httpClient.PutAsync($"/usuarios/cambioPass?idPersona={profesorId}&nuevaClave={Uri.EscapeDataString(nuevaContrasena)}", null);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MostrarAviso("Contraseña cambiada exitosamente.");
+                    MostrarPanelCursos();
+                }
+                else
+                {
+                    var errorText = await response.Content.ReadAsStringAsync();
+                    MostrarAviso($"Error al cambiar contraseña: {errorText}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MostrarAviso($"Error al cambiar contraseña: {ex.Message}");
+            }
+            finally
+            {
+                // Rehabilitar botones
+                btnGuardarContrasena.Enabled = true;
+                btnCancelarCambio.Enabled = true;
+            }
         }
 
         private System.Windows.Forms.Timer _msgTimer;

@@ -24,24 +24,24 @@
     private int curso;
     private int IdInscripcion;
 
-    // Almacena la nota por Id de alumno (nullable para detectar campo vacío)
     private Dictionary<int, int?> NotasPorAlumno = new();
 
     private List<CursoDTO> CursosList = new List<CursoDTO>();
     private List<AlumnoInscripcion> AlumnosList = new List<AlumnoInscripcion>();
 
+    private string nuevaContrasena = string.Empty;
+    private string confirmarContrasena = string.Empty;
+    private bool isChangingPassword = false;
+
   
-    // Cambiado a async Task y usa la nota específica del alumno
     public async Task SubirNota(int IdAlumno, int IdInscripcion)
     {
         NotasPorAlumno.TryGetValue(IdAlumno, out int? notaAlumno);
-        // Si está vacío, tomar 0 como comportamiento previo (regular)
         var notaValor = notaAlumno ?? 0;
 
         if (notaValor != -1 && notaValor != 0 && !(notaValor >= 6 && notaValor <= 10))
         {
             mensaje = "Nota no valida";
-            // limpiar sólo la nota del alumno inválido
             NotasPorAlumno[IdAlumno] = 0;
             return;
         }
@@ -158,15 +158,67 @@
         }
     }
 
+    private async Task CambiarContrasenaAsync()
+    {
+        // Validaciones
+        if (string.IsNullOrWhiteSpace(nuevaContrasena))
+        {
+            mensaje = "Por favor ingrese la nueva contraseña.";
+            return;
+        }
 
+        if (string.IsNullOrWhiteSpace(confirmarContrasena))
+        {
+            mensaje = "Por favor confirme la nueva contraseña.";
+            return;
+        }
 
+        if (nuevaContrasena != confirmarContrasena)
+        {
+            mensaje = "Las contraseñas no coinciden.";
+            return;
+        }
+
+        if (nuevaContrasena.Length < 6)
+        {
+            mensaje = "La contraseña debe tener al menos 6 caracteres.";
+            return;
+        }
+
+        try
+        {
+            isChangingPassword = true;
+            var client = ClientFactory.CreateClient("API");
+            var response = await client.PutAsync($"/usuarios/cambioPass?idPersona={UserId}&nuevaClave={Uri.EscapeDataString(nuevaContrasena)}", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                mensaje = "Contraseña cambiada exitosamente.";
+                Page = "0"; // Volver al menú principal
+                nuevaContrasena = string.Empty;
+                confirmarContrasena = string.Empty;
+            }
+            else
+            {
+                var errorText = await response.Content.ReadAsStringAsync();
+                mensaje = $"Error al cambiar contraseña: {errorText}";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = $"Error al cambiar contraseña: {ex.Message}";
+        }
+        finally
+        {
+            isChangingPassword = false;
+        }
+    }
 
     private void OnNotaInput(int id, ChangeEventArgs e)
     {
         var s = e?.Value?.ToString();
         if (int.TryParse(s, out var v))
         {
-            // limitar rango en cliente también
             if (v < -1) v = -1;
             if (v > 10) v = 10;
             NotasPorAlumno[id] = v;
@@ -220,58 +272,100 @@
                  }
             </tbody>
         </table>
+        
+        <!-- Botón de Cambiar Contraseña -->
+        <div style="margin-top:20px; text-align:center;">
+            <button style="background:#ff9800; color:#fff; border:none; padding:12px 24px; border-radius:8px; cursor:pointer; font-weight:600; font-size:14px;"
+                    @onclick='() => Page = "2"'>Cambiar Contraseña</button>
         </div>
-    }
-    else if (Page == "1")
-    {
-        <div style="background:#ffffff; border-radius:10px; padding:16px; box-shadow:0 6px 18px rgba(15,23,42,0.06);">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <h4 style="margin:0; color:#111827;">Listado de alumnos</h4>
-            <button style="background:#ef4444; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;"
-                    @onclick='  () =>Page = "0"'>Volver</button>
-        </div>
-        <table style="width:100%; border-collapse:collapse; min-width:360px; table-layout:fixed;">
-            <thead>
-                <tr>
-                    <th style="text-align:left; padding:10px; color:#374151; font-weight:600; border-bottom:1px solid #e6e6e6; width:90px;">Leg</th>
-                    <th style="text-align:left; padding:10px; color:#374151; font-weight:600; border-bottom:1px solid #e6e6e6;">Nombre y Apellido</th>
-                    <th style="text-align:left; padding:10px; color:#374151; font-weight:600; border-bottom:1px solid #e6e6e6; width:260px;">Nota (-1 libre, 0 regular, 6-10 aprobado)</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var al in AlumnosList)               
-                   {
-                    <tr style="border-bottom:1px solid #f3f4f6;">
-                            <td style="padding:12px; color:#111827; vertical-align:middle;"> @al.LegajoAlumno</td>
-                            <td style="padding:12px; color:#111827; vertical-align:middle;"> @al.NombreAlumno @al.ApellidoAlumno</td>
-                        <td style="padding:12px; color:#111827; vertical-align:middle;">
-                            <div style="display:flex; gap:8px; align-items:center;">
-                                <input type="number" min="-1" max="10" step="1"
-                                           value="@al.Nota"
-                                           @oninput="e => OnNotaInput(al.IdALumno, e)"
-                                       style="width:120px; padding:8px; border-radius:8px; border:1px solid #e5e7eb; outline:none; font-size:14px; color:#111827;"
-                                       placeholder="Nota" />
-                                    @if (al.Nota != 0 )
-                                    {
-                                        <button style="background:#10b981; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;"
-                                            @onclick="async () => await SubirNota(al.IdALumno, al.IdInscripcion)">
-                                        Cambiar 
-                                    </button>
-                                    }
-                                    else
-                                    {
+    </div>
+}
+else if (Page == "1")
+{
+    <div style="background:#ffffff; border-radius:10px; padding:16px; box-shadow:0 6px 18px rgba(15,23,42,0.06);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h4 style="margin:0; color:#111827;">Listado de alumnos</h4>
+        <button style="background:#ef4444; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;"
+                @onclick='  () =>Page = "0"'>Volver</button>
+    </div>
+    <table style="width:100%; border-collapse:collapse; min-width:360px; table-layout:fixed;">
+        <thead>
+            <tr>
+                <th style="text-align:left; padding:10px; color:#374151; font-weight:600; border-bottom:1px solid #e6e6e6; width:90px;">Leg</th>
+                <th style="text-align:left; padding:10px; color:#374151; font-weight:600; border-bottom:1px solid #e6e6e6;">Nombre y Apellido</th>
+                <th style="text-align:left; padding:10px; color:#374151; font-weight:600; border-bottom:1px solid #e6e6e6; width:260px;">Nota (-1 libre, 0 regular, 6-10 aprobado)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var al in AlumnosList)               
+               {
+                <tr style="border-bottom:1px solid #f3f4f6;">
+                        <td style="padding:12px; color:#111827; vertical-align:middle;"> @al.LegajoAlumno</td>
+                        <td style="padding:12px; color:#111827; vertical-align:middle;"> @al.NombreAlumno @al.ApellidoAlumno</td>
+                    <td style="padding:12px; color:#111827; vertical-align:middle;">
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <input type="number" min="-1" max="10" step="1"
+                                       value="@al.Nota"
+                                       @oninput="e => OnNotaInput(al.IdALumno, e)"
+                                   style="width:120px; padding:8px; border-radius:8px; border:1px solid #e5e7eb; outline:none; font-size:14px; color:#111827;"
+                                   placeholder="Nota" />
+                                @if (al.Nota != 0 )
+                                {
+                                    <button style="background:#10b981; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;"
+                                        @onclick="async () => await SubirNota(al.IdALumno, al.IdInscripcion)">
+                                    Cambiar 
+                                </button>
+                                }
+                                else
+                                {
 
-                                        <button style="background:#92b981; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;"
-                                                       @onclick="async () => await SubirNota(al.IdALumno, al.IdInscripcion)">
-                                            Guardar
-                                        </button>
-                                    }
-                            </div>
-                        </td>
-                    </tr>
+                                    <button style="background:#92b981; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;"
+                                                   @onclick="async () => await SubirNota(al.IdALumno, al.IdInscripcion)">
+                                        Guardar
+                                    </button>
+                                }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}
+else if (Page == "2")
+{
+    <div style="background:#ffffff; border-radius:10px; padding:32px; box-shadow:0 6px 18px rgba(15,23,42,0.06); max-width:500px; margin:0 auto;">
+        <h4 style="margin:0 0 24px 0; color:#111827; text-align:center; font-size:18px;">Cambiar Contraseña</h4>
+        
+        <div style="margin-bottom:16px;">
+            <label style="display:block; margin-bottom:6px; color:#374151; font-weight:500;">Nueva Contraseña:</label>
+            <input type="password" @bind="nuevaContrasena" 
+                   style="width:100%; padding:12px; border-radius:8px; border:1px solid #e5e7eb; outline:none; font-size:14px;" 
+                   placeholder="Ingrese nueva contraseña" />
+        </div>
+        
+        <div style="margin-bottom:24px;">
+            <label style="display:block; margin-bottom:6px; color:#374151; font-weight:500;">Confirmar Contraseña:</label>
+            <input type="password" @bind="confirmarContrasena" 
+                   style="width:100%; padding:12px; border-radius:8px; border:1px solid #e5e7eb; outline:none; font-size:14px;" 
+                   placeholder="Confirme nueva contraseña" />
+        </div>
+        
+        <div style="display:flex; gap:12px; justify-content:center;">
+            <button style="background:#10b981; color:#fff; border:none; padding:12px 24px; border-radius:8px; cursor:pointer; font-weight:600;"
+                    @onclick="CambiarContrasenaAsync" disabled="@isChangingPassword">
+                @if (isChangingPassword)
+                {
+                    <span>Guardando...</span>
                 }
-            </tbody>
-        </table>
+                else
+                {
+                    <span>Guardar</span>
+                }
+            </button>
+            <button style="background:#6b7280; color:#fff; border:none; padding:12px 24px; border-radius:8px; cursor:pointer; font-weight:600;"
+                    @onclick='() => Page = "0"' disabled="@isChangingPassword">Cancelar</button>
+        </div>
     </div>
 }
 else

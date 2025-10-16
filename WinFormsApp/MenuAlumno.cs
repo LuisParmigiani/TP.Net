@@ -60,6 +60,7 @@ namespace WinFormsApp
             panelMaterias.Visible = false;
             panelCursos.Visible = false;
             panelEsatdoAcademico.Visible = false;
+            panelCambioContrasena.Visible = false;
         }
 
         private void ShowPanelMaterias()
@@ -68,6 +69,7 @@ namespace WinFormsApp
             panelMaterias.Visible = true;
             panelCursos.Visible = false;
             panelEsatdoAcademico.Visible = false;
+            panelCambioContrasena.Visible = false;
         }
 
         private void ShowPanelCursos()
@@ -76,6 +78,7 @@ namespace WinFormsApp
             panelMaterias.Visible = false;
             panelCursos.Visible = true;
             panelEsatdoAcademico.Visible = false;
+            panelCambioContrasena.Visible = false;
         }
 
         private void ShowPanelEstado()
@@ -84,6 +87,21 @@ namespace WinFormsApp
             panelMaterias.Visible = false;
             panelCursos.Visible = false;
             panelEsatdoAcademico.Visible = true;
+            panelCambioContrasena.Visible = false;
+        }
+
+        private void ShowPanelCambioContrasena()
+        {
+            panelMenuAlumno.Visible = false;
+            panelMaterias.Visible = false;
+            panelCursos.Visible = false;
+            panelEsatdoAcademico.Visible = false;
+            panelCambioContrasena.Visible = true;
+            
+            // Limpiar los campos
+            txtNuevaContrasena.Text = string.Empty;
+            txtConfirmarContrasena.Text = string.Empty;
+            txtNuevaContrasena.Focus();
         }
 
         // Click desde diseñador: abrir listado de materias para inscribirse
@@ -320,6 +338,97 @@ namespace WinFormsApp
         {
             if (string.IsNullOrEmpty(texto)) return;
             MessageBox.Show(texto, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void GridCurso_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void btnCambContra_Click(object sender, EventArgs e)
+        {
+            ShowPanelCambioContrasena();
+        }
+
+        private void btnGuardarContrasena_Click(object sender, EventArgs e)
+        {
+            // Validar que los campos no estén vacíos
+            if (string.IsNullOrWhiteSpace(txtNuevaContrasena.Text))
+            {
+                MostrarAviso("Por favor ingrese la nueva contraseña.");
+                txtNuevaContrasena.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtConfirmarContrasena.Text))
+            {
+                MostrarAviso("Por favor confirme la nueva contraseña.");
+                txtConfirmarContrasena.Focus();
+                return;
+            }
+
+            // Validar que las contraseñas coincidan
+            if (txtNuevaContrasena.Text != txtConfirmarContrasena.Text)
+            {
+                MostrarAviso("Las contraseñas no coinciden.");
+                txtConfirmarContrasena.Focus();
+                return;
+            }
+
+            // Validar longitud mínima
+            if (txtNuevaContrasena.Text.Length < 6)
+            {
+                MostrarAviso("La contraseña debe tener al menos 6 caracteres.");
+                txtNuevaContrasena.Focus();
+                return;
+            }
+
+            // Cambiar contraseña
+            CambiarContrasenaAsync(txtNuevaContrasena.Text);
+        }
+
+        private void btnCancelarCambio_Click(object sender, EventArgs e)
+        {
+            ShowPanelMenu();
+        }
+
+        private async Task CambiarContrasenaAsync(string nuevaContrasena)
+        {
+            try
+            {
+                // Deshabilitar botones mientras se procesa
+                btnGuardarContrasena.Enabled = false;
+                btnCancelarCambio.Enabled = false;
+
+               
+                var response = await client.PutAsync($"/usuarios/cambioPass?idPersona={alumnoId}&nuevaClave={Uri.EscapeDataString(nuevaContrasena)}", null);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MostrarAviso("Contraseña cambiada exitosamente.");
+                    ShowPanelMenu(); 
+                }
+                else
+                {
+                    var errorText = await response.Content.ReadAsStringAsync();
+                    MostrarAviso($"Error al cambiar contraseña: {errorText}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MostrarAviso($"Error al cambiar contraseña: {ex.Message}");
+            }
+            finally
+            {
+                // Rehabilitar botones
+                btnGuardarContrasena.Enabled = true;
+                btnCancelarCambio.Enabled = true;
+            }
+        }
+
+        private void MenuAlumno_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

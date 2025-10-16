@@ -26,7 +26,7 @@ namespace Data
             context.Usuarios.Add(usuario);
             context.SaveChanges();
         }
-        
+
         public bool Delete(int id)
         {
             using var context = CreateContext();
@@ -57,24 +57,24 @@ namespace Data
                     throw new Exception("El curso con el id ingresado no existe");
                 }
                 var alumnosYinsc = (from insc in context.Inscripciones
-                    join persona in context.Personas
-                        on insc.IdAlumno equals persona.Id
-                    where insc.IdCurso == idCurso
-                    select new AlumnoInscripcion(
-                        persona.Id,
-                        persona.Legajo,
-                        persona.Nombre,
-                        persona.Apellido,
-                        insc.Id,
-                        insc.Nota
-                    )).ToList();
+                                    join persona in context.Personas
+                                        on insc.IdAlumno equals persona.Id
+                                    where insc.IdCurso == idCurso
+                                    select new AlumnoInscripcion(
+                                        persona.Id,
+                                        persona.Legajo,
+                                        persona.Nombre,
+                                        persona.Apellido,
+                                        insc.Id,
+                                        insc.Nota
+                                    )).ToList();
                 return alumnosYinsc;
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
-            
+
         }
         public IEnumerable<Usuario> GetAll()
         {
@@ -102,14 +102,29 @@ namespace Data
 
             return false;
         }
-        //Puede que en un futuro tengamos más 
+
+        public bool ChangePassword(int idPersona, string newPassword)
+        {
+            using var context = CreateContext();
+            var userExist = context.Usuarios.FirstOrDefault(u => u.IdPersona == idPersona);
+            if (userExist != null)
+            {
+                userExist.SetClave(newPassword);
+                userExist.SetCambiaClave(false);
+                context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+
         public Usuario? Login(string username, string password)
         {
             using var context = CreateContext();
-            var us = context.Usuarios.First(u=> u.NombreUsuario == username);
+            var us = context.Usuarios.FirstOrDefault(u => u.NombreUsuario == username);
             if (us != null)
             {
-                if (us.NombreUsuario == username && us.Clave == password)
+                if (us.VerifyPassword(password))
                 {
                     return us;
                 }
@@ -120,7 +135,6 @@ namespace Data
             }
             else
             {
-
                 throw new Exception("No se encontró un usuario con ese nombre");
             }
         }

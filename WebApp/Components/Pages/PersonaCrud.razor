@@ -34,7 +34,6 @@
         try
         {
             var client = ClientFactory.CreateClient("API");
-            // Primero comprobar que la API responde con una llamada GET básica
             try
             {
                 var health = await client.GetAsync("/Personas", HttpCompletionOption.ResponseHeadersRead);
@@ -136,7 +135,6 @@
         try
         {
             var client = ClientFactory.CreateClient("API");
-            // Primero comprobar que la API responde con una llamada GET básica
             try
             {
                 var health = await client.GetAsync("/Personas", HttpCompletionOption.ResponseHeadersRead);
@@ -182,12 +180,10 @@
         }
         try
         {
-            // prepara la api para la llamada
             var client = ClientFactory.CreateClient("API");
 
             try
             {
-                // Hace una llamada ligera para comprobar que la API responde (Solo lee las cabeceras)
                 var health = await client.GetAsync("/Personas", HttpCompletionOption.ResponseHeadersRead);
                 if (!health.IsSuccessStatusCode)
                 {
@@ -294,7 +290,7 @@
         }
         var personaDTO = new PersonaDTO
         {
-            Id = 0, // El ID se asigna en el servidor
+            Id = 0, 
             Nombre = Nombre,
             Apellido = Apellido,
             Direccion = Direccion,
@@ -310,10 +306,8 @@
         {
             var client = ClientFactory.CreateClient("API");
 
-            // Primero comprobar que la API responde con una llamada GET básica
             try
             {
-                // Reemplaza la llamada pesada por una que solo lea las cabeceras (no descarga el body completo)
                 var health = await client.GetAsync("/personas", HttpCompletionOption.ResponseHeadersRead);
                 if (!health.IsSuccessStatusCode)
                 {
@@ -334,7 +328,6 @@
             if (response.IsSuccessStatusCode)
             {
                 mensaje = "Persona creada correctamente!";
-                // Limpiar campos
                 Nombre = Apellido = Direccion = Email = Telefono = string.Empty;
             }
             else

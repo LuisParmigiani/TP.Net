@@ -1,36 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net\\tp.net\\winformsapp\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C93C43C9-3667-47D7-B8BE-8205CC433ACE}|WebApp\\WebApp.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net\\tp.net\\webapp\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{C93C43C9-3667-47D7-B8BE-8205CC433ACE}|WebApp\\WebApp.csproj|solutionrelative:webapp\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C93C43C9-3667-47D7-B8BE-8205CC433ACE}|WebApp\\WebApp.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net\\tp.net\\webapp\\components\\pages\\menualumno.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{C93C43C9-3667-47D7-B8BE-8205CC433ACE}|WebApp\\WebApp.csproj|solutionrelative:webapp\\components\\pages\\menualumno.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net\\tp.net\\winformsapp\\login.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\login.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\winformsapp\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net\\tp.net\\winformsapp\\menualumno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\menualumno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|c:\\users\\parmi\\onedrive\\documentos\\compuact\\.net\\tp.net\\winformsapp\\menualumno.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\menualumno.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -38,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -47,90 +18,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MenuAlumno.razor",
-              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\WebApp\\Components\\Pages\\MenuAlumno.razor",
-              "RelativeDocumentMoniker": "WebApp\\Components\\Pages\\MenuAlumno.razor",
-              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\WebApp\\Components\\Pages\\MenuAlumno.razor",
-              "RelativeToolTip": "WebApp\\Components\\Pages\\MenuAlumno.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-04T13:36:45.636Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Home.razor",
-              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\WebApp\\Components\\Pages\\Home.razor",
-              "RelativeDocumentMoniker": "WebApp\\Components\\Pages\\Home.razor",
-              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\WebApp\\Components\\Pages\\Home.razor",
-              "RelativeToolTip": "WebApp\\Components\\Pages\\Home.razor",
-              "ViewState": "AgIAAH4AAAAAAAAAAAAAAI0AAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-04T13:36:34.654Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Login.cs",
-              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\WinFormsApp\\Login.cs",
-              "RelativeDocumentMoniker": "WinFormsApp\\Login.cs",
-              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\WinFormsApp\\Login.cs",
-              "RelativeToolTip": "WinFormsApp\\Login.cs",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAEwHAAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T13:35:56.171Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Login.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\WinFormsApp\\Login.Designer.cs",
-              "RelativeDocumentMoniker": "WinFormsApp\\Login.Designer.cs",
-              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\WinFormsApp\\Login.Designer.cs",
-              "RelativeToolTip": "WinFormsApp\\Login.Designer.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T13:35:51.058Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Login.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\WinFormsApp\\Login.cs",
-              "RelativeDocumentMoniker": "WinFormsApp\\Login.cs",
-              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\WinFormsApp\\Login.cs [Dise\u00F1o]",
-              "RelativeToolTip": "WinFormsApp\\Login.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T13:35:47.273Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "MenuAlumno.cs",
-              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\WinFormsApp\\MenuAlumno.cs",
-              "RelativeDocumentMoniker": "WinFormsApp\\MenuAlumno.cs",
-              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\WinFormsApp\\MenuAlumno.cs",
-              "RelativeToolTip": "WinFormsApp\\MenuAlumno.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T13:33:01.852Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "MenuAlumno.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\WinFormsApp\\MenuAlumno.Designer.cs",
-              "RelativeDocumentMoniker": "WinFormsApp\\MenuAlumno.Designer.cs",
-              "ToolTip": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\WinFormsApp\\MenuAlumno.Designer.cs",
-              "RelativeToolTip": "WinFormsApp\\MenuAlumno.Designer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T13:31:43.447Z"
             }
           ]
         }

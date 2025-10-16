@@ -37,6 +37,7 @@
             colAnio = new DataGridViewTextBoxColumn();
             colCom = new DataGridViewTextBoxColumn();
             btnVer = new DataGridViewButtonColumn();
+            btnCambiarContrasena = new Button();
             pnlAlumnos = new Panel();
             btnVolver = new Button();
             lblTitleAlumnos = new Label();
@@ -45,10 +46,19 @@
             colNom = new DataGridViewTextBoxColumn();
             colNota = new DataGridViewTextBoxColumn();
             btnGuardar = new DataGridViewButtonColumn();
+            pnlCambioContrasena = new Panel();
+            lblTituloCambio = new Label();
+            lblNuevaContrasena = new Label();
+            txtNuevaContrasena = new TextBox();
+            lblConfirmarContrasena = new Label();
+            txtConfirmarContrasena = new TextBox();
+            btnGuardarContrasena = new Button();
+            btnCancelarCambio = new Button();
             pnlCursos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaCursos).BeginInit();
             pnlAlumnos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaAlumnos).BeginInit();
+            pnlCambioContrasena.SuspendLayout();
             SuspendLayout();
             // 
             // lblHeader
@@ -74,6 +84,7 @@
             // 
             // pnlCursos
             // 
+            pnlCursos.Controls.Add(btnCambiarContrasena);
             pnlCursos.Controls.Add(dgvListaCursos);
             pnlCursos.Location = new Point(16, 100);
             pnlCursos.Name = "pnlCursos";
@@ -89,7 +100,7 @@
             dgvListaCursos.Columns.AddRange(new DataGridViewColumn[] { colId, colDesc, colAnio, colCom, btnVer });
             dgvListaCursos.Location = new Point(0, 0);
             dgvListaCursos.Name = "dgvListaCursos";
-            dgvListaCursos.Size = new Size(940, 420);
+            dgvListaCursos.Size = new Size(940, 380);
             dgvListaCursos.TabIndex = 0;
             dgvListaCursos.CellContentClick += dgvListaCursos_CellContentClick_1;
             // 
@@ -124,6 +135,23 @@
             btnVer.Name = "btnVer";
             btnVer.Text = "Ver Alumnos";
             btnVer.UseColumnTextForButtonValue = true;
+            // 
+            // btnCambiarContrasena
+            // 
+            btnCambiarContrasena.BackColor = Color.FromArgb(255, 152, 0);
+            btnCambiarContrasena.Cursor = Cursors.Hand;
+            btnCambiarContrasena.FlatAppearance.BorderSize = 0;
+            btnCambiarContrasena.FlatStyle = FlatStyle.Flat;
+            btnCambiarContrasena.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            btnCambiarContrasena.ForeColor = Color.White;
+            btnCambiarContrasena.Location = new Point(370, 390);
+            btnCambiarContrasena.Name = "btnCambiarContrasena";
+            btnCambiarContrasena.Padding = new Padding(8);
+            btnCambiarContrasena.Size = new Size(200, 40);
+            btnCambiarContrasena.TabIndex = 1;
+            btnCambiarContrasena.Text = "Cambiar Contraseña";
+            btnCambiarContrasena.UseVisualStyleBackColor = false;
+            btnCambiarContrasena.Click += btnCambiarContrasena_Click;
             // 
             // pnlAlumnos
             // 
@@ -197,12 +225,111 @@
             btnGuardar.Text = "Guardar";
             btnGuardar.UseColumnTextForButtonValue = true;
             // 
+            // pnlCambioContrasena
+            // 
+            pnlCambioContrasena.BackColor = Color.White;
+            pnlCambioContrasena.BorderStyle = BorderStyle.FixedSingle;
+            pnlCambioContrasena.Controls.Add(lblTituloCambio);
+            pnlCambioContrasena.Controls.Add(lblNuevaContrasena);
+            pnlCambioContrasena.Controls.Add(txtNuevaContrasena);
+            pnlCambioContrasena.Controls.Add(lblConfirmarContrasena);
+            pnlCambioContrasena.Controls.Add(txtConfirmarContrasena);
+            pnlCambioContrasena.Controls.Add(btnGuardarContrasena);
+            pnlCambioContrasena.Controls.Add(btnCancelarCambio);
+            pnlCambioContrasena.Location = new Point(16, 100);
+            pnlCambioContrasena.Name = "pnlCambioContrasena";
+            pnlCambioContrasena.Size = new Size(940, 480);
+            pnlCambioContrasena.TabIndex = 4;
+            pnlCambioContrasena.Visible = false;
+            // 
+            // lblTituloCambio
+            // 
+            lblTituloCambio.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblTituloCambio.ForeColor = Color.FromArgb(33, 150, 243);
+            lblTituloCambio.Location = new Point(270, 50);
+            lblTituloCambio.Name = "lblTituloCambio";
+            lblTituloCambio.Size = new Size(400, 35);
+            lblTituloCambio.TabIndex = 0;
+            lblTituloCambio.Text = "Cambiar Contraseña";
+            lblTituloCambio.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblNuevaContrasena
+            // 
+            lblNuevaContrasena.Font = new Font("Segoe UI", 11F);
+            lblNuevaContrasena.ForeColor = Color.FromArgb(64, 64, 64);
+            lblNuevaContrasena.Location = new Point(270, 120);
+            lblNuevaContrasena.Name = "lblNuevaContrasena";
+            lblNuevaContrasena.Size = new Size(200, 25);
+            lblNuevaContrasena.TabIndex = 1;
+            lblNuevaContrasena.Text = "Nueva Contraseña:";
+            lblNuevaContrasena.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtNuevaContrasena
+            // 
+            txtNuevaContrasena.Font = new Font("Segoe UI", 11F);
+            txtNuevaContrasena.Location = new Point(270, 148);
+            txtNuevaContrasena.Name = "txtNuevaContrasena";
+            txtNuevaContrasena.Size = new Size(400, 27);
+            txtNuevaContrasena.TabIndex = 2;
+            // 
+            // lblConfirmarContrasena
+            // 
+            lblConfirmarContrasena.Font = new Font("Segoe UI", 11F);
+            lblConfirmarContrasena.ForeColor = Color.FromArgb(64, 64, 64);
+            lblConfirmarContrasena.Location = new Point(270, 190);
+            lblConfirmarContrasena.Name = "lblConfirmarContrasena";
+            lblConfirmarContrasena.Size = new Size(200, 25);
+            lblConfirmarContrasena.TabIndex = 3;
+            lblConfirmarContrasena.Text = "Confirmar Contraseña:";
+            lblConfirmarContrasena.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtConfirmarContrasena
+            // 
+            txtConfirmarContrasena.Font = new Font("Segoe UI", 11F);
+            txtConfirmarContrasena.Location = new Point(270, 218);
+            txtConfirmarContrasena.Name = "txtConfirmarContrasena";
+            txtConfirmarContrasena.Size = new Size(400, 27);
+            txtConfirmarContrasena.TabIndex = 4;
+            // 
+            // btnGuardarContrasena
+            // 
+            btnGuardarContrasena.BackColor = Color.FromArgb(76, 175, 80);
+            btnGuardarContrasena.Cursor = Cursors.Hand;
+            btnGuardarContrasena.FlatAppearance.BorderSize = 0;
+            btnGuardarContrasena.FlatStyle = FlatStyle.Flat;
+            btnGuardarContrasena.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            btnGuardarContrasena.ForeColor = Color.White;
+            btnGuardarContrasena.Location = new Point(460, 270);
+            btnGuardarContrasena.Name = "btnGuardarContrasena";
+            btnGuardarContrasena.Size = new Size(100, 40);
+            btnGuardarContrasena.TabIndex = 5;
+            btnGuardarContrasena.Text = "Guardar";
+            btnGuardarContrasena.UseVisualStyleBackColor = false;
+            btnGuardarContrasena.Click += btnGuardarContrasena_Click;
+            // 
+            // btnCancelarCambio
+            // 
+            btnCancelarCambio.BackColor = Color.FromArgb(158, 158, 158);
+            btnCancelarCambio.Cursor = Cursors.Hand;
+            btnCancelarCambio.FlatAppearance.BorderSize = 0;
+            btnCancelarCambio.FlatStyle = FlatStyle.Flat;
+            btnCancelarCambio.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            btnCancelarCambio.ForeColor = Color.White;
+            btnCancelarCambio.Location = new Point(570, 270);
+            btnCancelarCambio.Name = "btnCancelarCambio";
+            btnCancelarCambio.Size = new Size(100, 40);
+            btnCancelarCambio.TabIndex = 6;
+            btnCancelarCambio.Text = "Cancelar";
+            btnCancelarCambio.UseVisualStyleBackColor = false;
+            btnCancelarCambio.Click += btnCancelarCambio_Click;
+            // 
             // MenuProfesor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(980, 600);
+            Controls.Add(pnlCambioContrasena);
             Controls.Add(lblHeader);
             Controls.Add(lblAviso);
             Controls.Add(pnlCursos);
@@ -215,6 +342,8 @@
             pnlAlumnos.ResumeLayout(false);
             pnlAlumnos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaAlumnos).EndInit();
+            pnlCambioContrasena.ResumeLayout(false);
+            pnlCambioContrasena.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -239,5 +368,14 @@
         private DataGridViewTextBoxColumn colNom;
         private DataGridViewTextBoxColumn colNota;
         private DataGridViewButtonColumn btnGuardar;
+        private Button btnCambiarContrasena;
+        private Panel pnlCambioContrasena;
+        private Label lblTituloCambio;
+        private Label lblNuevaContrasena;
+        private TextBox txtNuevaContrasena;
+        private Label lblConfirmarContrasena;
+        private TextBox txtConfirmarContrasena;
+        private Button btnGuardarContrasena;
+        private Button btnCancelarCambio;
     }
 }

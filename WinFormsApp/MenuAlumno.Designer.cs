@@ -36,6 +36,15 @@
             inscr = new Button();
             EstadoAcademico = new Button();
             panelMenuAlumno = new Panel();
+            btnCambContra = new Button();
+            panelCambioContrasena = new Panel();
+            lblTituloCambio = new Label();
+            lblNuevaContrasena = new Label();
+            txtNuevaContrasena = new TextBox();
+            lblConfirmarContrasena = new Label();
+            txtConfirmarContrasena = new TextBox();
+            btnGuardarContrasena = new Button();
+            btnCancelarCambio = new Button();
             panelMaterias = new Panel();
             dataGridView1 = new DataGridView();
             Materia = new DataGridViewTextBoxColumn();
@@ -56,6 +65,7 @@
             AnioEspecialidadCursada = new DataGridViewTextBoxColumn();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             panelMenuAlumno.SuspendLayout();
+            panelCambioContrasena.SuspendLayout();
             panelMaterias.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panelCursos.SuspendLayout();
@@ -103,12 +113,131 @@
             panelMenuAlumno.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelMenuAlumno.BackColor = Color.White;
             panelMenuAlumno.BorderStyle = BorderStyle.FixedSingle;
+            panelMenuAlumno.Controls.Add(btnCambContra);
             panelMenuAlumno.Controls.Add(inscr);
             panelMenuAlumno.Controls.Add(EstadoAcademico);
             panelMenuAlumno.Location = new Point(31, 31);
             panelMenuAlumno.Name = "panelMenuAlumno";
             panelMenuAlumno.Size = new Size(538, 226);
             panelMenuAlumno.TabIndex = 2;
+            // 
+            // btnCambContra
+            // 
+            btnCambContra.BackColor = Color.FromArgb(255, 152, 0);
+            btnCambContra.Cursor = Cursors.Hand;
+            btnCambContra.FlatAppearance.BorderSize = 0;
+            btnCambContra.FlatStyle = FlatStyle.Flat;
+            btnCambContra.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            btnCambContra.ForeColor = Color.White;
+            btnCambContra.Location = new Point(40, 144);
+            btnCambContra.Name = "btnCambContra";
+            btnCambContra.Padding = new Padding(8);
+            btnCambContra.Size = new Size(420, 48);
+            btnCambContra.TabIndex = 2;
+            btnCambContra.Text = "Cambiar Contraseña";
+            btnCambContra.UseVisualStyleBackColor = false;
+            btnCambContra.Click += btnCambContra_Click;
+            // 
+            // panelCambioContrasena
+            // 
+            panelCambioContrasena.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panelCambioContrasena.BackColor = Color.White;
+            panelCambioContrasena.BorderStyle = BorderStyle.FixedSingle;
+            panelCambioContrasena.Controls.Add(lblTituloCambio);
+            panelCambioContrasena.Controls.Add(lblNuevaContrasena);
+            panelCambioContrasena.Controls.Add(txtNuevaContrasena);
+            panelCambioContrasena.Controls.Add(lblConfirmarContrasena);
+            panelCambioContrasena.Controls.Add(txtConfirmarContrasena);
+            panelCambioContrasena.Controls.Add(btnGuardarContrasena);
+            panelCambioContrasena.Controls.Add(btnCancelarCambio);
+            panelCambioContrasena.Location = new Point(31, 31);
+            panelCambioContrasena.Name = "panelCambioContrasena";
+            panelCambioContrasena.Size = new Size(538, 280);
+            panelCambioContrasena.TabIndex = 6;
+            panelCambioContrasena.Visible = false;
+            // 
+            // lblTituloCambio
+            // 
+            lblTituloCambio.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblTituloCambio.ForeColor = Color.FromArgb(33, 150, 243);
+            lblTituloCambio.Location = new Point(40, 20);
+            lblTituloCambio.Name = "lblTituloCambio";
+            lblTituloCambio.Size = new Size(420, 35);
+            lblTituloCambio.TabIndex = 0;
+            lblTituloCambio.Text = "Cambiar Contraseña";
+            lblTituloCambio.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblNuevaContrasena
+            // 
+            lblNuevaContrasena.Font = new Font("Segoe UI", 11F);
+            lblNuevaContrasena.ForeColor = Color.FromArgb(64, 64, 64);
+            lblNuevaContrasena.Location = new Point(40, 70);
+            lblNuevaContrasena.Name = "lblNuevaContrasena";
+            lblNuevaContrasena.Size = new Size(200, 25);
+            lblNuevaContrasena.TabIndex = 1;
+            lblNuevaContrasena.Text = "Nueva Contraseña:";
+            lblNuevaContrasena.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtNuevaContrasena
+            // 
+            txtNuevaContrasena.Font = new Font("Segoe UI", 11F);
+            txtNuevaContrasena.Location = new Point(40, 98);
+            txtNuevaContrasena.Name = "txtNuevaContrasena";
+            txtNuevaContrasena.Size = new Size(420, 27);
+            txtNuevaContrasena.TabIndex = 2;
+            txtNuevaContrasena.UseSystemPasswordChar = false;
+            // 
+            // lblConfirmarContrasena
+            // 
+            lblConfirmarContrasena.Font = new Font("Segoe UI", 11F);
+            lblConfirmarContrasena.ForeColor = Color.FromArgb(64, 64, 64);
+            lblConfirmarContrasena.Location = new Point(40, 140);
+            lblConfirmarContrasena.Name = "lblConfirmarContrasena";
+            lblConfirmarContrasena.Size = new Size(200, 25);
+            lblConfirmarContrasena.TabIndex = 3;
+            lblConfirmarContrasena.Text = "Confirmar Contraseña:";
+            lblConfirmarContrasena.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtConfirmarContrasena
+            // 
+            txtConfirmarContrasena.Font = new Font("Segoe UI", 11F);
+            txtConfirmarContrasena.Location = new Point(40, 168);
+            txtConfirmarContrasena.Name = "txtConfirmarContrasena";
+            txtConfirmarContrasena.Size = new Size(420, 27);
+            txtConfirmarContrasena.TabIndex = 4;
+            txtConfirmarContrasena.UseSystemPasswordChar = false;
+            // 
+            // btnGuardarContrasena
+            // 
+            btnGuardarContrasena.BackColor = Color.FromArgb(76, 175, 80);
+            btnGuardarContrasena.Cursor = Cursors.Hand;
+            btnGuardarContrasena.FlatAppearance.BorderSize = 0;
+            btnGuardarContrasena.FlatStyle = FlatStyle.Flat;
+            btnGuardarContrasena.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            btnGuardarContrasena.ForeColor = Color.White;
+            btnGuardarContrasena.Location = new Point(260, 220);
+            btnGuardarContrasena.Name = "btnGuardarContrasena";
+            btnGuardarContrasena.Size = new Size(100, 40);
+            btnGuardarContrasena.TabIndex = 5;
+            btnGuardarContrasena.Text = "Guardar";
+            btnGuardarContrasena.UseVisualStyleBackColor = false;
+            btnGuardarContrasena.Click += btnGuardarContrasena_Click;
+            // 
+            // btnCancelarCambio
+            // 
+            btnCancelarCambio.BackColor = Color.FromArgb(158, 158, 158);
+            btnCancelarCambio.Cursor = Cursors.Hand;
+            btnCancelarCambio.FlatAppearance.BorderSize = 0;
+            btnCancelarCambio.FlatStyle = FlatStyle.Flat;
+            btnCancelarCambio.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            btnCancelarCambio.ForeColor = Color.White;
+            btnCancelarCambio.Location = new Point(370, 220);
+            btnCancelarCambio.Name = "btnCancelarCambio";
+            btnCancelarCambio.Size = new Size(100, 40);
+            btnCancelarCambio.TabIndex = 6;
+            btnCancelarCambio.Text = "Cancelar";
+            btnCancelarCambio.UseVisualStyleBackColor = false;
+            btnCancelarCambio.Click += btnCancelarCambio_Click;
             // 
             // panelMaterias
             // 
@@ -117,9 +246,9 @@
             panelMaterias.BorderStyle = BorderStyle.FixedSingle;
             panelMaterias.Controls.Add(dataGridView1);
             panelMaterias.Controls.Add(VolverMaterias);
-            panelMaterias.Location = new Point(605, 31);
+            panelMaterias.Location = new Point(12, 276);
             panelMaterias.Name = "panelMaterias";
-            panelMaterias.Size = new Size(560, 226);
+            panelMaterias.Size = new Size(545, 226);
             panelMaterias.TabIndex = 3;
             // 
             // dataGridView1
@@ -183,9 +312,9 @@
             panelCursos.BorderStyle = BorderStyle.FixedSingle;
             panelCursos.Controls.Add(VolverCursos);
             panelCursos.Controls.Add(GridCurso);
-            panelCursos.Location = new Point(586, 281);
+            panelCursos.Location = new Point(16, 276);
             panelCursos.Name = "panelCursos";
-            panelCursos.Size = new Size(538, 226);
+            panelCursos.Size = new Size(543, 226);
             panelCursos.TabIndex = 4;
             // 
             // VolverCursos
@@ -226,6 +355,7 @@
             GridCurso.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             GridCurso.Size = new Size(523, 171);
             GridCurso.TabIndex = 0;
+            GridCurso.CellContentClick += GridCurso_CellContentClick;
             // 
             // Curso
             // 
@@ -254,7 +384,7 @@
             panelEsatdoAcademico.Controls.Add(GridEstadoAcademico);
             panelEsatdoAcademico.Location = new Point(12, 281);
             panelEsatdoAcademico.Name = "panelEsatdoAcademico";
-            panelEsatdoAcademico.Size = new Size(557, 226);
+            panelEsatdoAcademico.Size = new Size(524, 226);
             panelEsatdoAcademico.TabIndex = 5;
             // 
             // VolverEstadoAcademico
@@ -331,6 +461,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(250, 250, 250);
             ClientSize = new Size(1286, 558);
+            Controls.Add(panelCambioContrasena);
             Controls.Add(panelEsatdoAcademico);
             Controls.Add(panelCursos);
             Controls.Add(panelMaterias);
@@ -338,7 +469,10 @@
             Font = new Font("Segoe UI", 9.75F);
             Name = "MenuAlumno";
             Text = "Menú Alumno";
+            Load += MenuAlumno_Load;
             panelMenuAlumno.ResumeLayout(false);
+            panelCambioContrasena.ResumeLayout(false);
+            panelCambioContrasena.PerformLayout();
             panelMaterias.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panelCursos.ResumeLayout(false);
@@ -353,6 +487,14 @@
         private Button inscr;
         private Button EstadoAcademico;
         private Panel panelMenuAlumno;
+        private Panel panelCambioContrasena;
+        private Label lblTituloCambio;
+        private Label lblNuevaContrasena;
+        private TextBox txtNuevaContrasena;
+        private Label lblConfirmarContrasena;
+        private TextBox txtConfirmarContrasena;
+        private Button btnGuardarContrasena;
+        private Button btnCancelarCambio;
         private Panel panelMaterias;
 
         private Button VolverMaterias;
@@ -373,5 +515,6 @@
         private Button VolverEstadoAcademico;
         private DataGridViewTextBoxColumn Materia;
         private DataGridViewButtonColumn Inscribirme;
+        private Button btnCambContra;
     }
 }

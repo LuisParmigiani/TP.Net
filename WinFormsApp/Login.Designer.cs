@@ -28,24 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            registrarse = new Button();
             usuario = new TextBox();
             password = new TextBox();
             usuarioLabel = new Label();
             passLabel = new Label();
             LogIni = new Button();
-            Cruds = new Button();
             SuspendLayout();
-            // 
-            // registrarse
-            // 
-            registrarse.Location = new Point(129, 328);
-            registrarse.Name = "registrarse";
-            registrarse.Size = new Size(111, 32);
-            registrarse.TabIndex = 4;
-            registrarse.Text = "registrarse";
-            registrarse.UseVisualStyleBackColor = true;
-            registrarse.Click += registrarse_Click;
             // 
             // usuario
             // 
@@ -68,7 +56,7 @@
             usuarioLabel.AutoSize = true;
             usuarioLabel.Location = new Point(129, 124);
             usuarioLabel.Name = "usuarioLabel";
-            usuarioLabel.Size = new Size(30, 15);
+            usuarioLabel.Size = new Size(46, 15);
             usuarioLabel.TabIndex = 5;
             usuarioLabel.Text = "usuario";
             usuarioLabel.Click += usuarioLabel_Click;
@@ -85,36 +73,24 @@
             // 
             // LogIni
             // 
-            LogIni.Location = new Point(556, 328);
+            LogIni.Location = new Point(129, 328);
             LogIni.Name = "LogIni";
-            LogIni.Size = new Size(111, 32);
+            LogIni.Size = new Size(538, 32);
             LogIni.TabIndex = 4;
             LogIni.Text = "Iniciar sesion";
             LogIni.UseVisualStyleBackColor = true;
             LogIni.Click += LogIni_Click;
-            // 
-            // Cruds
-            // 
-            Cruds.Location = new Point(129, 406);
-            Cruds.Name = "Cruds";
-            Cruds.Size = new Size(538, 32);
-            Cruds.TabIndex = 7;
-            Cruds.Text = "Cruds";
-            Cruds.UseVisualStyleBackColor = true;
-            Cruds.Click += Cruds_Click;
             // 
             // Login
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(Cruds);
             Controls.Add(LogIni);
             Controls.Add(passLabel);
             Controls.Add(usuarioLabel);
             Controls.Add(password);
             Controls.Add(usuario);
-            Controls.Add(registrarse);
             Name = "Login";
             Text = "Iniciar sesion";
             ResumeLayout(false);
@@ -124,12 +100,10 @@
         #endregion
 
         private Button login;
-        private Button registrarse;
         private TextBox usuario;
         private TextBox password;
         private Label usuarioLabel;
         private Label passLabel;
         private Button LogIni;
-        private Button Cruds;
     }
 }
