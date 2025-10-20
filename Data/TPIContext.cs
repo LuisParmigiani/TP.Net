@@ -60,9 +60,9 @@ public class TPIContext : DbContext
 
         // Seed Usuarios (vinculados a Personas)
         modelBuilder.Entity<Usuario>().HasData(
-            new { Id = 1, NombreUsuario = "juan.p", Clave = "pass123", Habilitado = true, CambiaClave = false, IdPersona = 1 },
-            new { Id = 2, NombreUsuario = "maria.t", Clave = "prof2023", Habilitado = true, CambiaClave = false, IdPersona = 2 },
-            new { Id = 3, NombreUsuario = "alumno.a", Clave = "alumno1", Habilitado = true, CambiaClave = false, IdPersona = 3 }
+            new { Id = 1, NombreUsuario = "juan.p", Clave = "6lnGDQYrGBelhzWv6LeHtIH6mR5SLDWdMeZCPZEyb3U=", Habilitado = true, CambiaClave = false, IdPersona = 1 }, // Password: "Agus123"
+            new { Id = 2, NombreUsuario = "maria.t", Clave = "6lnGDQYrGBelhzWv6LeHtIH6mR5SLDWdMeZCPZEyb3U=", Habilitado = true, CambiaClave = false, IdPersona = 2 }, // Password: "Agus123"
+            new { Id = 3, NombreUsuario = "alumno.a", Clave = "6lnGDQYrGBelhzWv6LeHtIH6mR5SLDWdMeZCPZEyb3U=", Habilitado = true, CambiaClave = false, IdPersona = 3 } // Password: "Agus123"
         );
 
         modelBuilder.Entity<Especialidad>(entity =>
@@ -186,8 +186,8 @@ public class TPIContext : DbContext
 
         // Seed Dictados (docentes asignados a cursos)
         modelBuilder.Entity<Dictado>().HasData(
-            new { Id = 1, Cargo = "Titular", IDCurso = 1, IDDocente = 2 },
-            new { Id = 2, Cargo = "Auxiliar", IDCurso = 2, IDDocente = 2 }
+            new { Id = 1, Cargo = "Titular", IDCurso = 1, IDDocente = 1 },
+            new { Id = 2, Cargo = "Auxiliar", IDCurso = 2, IDDocente = 1 }
         );
 
         modelBuilder.Entity<Inscripcion>(entity =>

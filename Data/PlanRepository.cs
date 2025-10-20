@@ -1,7 +1,9 @@
+using Domain.Model;
+using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.Model;
 
 
 namespace Data;
@@ -42,14 +44,34 @@ public class PlanRepository
     public Plan? Get(int id)
     {
         using var context = CreateContext();
+
         var p = context.Planes.Find(id);
         return p;
     }
 
     public IEnumerable<Plan> GetAll()
     {
-        using var context = CreateContext();
-        return context.Planes.ToList();
+        const string sql = "SELECT Id, Descripcion, IdEspecialidad FROM Planes";
+        var planes = new List<Plan>();
+        string connectionString = new TPIContext().Database.GetConnectionString();
+
+        using var connection = new MySqlConnection(connectionString);
+        using var command = new MySqlCommand(sql, connection);
+
+        connection.Open();
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            var plan = new Plan(
+                reader.GetString("Descripcion"),      
+                reader.GetInt32("IdEspecialidad"),    
+                reader.GetInt32("Id")                 
+            );
+
+            planes.Add(plan);
+        }
+
+        return planes;
     }
 
     public bool Update(Plan p)

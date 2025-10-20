@@ -75,29 +75,6 @@ public static class UsuarioEndpoints
 
                 app.MapPost("/usuarios", (UsuarioDTO user) =>
                     {
-<<<<<<< HEAD
-                        UsuarioService userService = new UsuarioService();
-                        
-                        UsuarioDTO usuario = new UsuarioDTO(user.Id,user.NombreUsuario, user.Clave, user.Habilitado,user.IdPersona, user.CambiaClave);
-                        userService.Add(usuario);
-
-                        var dtoResultado = new UsuarioDTO(user.Id,user.NombreUsuario,"***",user.Habilitado,user.IdPersona,user.CambiaClave);
-
-                        return Results.Created($"/usuarios/{dtoResultado.Id}", dtoResultado);
-                    }
-                    catch (ArgumentException ex)
-                    {
-                        return Results.BadRequest(new { error = ex.Message });
-                    }
-                }) 
-                .WithName("AddUsuario")
-                .WithTags("Usuarios")
-                .Produces<UsuarioDTO>(StatusCodes.Status201Created)
-                .Produces(StatusCodes.Status400BadRequest)
-                .WithOpenApi();
-
-                app.MapPut("/usuarios/{id}", (int id, UsuarioDTO user) =>
-=======
                         try
                         {
                             UsuarioService userService = new UsuarioService();
@@ -118,8 +95,9 @@ public static class UsuarioEndpoints
                     .Produces<UsuarioDTO>(StatusCodes.Status201Created)
                     .Produces(StatusCodes.Status400BadRequest)
                     .WithOpenApi();
+
                 app.MapGet("/alumnos/Reporte/{idCurso}", (int idCurso) =>
->>>>>>> 12a76e79bb973ec273441769419e12377be1b8ef
+
                 {
                     try
                     {

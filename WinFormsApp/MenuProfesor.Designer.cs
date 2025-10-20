@@ -31,13 +31,13 @@
             lblHeader = new Label();
             lblAviso = new Label();
             pnlCursos = new Panel();
+            btnCambiarContrasena = new Button();
             dgvListaCursos = new DataGridView();
             colId = new DataGridViewTextBoxColumn();
             colDesc = new DataGridViewTextBoxColumn();
             colAnio = new DataGridViewTextBoxColumn();
             colCom = new DataGridViewTextBoxColumn();
             btnVer = new DataGridViewButtonColumn();
-            btnCambiarContrasena = new Button();
             pnlAlumnos = new Panel();
             btnVolver = new Button();
             lblTitleAlumnos = new Label();
@@ -84,12 +84,30 @@
             // 
             // pnlCursos
             // 
+            pnlCursos.Controls.Add(pnlCambioContrasena);
             pnlCursos.Controls.Add(btnCambiarContrasena);
             pnlCursos.Controls.Add(dgvListaCursos);
             pnlCursos.Location = new Point(16, 100);
             pnlCursos.Name = "pnlCursos";
             pnlCursos.Size = new Size(940, 480);
             pnlCursos.TabIndex = 2;
+            // 
+            // btnCambiarContrasena
+            // 
+            btnCambiarContrasena.BackColor = Color.FromArgb(255, 152, 0);
+            btnCambiarContrasena.Cursor = Cursors.Hand;
+            btnCambiarContrasena.FlatAppearance.BorderSize = 0;
+            btnCambiarContrasena.FlatStyle = FlatStyle.Flat;
+            btnCambiarContrasena.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            btnCambiarContrasena.ForeColor = Color.White;
+            btnCambiarContrasena.Location = new Point(370, 390);
+            btnCambiarContrasena.Name = "btnCambiarContrasena";
+            btnCambiarContrasena.Padding = new Padding(8);
+            btnCambiarContrasena.Size = new Size(200, 40);
+            btnCambiarContrasena.TabIndex = 1;
+            btnCambiarContrasena.Text = "Cambiar Contraseña";
+            btnCambiarContrasena.UseVisualStyleBackColor = false;
+            btnCambiarContrasena.Click += btnCambiarContrasena_Click;
             // 
             // dgvListaCursos
             // 
@@ -135,23 +153,6 @@
             btnVer.Name = "btnVer";
             btnVer.Text = "Ver Alumnos";
             btnVer.UseColumnTextForButtonValue = true;
-            // 
-            // btnCambiarContrasena
-            // 
-            btnCambiarContrasena.BackColor = Color.FromArgb(255, 152, 0);
-            btnCambiarContrasena.Cursor = Cursors.Hand;
-            btnCambiarContrasena.FlatAppearance.BorderSize = 0;
-            btnCambiarContrasena.FlatStyle = FlatStyle.Flat;
-            btnCambiarContrasena.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-            btnCambiarContrasena.ForeColor = Color.White;
-            btnCambiarContrasena.Location = new Point(370, 390);
-            btnCambiarContrasena.Name = "btnCambiarContrasena";
-            btnCambiarContrasena.Padding = new Padding(8);
-            btnCambiarContrasena.Size = new Size(200, 40);
-            btnCambiarContrasena.TabIndex = 1;
-            btnCambiarContrasena.Text = "Cambiar Contraseña";
-            btnCambiarContrasena.UseVisualStyleBackColor = false;
-            btnCambiarContrasena.Click += btnCambiarContrasena_Click;
             // 
             // pnlAlumnos
             // 
@@ -236,7 +237,7 @@
             pnlCambioContrasena.Controls.Add(txtConfirmarContrasena);
             pnlCambioContrasena.Controls.Add(btnGuardarContrasena);
             pnlCambioContrasena.Controls.Add(btnCancelarCambio);
-            pnlCambioContrasena.Location = new Point(16, 100);
+            pnlCambioContrasena.Location = new Point(0, 0);
             pnlCambioContrasena.Name = "pnlCambioContrasena";
             pnlCambioContrasena.Size = new Size(940, 480);
             pnlCambioContrasena.TabIndex = 4;
@@ -328,8 +329,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(980, 600);
-            Controls.Add(pnlCambioContrasena);
+            ClientSize = new Size(1067, 611);
             Controls.Add(lblHeader);
             Controls.Add(lblAviso);
             Controls.Add(pnlCursos);
