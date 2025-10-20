@@ -31,21 +31,6 @@
             lblHeader = new Label();
             lblAviso = new Label();
             pnlCursos = new Panel();
-            dgvListaCursos = new DataGridView();
-            colId = new DataGridViewTextBoxColumn();
-            colDesc = new DataGridViewTextBoxColumn();
-            colAnio = new DataGridViewTextBoxColumn();
-            colCom = new DataGridViewTextBoxColumn();
-            btnVer = new DataGridViewButtonColumn();
-            btnCambiarContrasena = new Button();
-            pnlAlumnos = new Panel();
-            btnVolver = new Button();
-            lblTitleAlumnos = new Label();
-            dgvListaAlumnos = new DataGridView();
-            colLeg = new DataGridViewTextBoxColumn();
-            colNom = new DataGridViewTextBoxColumn();
-            colNota = new DataGridViewTextBoxColumn();
-            btnGuardar = new DataGridViewButtonColumn();
             pnlCambioContrasena = new Panel();
             lblTituloCambio = new Label();
             lblNuevaContrasena = new Label();
@@ -54,11 +39,27 @@
             txtConfirmarContrasena = new TextBox();
             btnGuardarContrasena = new Button();
             btnCancelarCambio = new Button();
+            btnCambiarContrasena = new Button();
+            dgvListaCursos = new DataGridView();
+            pnlAlumnos = new Panel();
+            btnVolver = new Button();
+            lblTitleAlumnos = new Label();
+            dgvListaAlumnos = new DataGridView();
+            colLeg = new DataGridViewTextBoxColumn();
+            colNom = new DataGridViewTextBoxColumn();
+            colNota = new DataGridViewTextBoxColumn();
+            btnGuardar = new DataGridViewButtonColumn();
+            colId = new DataGridViewTextBoxColumn();
+            colDesc = new DataGridViewTextBoxColumn();
+            colAnio = new DataGridViewTextBoxColumn();
+            colCom = new DataGridViewTextBoxColumn();
+            btnVer = new DataGridViewButtonColumn();
+            BotonRep = new DataGridViewButtonColumn();
             pnlCursos.SuspendLayout();
+            pnlCambioContrasena.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaCursos).BeginInit();
             pnlAlumnos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaAlumnos).BeginInit();
-            pnlCambioContrasena.SuspendLayout();
             SuspendLayout();
             // 
             // lblHeader
@@ -84,146 +85,13 @@
             // 
             // pnlCursos
             // 
+            pnlCursos.Controls.Add(pnlCambioContrasena);
             pnlCursos.Controls.Add(btnCambiarContrasena);
             pnlCursos.Controls.Add(dgvListaCursos);
             pnlCursos.Location = new Point(16, 100);
             pnlCursos.Name = "pnlCursos";
             pnlCursos.Size = new Size(940, 480);
             pnlCursos.TabIndex = 2;
-            // 
-            // dgvListaCursos
-            // 
-            dgvListaCursos.AllowUserToAddRows = false;
-            dgvListaCursos.AllowUserToDeleteRows = false;
-            dgvListaCursos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dgvListaCursos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvListaCursos.Columns.AddRange(new DataGridViewColumn[] { colId, colDesc, colAnio, colCom, btnVer });
-            dgvListaCursos.Location = new Point(0, 0);
-            dgvListaCursos.Name = "dgvListaCursos";
-            dgvListaCursos.Size = new Size(940, 380);
-            dgvListaCursos.TabIndex = 0;
-            dgvListaCursos.CellContentClick += dgvListaCursos_CellContentClick_1;
-            // 
-            // colId
-            // 
-            colId.FillWeight = 15F;
-            colId.HeaderText = "Id";
-            colId.Name = "colId";
-            // 
-            // colDesc
-            // 
-            colDesc.FillWeight = 45F;
-            colDesc.HeaderText = "Curso";
-            colDesc.Name = "colDesc";
-            // 
-            // colAnio
-            // 
-            colAnio.FillWeight = 15F;
-            colAnio.HeaderText = "Año";
-            colAnio.Name = "colAnio";
-            // 
-            // colCom
-            // 
-            colCom.FillWeight = 15F;
-            colCom.HeaderText = "Comisión";
-            colCom.Name = "colCom";
-            // 
-            // btnVer
-            // 
-            btnVer.FillWeight = 10F;
-            btnVer.HeaderText = "Acciones";
-            btnVer.Name = "btnVer";
-            btnVer.Text = "Ver Alumnos";
-            btnVer.UseColumnTextForButtonValue = true;
-            // 
-            // btnCambiarContrasena
-            // 
-            btnCambiarContrasena.BackColor = Color.FromArgb(255, 152, 0);
-            btnCambiarContrasena.Cursor = Cursors.Hand;
-            btnCambiarContrasena.FlatAppearance.BorderSize = 0;
-            btnCambiarContrasena.FlatStyle = FlatStyle.Flat;
-            btnCambiarContrasena.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-            btnCambiarContrasena.ForeColor = Color.White;
-            btnCambiarContrasena.Location = new Point(370, 390);
-            btnCambiarContrasena.Name = "btnCambiarContrasena";
-            btnCambiarContrasena.Padding = new Padding(8);
-            btnCambiarContrasena.Size = new Size(200, 40);
-            btnCambiarContrasena.TabIndex = 1;
-            btnCambiarContrasena.Text = "Cambiar Contraseña";
-            btnCambiarContrasena.UseVisualStyleBackColor = false;
-            btnCambiarContrasena.Click += btnCambiarContrasena_Click;
-            // 
-            // pnlAlumnos
-            // 
-            pnlAlumnos.Controls.Add(btnVolver);
-            pnlAlumnos.Controls.Add(lblTitleAlumnos);
-            pnlAlumnos.Controls.Add(dgvListaAlumnos);
-            pnlAlumnos.Location = new Point(16, 100);
-            pnlAlumnos.Name = "pnlAlumnos";
-            pnlAlumnos.Size = new Size(940, 480);
-            pnlAlumnos.TabIndex = 3;
-            pnlAlumnos.Visible = false;
-            // 
-            // btnVolver
-            // 
-            btnVolver.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnVolver.BackColor = Color.FromArgb(239, 68, 68);
-            btnVolver.FlatStyle = FlatStyle.Flat;
-            btnVolver.ForeColor = Color.White;
-            btnVolver.Location = new Point(820, 6);
-            btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(100, 34);
-            btnVolver.TabIndex = 0;
-            btnVolver.Text = "Volver";
-            btnVolver.UseVisualStyleBackColor = false;
-            // 
-            // lblTitleAlumnos
-            // 
-            lblTitleAlumnos.AutoSize = true;
-            lblTitleAlumnos.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblTitleAlumnos.Location = new Point(6, 10);
-            lblTitleAlumnos.Name = "lblTitleAlumnos";
-            lblTitleAlumnos.Size = new Size(138, 19);
-            lblTitleAlumnos.TabIndex = 1;
-            lblTitleAlumnos.Text = "Listado de alumnos";
-            // 
-            // dgvListaAlumnos
-            // 
-            dgvListaAlumnos.AllowUserToAddRows = false;
-            dgvListaAlumnos.AllowUserToDeleteRows = false;
-            dgvListaAlumnos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dgvListaAlumnos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvListaAlumnos.Columns.AddRange(new DataGridViewColumn[] { colLeg, colNom, colNota, btnGuardar });
-            dgvListaAlumnos.Location = new Point(0, 50);
-            dgvListaAlumnos.Name = "dgvListaAlumnos";
-            dgvListaAlumnos.Size = new Size(940, 420);
-            dgvListaAlumnos.TabIndex = 2;
-            // 
-            // colLeg
-            // 
-            colLeg.FillWeight = 15F;
-            colLeg.HeaderText = "Leg";
-            colLeg.Name = "colLeg";
-            // 
-            // colNom
-            // 
-            colNom.FillWeight = 45F;
-            colNom.HeaderText = "Nombre y Apellido";
-            colNom.Name = "colNom";
-            // 
-            // colNota
-            // 
-            colNota.FillWeight = 25F;
-            colNota.HeaderText = "Nota (-1 libre, 0 regular, 6-10 aprobado)";
-            colNota.Name = "colNota";
-            // 
-            // btnGuardar
-            // 
-            btnGuardar.FillWeight = 15F;
-            btnGuardar.HeaderText = "Acción";
-            btnGuardar.Name = "btnGuardar";
-            btnGuardar.Text = "Guardar";
-            btnGuardar.UseColumnTextForButtonValue = true;
             // 
             // pnlCambioContrasena
             // 
@@ -236,11 +104,12 @@
             pnlCambioContrasena.Controls.Add(txtConfirmarContrasena);
             pnlCambioContrasena.Controls.Add(btnGuardarContrasena);
             pnlCambioContrasena.Controls.Add(btnCancelarCambio);
-            pnlCambioContrasena.Location = new Point(16, 100);
+            pnlCambioContrasena.Location = new Point(90, 85);
             pnlCambioContrasena.Name = "pnlCambioContrasena";
-            pnlCambioContrasena.Size = new Size(940, 480);
+            pnlCambioContrasena.Size = new Size(940, 430);
             pnlCambioContrasena.TabIndex = 4;
             pnlCambioContrasena.Visible = false;
+            pnlCambioContrasena.Paint += pnlCambioContrasena_Paint;
             // 
             // lblTituloCambio
             // 
@@ -323,13 +192,159 @@
             btnCancelarCambio.UseVisualStyleBackColor = false;
             btnCancelarCambio.Click += btnCancelarCambio_Click;
             // 
+            // btnCambiarContrasena
+            // 
+            btnCambiarContrasena.BackColor = Color.FromArgb(255, 152, 0);
+            btnCambiarContrasena.Cursor = Cursors.Hand;
+            btnCambiarContrasena.FlatAppearance.BorderSize = 0;
+            btnCambiarContrasena.FlatStyle = FlatStyle.Flat;
+            btnCambiarContrasena.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            btnCambiarContrasena.ForeColor = Color.White;
+            btnCambiarContrasena.Location = new Point(370, 390);
+            btnCambiarContrasena.Name = "btnCambiarContrasena";
+            btnCambiarContrasena.Padding = new Padding(8);
+            btnCambiarContrasena.Size = new Size(200, 40);
+            btnCambiarContrasena.TabIndex = 1;
+            btnCambiarContrasena.Text = "Cambiar Contraseña";
+            btnCambiarContrasena.UseVisualStyleBackColor = false;
+            btnCambiarContrasena.Click += btnCambiarContrasena_Click;
+            // 
+            // botonReporte
+            // 
+            
+            // 
+            // dgvListaCursos
+            // 
+            dgvListaCursos.AllowUserToAddRows = false;
+            dgvListaCursos.AllowUserToDeleteRows = false;
+            dgvListaCursos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvListaCursos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvListaCursos.Columns.AddRange(new DataGridViewColumn[] { colId, colDesc, colAnio, colCom, btnVer, BotonRep });
+            dgvListaCursos.Location = new Point(0, 0);
+            dgvListaCursos.Name = "dgvListaCursos";
+            dgvListaCursos.Size = new Size(940, 380);
+            dgvListaCursos.TabIndex = 0;
+            dgvListaCursos.CellContentClick += DgvListaCursos_CellContentClick;
+            // 
+            // pnlAlumnos
+            // 
+            pnlAlumnos.Controls.Add(btnVolver);
+            pnlAlumnos.Controls.Add(lblTitleAlumnos);
+            pnlAlumnos.Controls.Add(dgvListaAlumnos);
+            pnlAlumnos.Location = new Point(16, 100);
+            pnlAlumnos.Name = "pnlAlumnos";
+            pnlAlumnos.Size = new Size(940, 480);
+            pnlAlumnos.TabIndex = 3;
+            pnlAlumnos.Visible = false;
+            // 
+            // btnVolver
+            // 
+            btnVolver.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnVolver.BackColor = Color.FromArgb(239, 68, 68);
+            btnVolver.FlatStyle = FlatStyle.Flat;
+            btnVolver.ForeColor = Color.White;
+            btnVolver.Location = new Point(820, 6);
+            btnVolver.Name = "btnVolver";
+            btnVolver.Size = new Size(100, 34);
+            btnVolver.TabIndex = 0;
+            btnVolver.Text = "Volver";
+            btnVolver.UseVisualStyleBackColor = false;
+            // 
+            // lblTitleAlumnos
+            // 
+            lblTitleAlumnos.AutoSize = true;
+            lblTitleAlumnos.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblTitleAlumnos.Location = new Point(6, 10);
+            lblTitleAlumnos.Name = "lblTitleAlumnos";
+            lblTitleAlumnos.Size = new Size(138, 19);
+            lblTitleAlumnos.TabIndex = 1;
+            lblTitleAlumnos.Text = "Listado de alumnos";
+            // 
+            // dgvListaAlumnos
+            // 
+            dgvListaAlumnos.AllowUserToAddRows = false;
+            dgvListaAlumnos.AllowUserToDeleteRows = false;
+            dgvListaAlumnos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvListaAlumnos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvListaAlumnos.Columns.AddRange(new DataGridViewColumn[] { colLeg, colNom, colNota, btnGuardar });
+            dgvListaAlumnos.Location = new Point(0, 50);
+            dgvListaAlumnos.Name = "dgvListaAlumnos";
+            dgvListaAlumnos.Size = new Size(940, 420);
+            dgvListaAlumnos.TabIndex = 2;
+            // 
+            // colLeg
+            // 
+            colLeg.FillWeight = 15F;
+            colLeg.HeaderText = "Leg";
+            colLeg.Name = "colLeg";
+            // 
+            // colNom
+            // 
+            colNom.FillWeight = 45F;
+            colNom.HeaderText = "Nombre y Apellido";
+            colNom.Name = "colNom";
+            // 
+            // colNota
+            // 
+            colNota.FillWeight = 25F;
+            colNota.HeaderText = "Nota (-1 libre, 0 regular, 6-10 aprobado)";
+            colNota.Name = "colNota";
+            // 
+            // btnGuardar
+            // 
+            btnGuardar.FillWeight = 15F;
+            btnGuardar.HeaderText = "Acción";
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Text = "Guardar";
+            btnGuardar.UseColumnTextForButtonValue = true;
+            // 
+            // colId
+            // 
+            colId.FillWeight = 8.961928F;
+            colId.HeaderText = "Id";
+            colId.Name = "colId";
+            // 
+            // colDesc
+            // 
+            colDesc.FillWeight = 26.8857861F;
+            colDesc.HeaderText = "Curso";
+            colDesc.Name = "colDesc";
+            // 
+            // colAnio
+            // 
+            colAnio.FillWeight = 8.961928F;
+            colAnio.HeaderText = "Año";
+            colAnio.Name = "colAnio";
+            // 
+            // colCom
+            // 
+            colCom.FillWeight = 8.961928F;
+            colCom.HeaderText = "Comisión";
+            colCom.Name = "colCom";
+            // 
+            // btnVer
+            // 
+            btnVer.FillWeight = 5.974619F;
+            btnVer.HeaderText = "Acciones";
+            btnVer.Name = "btnVer";
+            btnVer.Text = "Ver Alumnos";
+            btnVer.UseColumnTextForButtonValue = true;
+            // 
+            // BotonRep
+            // 
+            BotonRep.FillWeight = 5.974619F;
+            BotonRep.HeaderText = "Reporte";
+            BotonRep.Name = "BotonRep";
+            BotonRep.Text = "Reporte";
+            BotonRep.UseColumnTextForButtonValue = true;
+
+            // 
             // MenuProfesor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(980, 600);
-            Controls.Add(pnlCambioContrasena);
+            ClientSize = new Size(1022, 600);
             Controls.Add(lblHeader);
             Controls.Add(lblAviso);
             Controls.Add(pnlCursos);
@@ -337,13 +352,14 @@
             MinimumSize = new Size(800, 480);
             Name = "MenuProfesor";
             Text = "MenuProfesor";
+            Load += MenuProfesor_Load;
             pnlCursos.ResumeLayout(false);
+            pnlCambioContrasena.ResumeLayout(false);
+            pnlCambioContrasena.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaCursos).EndInit();
             pnlAlumnos.ResumeLayout(false);
             pnlAlumnos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaAlumnos).EndInit();
-            pnlCambioContrasena.ResumeLayout(false);
-            pnlCambioContrasena.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -377,5 +393,6 @@
         private TextBox txtConfirmarContrasena;
         private Button btnGuardarContrasena;
         private Button btnCancelarCambio;
+        private DataGridViewButtonColumn BotonRep;
     }
 }

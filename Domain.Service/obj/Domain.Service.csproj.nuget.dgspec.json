@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Service\\Domain.Service.csproj": {}
+    "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Service\\Domain.Service.csproj": {}
   },
   "projects": {
-    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Data\\Data.csproj": {
+    "C:\\Users\\dante\\source\\repos\\TP.Net\\Data\\Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Data\\Data.csproj",
+        "projectUniqueName": "C:\\Users\\dante\\source\\repos\\TP.Net\\Data\\Data.csproj",
         "projectName": "Data",
-        "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Data\\Data.csproj",
-        "packagesPath": "C:\\Users\\parmi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Data\\obj\\",
+        "projectPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\Data\\Data.csproj",
+        "packagesPath": "C:\\Users\\dante\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\parmi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dante\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,18 +26,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
-                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj"
+              "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
+                "projectPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Model\\Domain.Model.csproj"
               },
-              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\DTOs.csproj": {
-                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\DTOs.csproj"
+              "C:\\Users\\dante\\source\\repos\\TP.Net\\DTOs\\DTOs.csproj": {
+                "projectPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\DTOs\\DTOs.csproj"
               }
             }
           }
@@ -52,7 +51,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -95,24 +94,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
+    "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj",
+        "projectUniqueName": "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Model\\Domain.Model.csproj",
         "projectName": "Domain.Model",
-        "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj",
-        "packagesPath": "C:\\Users\\parmi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\obj\\",
+        "projectPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Model\\Domain.Model.csproj",
+        "packagesPath": "C:\\Users\\dante\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Model\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\parmi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dante\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -121,7 +120,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -140,7 +138,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -167,24 +165,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Service\\Domain.Service.csproj": {
+    "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Service\\Domain.Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Service\\Domain.Service.csproj",
+        "projectUniqueName": "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Service\\Domain.Service.csproj",
         "projectName": "Domain.Service",
-        "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Service\\Domain.Service.csproj",
-        "packagesPath": "C:\\Users\\parmi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Service\\obj\\",
+        "projectPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Service\\Domain.Service.csproj",
+        "packagesPath": "C:\\Users\\dante\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Service\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\parmi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dante\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -193,21 +191,20 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Data\\Data.csproj": {
-                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Data\\Data.csproj"
+              "C:\\Users\\dante\\source\\repos\\TP.Net\\Data\\Data.csproj": {
+                "projectPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\Data\\Data.csproj"
               },
-              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
-                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj"
+              "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
+                "projectPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Model\\Domain.Model.csproj"
               },
-              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\DTOs.csproj": {
-                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\DTOs.csproj"
+              "C:\\Users\\dante\\source\\repos\\TP.Net\\DTOs\\DTOs.csproj": {
+                "projectPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\DTOs\\DTOs.csproj"
               }
             }
           }
@@ -222,7 +219,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -249,24 +246,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\DTOs.csproj": {
+    "C:\\Users\\dante\\source\\repos\\TP.Net\\DTOs\\DTOs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\DTOs.csproj",
+        "projectUniqueName": "C:\\Users\\dante\\source\\repos\\TP.Net\\DTOs\\DTOs.csproj",
         "projectName": "DTOs",
-        "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\DTOs.csproj",
-        "packagesPath": "C:\\Users\\parmi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\DTOs\\obj\\",
+        "projectPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\DTOs\\DTOs.csproj",
+        "packagesPath": "C:\\Users\\dante\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\DTOs\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\parmi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dante\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -275,15 +272,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
-                "projectPath": "C:\\Users\\parmi\\OneDrive\\Documentos\\CompuACT\\.Net\\TP.Net\\Domain.Model\\Domain.Model.csproj"
+              "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Model\\Domain.Model.csproj": {
+                "projectPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\Domain.Model\\Domain.Model.csproj"
               }
             }
           }
@@ -298,7 +294,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -319,7 +315,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

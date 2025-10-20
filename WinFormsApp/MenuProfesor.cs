@@ -44,7 +44,7 @@ namespace WinFormsApp
 
             if (dgvListaAlumnos != null)
             {
-                dgvListaAlumnos.CellContentClick -= DgvListaAlumnos_CellContentClick; 
+                dgvListaAlumnos.CellContentClick -= DgvListaAlumnos_CellContentClick;
                 dgvListaAlumnos.CellContentClick += DgvListaAlumnos_CellContentClick;
             }
 
@@ -64,6 +64,7 @@ namespace WinFormsApp
             if (pnlAlumnos != null) pnlAlumnos.Visible = false;
             if (pnlCambioContrasena != null) pnlCambioContrasena.Visible = false;
             if (lblAviso != null) lblAviso.Visible = false;
+            
         }
 
         /// <summary>
@@ -75,6 +76,7 @@ namespace WinFormsApp
             if (pnlAlumnos != null) pnlAlumnos.Visible = true;
             if (pnlCambioContrasena != null) pnlCambioContrasena.Visible = false;
             if (lblAviso != null) lblAviso.Visible = false;
+            
         }
 
         /// <summary>
@@ -86,10 +88,11 @@ namespace WinFormsApp
             if (pnlAlumnos != null) pnlAlumnos.Visible = false;
             if (pnlCambioContrasena != null) pnlCambioContrasena.Visible = true;
             if (lblAviso != null) lblAviso.Visible = false;
-            
+
             if (txtNuevaContrasena != null) txtNuevaContrasena.Text = string.Empty;
             if (txtConfirmarContrasena != null) txtConfirmarContrasena.Text = string.Empty;
             if (txtNuevaContrasena != null) txtNuevaContrasena.Focus();
+            
         }
 
         private async Task CargarCursosAsync()
@@ -193,44 +196,56 @@ namespace WinFormsApp
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-            bool isButtonClick = false;
-
-            var botonCol = dgvListaCursos.Columns.Cast<DataGridViewColumn>().FirstOrDefault(c => c.Name == "btnVer");
-            if (botonCol != null)
-            {
-                isButtonClick = e.ColumnIndex == botonCol.Index;
-            }
-            else
-            {
-                isButtonClick = dgvListaCursos.Columns[e.ColumnIndex] is DataGridViewButtonColumn;
-            }
-
-            if (!isButtonClick) return;
-
+            var colName = dgvListaCursos.Columns[e.ColumnIndex].Name;
             var row = dgvListaCursos.Rows[e.RowIndex];
             int cursoId = 0;
             if (row.Tag is int cid) cursoId = cid;
-            else if (int.TryParse(row.Cells[0].Value?.ToString(), out int parsed)) cursoId = parsed; // columna 0 es Id
+            else if (int.TryParse(row.Cells["colId"].Value?.ToString(), out int parsed)) cursoId = parsed;
 
-            if (cursoId > 0)
+            if (colName == "btnVer")
             {
-                ListaCursoseleccionadoId = cursoId;
-                // Cargar alumnos y mostrar panel 
-                await CargarAlumnosAsync(cursoId);
-                MostrarPanelAlumnos();
+                if (cursoId > 0)
+                {
+                    ListaCursoseleccionadoId = cursoId;
+                    await CargarAlumnosAsync(cursoId);
+                    MostrarPanelAlumnos();
+                }
+            }
+            else if (colName == "BotonRep")
+            {
+                if (cursoId > 0)
+                {
+                    var url = $"http://localhost:5183/alumnos/Reporte/{cursoId}";
+                    try
+                    {
+                        var response = await _httpClient.GetAsync(url);
+                        response.EnsureSuccessStatusCode();
+                        var pdfBytes = await response.Content.ReadAsByteArrayAsync();
+
+                        using var saveDialog = new SaveFileDialog
+                        {
+                            Filter = "PDF files (*.pdf)|*.pdf",
+                            FileName = $"ReporteCurso_{cursoId}.pdf"
+                        };
+
+                        if (saveDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            System.IO.File.WriteAllBytes(saveDialog.FileName, pdfBytes);
+                            MessageBox.Show("Reporte guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error al descargar el reporte: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
         }
 
-        private async void dgvListaCursos_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-            DgvListaCursos_CellContentClick(sender, e);
-        }
 
-        /// <summary>
-        /// Manejador para clicks en el DataGridView de alumnos.
-        /// Detecta clicks en la columna de botón "Guardar" y guarda la nota.
-        /// Soporta CellContentClick.
-        /// </summary>
+
+
+
         private async void DgvListaAlumnos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
@@ -452,5 +467,51 @@ namespace WinFormsApp
             _msgTimer.Start();
         }
 
+        private void MenuProfesor_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlCambioContrasena_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+     
+private async void botonReporte_Click(object sender, EventArgs e)
+        {
+            // Obtén el idCurso seleccionado, por ejemplo desde la fila seleccionada del DataGridView
+         
+
+            int idCurso = Convert.ToInt32(dgvListaCursos.CurrentRow.Cells["colId"].Value);
+
+            using var client = new HttpClient();
+            var url = $"http://localhost:5183/alumnos/Reporte/{idCurso}";
+
+            try
+            {
+                var response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                var pdfBytes = await response.Content.ReadAsByteArrayAsync();
+
+                using var saveDialog = new SaveFileDialog
+                {
+                    Filter = "PDF files (*.pdf)|*.pdf",
+                    FileName = $"ReporteCurso_{idCurso}.pdf"
+                };
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    File.WriteAllBytes(saveDialog.FileName, pdfBytes);
+                    MessageBox.Show("Reporte guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al descargar el reporte: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }
+
