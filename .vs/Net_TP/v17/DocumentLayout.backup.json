@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\dante\\source\\repos\\TP.Net\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|c:\\users\\dante\\source\\repos\\tp.net\\winformsapp\\menuprofesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\menuprofesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3F254384-48C5-4AC6-B705-C74F5A6FCBD5}|Intnto 111111\\WebApi.csproj|c:\\users\\dante\\source\\repos\\tp.net\\intnto 111111\\usuarioendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F254384-48C5-4AC6-B705-C74F5A6FCBD5}|Intnto 111111\\WebApi.csproj|solutionrelative:intnto 111111\\usuarioendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|c:\\users\\dante\\source\\repos\\tp.net\\winformsapp\\menuprofesor.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\menuprofesor.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|c:\\users\\dante\\source\\repos\\tp.net\\winformsapp\\menuprofesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E75B8523-CED9-49F2-8327-7B0A127CA10D}|WinFormsApp\\WinFormsApp.csproj|solutionrelative:winformsapp\\menuprofesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,12 +35,25 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "UsuarioEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\dante\\source\\repos\\TP.Net\\Intnto 111111\\UsuarioEndpoints.cs",
+              "RelativeDocumentMoniker": "Intnto 111111\\UsuarioEndpoints.cs",
+              "ToolTip": "C:\\Users\\dante\\source\\repos\\TP.Net\\Intnto 111111\\UsuarioEndpoints.cs",
+              "RelativeToolTip": "Intnto 111111\\UsuarioEndpoints.cs",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAewGwAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T00:01:24.144Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "MenuProfesor.cs",
               "DocumentMoniker": "C:\\Users\\dante\\source\\repos\\TP.Net\\WinFormsApp\\MenuProfesor.cs",
               "RelativeDocumentMoniker": "WinFormsApp\\MenuProfesor.cs",
               "ToolTip": "C:\\Users\\dante\\source\\repos\\TP.Net\\WinFormsApp\\MenuProfesor.cs",
               "RelativeToolTip": "WinFormsApp\\MenuProfesor.cs",
-              "ViewState": "AgIAANQAAAAAAAAAAAAqwOAAAABBAAAAAAAAAA==",
+              "ViewState": "AgIAAPoBAAAA1nwRZK4hwN0AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-20T23:38:08.482Z",
               "EditorCaption": ""
@@ -49,7 +66,7 @@
               "RelativeDocumentMoniker": "WinFormsApp\\MenuProfesor.Designer.cs",
               "ToolTip": "C:\\Users\\dante\\source\\repos\\TP.Net\\WinFormsApp\\MenuProfesor.Designer.cs",
               "RelativeToolTip": "WinFormsApp\\MenuProfesor.Designer.cs",
-              "ViewState": "AgIAAD0BAAAAAAAAAAAiwEIBAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAAIAAAAAAAAAAAA4wBYAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-20T23:38:21.556Z",
               "EditorCaption": ""

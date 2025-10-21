@@ -93,7 +93,24 @@
             pnlCursos.Size = new Size(940, 480);
             pnlCursos.TabIndex = 2;
             // 
-            // pnlCambioContrasena
+            // btnCambiarContrasena
+            // 
+            btnCambiarContrasena.BackColor = Color.FromArgb(255, 152, 0);
+            btnCambiarContrasena.Cursor = Cursors.Hand;
+            btnCambiarContrasena.FlatAppearance.BorderSize = 0;
+            btnCambiarContrasena.FlatStyle = FlatStyle.Flat;
+            btnCambiarContrasena.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            btnCambiarContrasena.ForeColor = Color.White;
+            btnCambiarContrasena.Location = new Point(370, 390);
+            btnCambiarContrasena.Name = "btnCambiarContrasena";
+            btnCambiarContrasena.Padding = new Padding(8);
+            btnCambiarContrasena.Size = new Size(200, 40);
+            btnCambiarContrasena.TabIndex = 1;
+            btnCambiarContrasena.Text = "Cambiar Contraseña";
+            btnCambiarContrasena.UseVisualStyleBackColor = false;
+            btnCambiarContrasena.Click += btnCambiarContrasena_Click;
+            // 
+            // dgvListaCursos
             // 
             pnlCambioContrasena.BackColor = Color.White;
             pnlCambioContrasena.BorderStyle = BorderStyle.FixedSingle;
@@ -298,7 +315,35 @@
             btnGuardar.Text = "Guardar";
             btnGuardar.UseColumnTextForButtonValue = true;
             // 
-            // colId
+            // pnlCambioContrasena
+            // 
+            pnlCambioContrasena.BackColor = Color.White;
+            pnlCambioContrasena.BorderStyle = BorderStyle.FixedSingle;
+            pnlCambioContrasena.Controls.Add(lblTituloCambio);
+            pnlCambioContrasena.Controls.Add(lblNuevaContrasena);
+            pnlCambioContrasena.Controls.Add(txtNuevaContrasena);
+            pnlCambioContrasena.Controls.Add(lblConfirmarContrasena);
+            pnlCambioContrasena.Controls.Add(txtConfirmarContrasena);
+            pnlCambioContrasena.Controls.Add(btnGuardarContrasena);
+            pnlCambioContrasena.Controls.Add(btnCancelarCambio);
+            pnlCambioContrasena.Location = new Point(0, 0);
+            pnlCambioContrasena.Name = "pnlCambioContrasena";
+            pnlCambioContrasena.Size = new Size(940, 480);
+            pnlCambioContrasena.TabIndex = 4;
+            pnlCambioContrasena.Visible = false;
+            // 
+            // lblTituloCambio
+            // 
+            lblTituloCambio.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblTituloCambio.ForeColor = Color.FromArgb(33, 150, 243);
+            lblTituloCambio.Location = new Point(270, 50);
+            lblTituloCambio.Name = "lblTituloCambio";
+            lblTituloCambio.Size = new Size(400, 35);
+            lblTituloCambio.TabIndex = 0;
+            lblTituloCambio.Text = "Cambiar Contraseña";
+            lblTituloCambio.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblNuevaContrasena
             // 
             colId.FillWeight = 8.961928F;
             colId.HeaderText = "Id";
@@ -345,6 +390,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1022, 600);
+            Controls.Add(pnlCambioContrasena);
             Controls.Add(lblHeader);
             Controls.Add(lblAviso);
             Controls.Add(pnlCursos);
